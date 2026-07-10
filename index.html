@@ -15,7 +15,7 @@
   "areaServed": "台中市",
   "url": "https://enchiang99.github.io/en-chiang-site/",
   "sameAs": [
-    "https://www.instagram.com/enchiang_"
+    "https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&utm_source=qr"
   ],
   "email": "en.hi.light@gmail.com",
   "makesOffer": [
@@ -126,7 +126,8 @@
     max-width:680px; margin:0 auto 32px; font-family:'Noto Serif TC',serif; font-style:italic;
     font-size:clamp(17px,2vw,21px); line-height:2; color:var(--ink);
   }
-  .quote-section p.desc{ max-width:560px; margin:0 auto; font-size:14px; line-height:2; color:var(--ink-soft); font-weight:300; }
+  .quote-section .desc{ max-width:560px; margin:0 auto; font-size:14px; line-height:2; color:var(--ink-soft); font-weight:300; }
+  .quote-section .desc div{ font-size:inherit; line-height:inherit; color:inherit; font-weight:inherit; }
 
   /* ---------- ABOUT DAILY (four full slides + services) ---------- */
   #about-daily{ background:var(--paper-deep); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
@@ -165,17 +166,16 @@
   .service .num{ font-family:'Noto Serif TC',serif; font-size:13px; color:var(--ink-soft); margin-bottom:12px; }
   .service h3{ font-size:19px; margin:0 0 8px; font-weight:500; }
   .service .tagline{ font-family:'Noto Serif TC',serif; font-style:italic; font-size:13.5px; color:var(--ink-soft); margin-bottom:20px; }
-  .service p{ font-size:13px; line-height:1.9; color:var(--ink-soft); font-weight:300; min-height:60px; }
+  .service .desc{ font-size:13px; line-height:1.9; color:var(--ink-soft); font-weight:300; min-height:60px; }
+  .service .desc div{ font-size:inherit; line-height:inherit; color:inherit; font-weight:inherit; }
 
   /* ---------- JOURNAL (觀察日記) ---------- */
   #journal{ padding-bottom:70px; }
   .journal-list{ max-width:680px; margin:0 auto; padding:0 8vw; }
   .journal-entry{ border-bottom:1px solid var(--line); padding:26px 0; }
-  .journal-entry summary{ cursor:pointer; display:flex; justify-content:space-between; align-items:baseline; list-style:none; }
-  .journal-entry summary::-webkit-details-marker{ display:none; }
-  .journal-entry summary .title{ font-family:'Noto Serif TC',serif; font-size:17px; }
-  .journal-entry summary .date{ font-size:11.5px; letter-spacing:0.1em; color:var(--ink-soft); white-space:nowrap; margin-left:20px; }
-  .journal-entry .body{ margin-top:16px; font-size:13.5px; line-height:1.95; color:var(--ink-soft); font-weight:300; }
+  .journal-row{ display:flex; justify-content:space-between; align-items:baseline; }
+  .journal-row .title{ font-family:'Noto Serif TC',serif; font-size:17px; }
+  .journal-row .date{ font-size:11.5px; letter-spacing:0.1em; color:var(--ink-soft); white-space:nowrap; margin-left:20px; }
   .journal-note{ text-align:center; font-size:12.5px; color:var(--ink-soft); margin-top:30px; padding:0 8vw; }
 
   /* ---------- FOOTER ---------- */
@@ -226,7 +226,7 @@
   }
   body.edit-mode .journal-add-btn, body.edit-mode .menu-add-btn{ display:inline-block; }
   body.edit-mode .journal-del-btn{ display:inline-block; margin-left:14px; }
-  .journal-entry summary{ position:relative; }
+  .journal-row{ position:relative; }
   .ig-link-edit-btn{
     display:none; background:var(--ink); color:var(--paper); border:none;
     width:32px; height:32px; margin-left:8px; cursor:pointer; font-size:14px; vertical-align:middle;
@@ -298,14 +298,13 @@
   <div class="hero-text">
     <div class="label editable">生活的模樣</div>
     <h1 class="editable">讓視角代表生活，<div>讓生活代表我們。</div></h1>
-    <a href="https://www.instagram.com/enchiang_" target="_blank" class="btn light ig-link editable">READ MORE</a>
-    <button class="ig-link-edit-btn" onclick="editIGLink()">🔗</button>
+    <a href="#about-en" class="btn light editable">READ MORE</a>
   </div>
 </section>
 
 <section class="quote-section" id="about-en">
   <blockquote class="editable">嘿，你相信許願嗎？</blockquote>
-  <p class="desc editable"><div>長大後，才變得像個小孩。</div><div>無數地跌宕起伏，就像海浪。</div><div>有時沉溺、有時站在浪尖，</div><div>不成為勇敢的人，成為設置停損點的人。</div><div>讓經過你的所有事物都是流動的。</div></p>
+  <div class="desc editable"><div>長大後，才變得像個小孩。</div><div>無數地跌宕起伏，就像海浪。</div><div>有時沉溺、有時站在浪尖，</div><div>不成為勇敢的人，成為設置停損點的人。</div><div>讓經過你的所有事物都是流動的。</div></div>
 </section>
 
 <section id="about-daily">
@@ -336,19 +335,19 @@
       <div class="num">01</div>
       <h3 class="editable">自然成像</h3>
       <div class="tagline editable">成為你自己</div>
-      <p class="todo editable">[請填入這裡的描述文字]</p>
+      <div class="desc todo editable">若有幸能遇見，我們交換彼此的故事。<div>自然在交流留下紀錄，當下就是最好的樣子。</div><div>台中｜人像攝影</div></div>
     </div>
     <div class="service">
       <div class="num">02</div>
       <h3 class="editable">音樂成像</h3>
       <div class="tagline editable">回到那一天</div>
-      <p class="todo editable">[請填入這裡的描述文字]</p>
+      <div class="desc todo editable">沒有音樂，我是死亡的。<div>所有的救贖，都能從音符中找到答案。</div><div>台中｜側拍花絮</div></div>
     </div>
     <div class="service">
       <div class="num">03</div>
       <h3 class="editable">家貓成皇</h3>
       <div class="tagline editable">心頭那塊肉</div>
-      <p class="todo editable">[請填入這裡的描述文字]</p>
+      <div class="desc todo editable">如果沒有你，不知道我活成什麼樣。<div>你做你自己，而我無條件地愛你。</div><div>只有增加，不曾減少。</div><div>台中｜寵物攝影</div></div>
     </div>
   </div>
 </section>
@@ -359,23 +358,19 @@
     <h2 class="editable">觀察日記</h2>
   </div>
   <div class="journal-list" id="journalList">
-    <details class="journal-entry">
-      <summary><span class="title todo editable">[文章標題一]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></summary>
-      <div class="body todo editable">[請填入文章內文]</div>
-    </details>
-    <details class="journal-entry">
-      <summary><span class="title todo editable">[文章標題二]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></summary>
-      <div class="body todo editable">[請填入文章內文]</div>
-    </details>
-    <details class="journal-entry">
-      <summary><span class="title todo editable">[文章標題三]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></summary>
-      <div class="body todo editable">[請填入文章內文]</div>
-    </details>
+    <div class="journal-entry">
+      <div class="journal-row"><span class="title todo editable">[文章標題一]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
+    </div>
+    <div class="journal-entry">
+      <div class="journal-row"><span class="title todo editable">[文章標題二]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
+    </div>
+    <div class="journal-entry">
+      <div class="journal-row"><span class="title todo editable">[文章標題三]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
+    </div>
   </div>
   <p style="text-align:center; padding:0 8vw;">
     <button class="journal-add-btn" onclick="addJournalEntry()">＋ 新增日記</button>
   </p>
-  <p class="journal-note">之後想加新的觀察日記，也可以直接把標題／日期／內文給我，我幫你加進來。</p>
 </section>
 
 <footer id="contact">
@@ -383,7 +378,7 @@
     <div class="label editable" style="margin-bottom:20px;">聯絡資訊</div>
     <h2 class="serif editable">MY CONTACT</h2>
     <span class="ig-handle serif editable ig-handle-text">@enchiang_</span>
-    <a href="https://www.instagram.com/enchiang_" target="_blank" class="btn ig-link editable">READ MORE</a>
+    <a href="https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&amp;utm_source=qr" target="_blank" class="btn ig-link editable">READ MORE</a>
     <button class="ig-link-edit-btn" onclick="editIGLink()">🔗</button>
   </div>
   <div class="footer-bottom">
@@ -443,22 +438,20 @@
     const title = prompt('文章標題：', '新文章標題');
     if(title === null) return;
     const date = prompt('日期（例如 2026.07）：', '');
-    const body = prompt('文章內文：', '');
     const list = document.getElementById('journalList');
-    const details = document.createElement('details');
-    details.className = 'journal-entry';
-    details.innerHTML = `
-      <summary>
+    const entry = document.createElement('div');
+    entry.className = 'journal-entry';
+    entry.innerHTML = `
+      <div class="journal-row">
         <span class="title editable">${title}</span>
         <span class="date editable">${date || ''}</span>
         <button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button>
-      </summary>
-      <div class="body editable">${body || ''}</div>
+      </div>
     `;
-    list.appendChild(details);
+    list.appendChild(entry);
     markDirty();
     if(editMode){
-      details.querySelectorAll('.editable').forEach(el => { el.contentEditable = true; });
+      entry.querySelectorAll('.editable').forEach(el => { el.contentEditable = true; });
     }
   }
 
@@ -603,6 +596,7 @@
     setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
   }
 </script>
+
 
 
 
