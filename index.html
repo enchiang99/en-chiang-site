@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6NLCEX26ZX"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-6NLCEX26ZX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -241,6 +241,93 @@
   }
   body.edit-mode .ig-link-edit-btn{ display:inline-block; }
 
+  /* ---------- 編輯模式：避免格式列擋住右上選單 ---------- */
+  body.edit-mode .menu-btn{ top:66px; }
+  body.edit-mode .menu-panel{ top:66px; }
+  /* 編輯模式：頁尾多留空間，不被編輯按鈕擋住 */
+  body.edit-mode footer{ padding-bottom:150px; }
+
+  /* ---------- MORE 下拉文字 ---------- */
+  button.btn{ background:transparent; cursor:pointer; font-family:inherit; }
+  .more-panel{ max-height:0; overflow:hidden; transition:max-height .45s ease; }
+  .more-panel.open{ max-height:40vh; overflow:auto; }
+  .more-inner{ margin-top:18px; max-width:520px; font-size:14px; line-height:2; color:rgba(233,229,221,0.92); font-weight:300; }
+  .footer-top .more-panel{ margin:0 auto; }
+  .footer-top .more-inner{ color:var(--ink-soft); margin:18px auto 0; }
+
+  /* ---------- 文章頁（另開頁面） ---------- */
+  .article-view{ display:none; min-height:100vh; background:var(--paper); padding:90px 8vw 140px; }
+  body.viewing-article .article-view{ display:block; }
+  body.viewing-article .hero, body.viewing-article .quote-section, body.viewing-article #about-daily,
+  body.viewing-article #journal, body.viewing-article footer,
+  body.viewing-article .menu-btn, body.viewing-article .menu-panel{ display:none !important; }
+  .article-inner{ max-width:680px; margin:0 auto; }
+  .article-back{ display:inline-block; margin-bottom:44px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; border-bottom:1px solid var(--ink); padding-bottom:4px; }
+  .article-view h1{ font-size:clamp(26px,4vw,40px); font-weight:500; margin:0 0 10px; }
+  .article-view .post-date{ font-size:12px; letter-spacing:.14em; color:var(--ink-soft); margin-bottom:36px; }
+  .article-view .post-body{ font-size:15px; line-height:2.2; font-weight:300; }
+  .journal-row .title-link{ border-bottom:1px solid var(--line); }
+  .journal-link-btn{
+    display:none; background:none; border:1px solid var(--ink-soft); color:var(--ink-soft);
+    font-size:11.5px; padding:6px 10px; cursor:pointer; margin-left:10px;
+  }
+  body.edit-mode .journal-link-btn{ display:inline-block; }
+
+  /* ---------- 文章內：插入圖片／連結工具列 ---------- */
+  .article-tools{ display:none; gap:10px; margin-bottom:36px; }
+  body.edit-mode .article-tools{ display:flex; flex-wrap:wrap; }
+  .article-tools button{
+    background:none; border:1px solid var(--ink-soft); color:var(--ink-soft);
+    font-size:11.5px; letter-spacing:.08em; padding:8px 14px; cursor:pointer;
+  }
+  .article-view .post-body img{ width:100%; margin:22px 0; display:block; filter:grayscale(1) contrast(1.05); }
+  .article-view .post-body a{ border-bottom:1px solid var(--ink); }
+
+  /* ---------- MINI BAR：主項目 / 子項目手風琴 ---------- */
+  .menu-group{ border-bottom:1px solid var(--line); padding:4px 0; }
+  .menu-group:last-of-type{ border-bottom:none; }
+  .menu-group-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .menu-group-head .menu-group-label{ flex:1; border-bottom:none !important; padding:12px 0 !important; }
+  .menu-expand-btn{
+    background:none; border:none; color:var(--ink-soft); font-size:13px; cursor:pointer;
+    padding:8px 4px; transition:transform .25s ease; flex:0 0 auto;
+  }
+  .menu-expand-btn.open{ transform:rotate(180deg); }
+  .menu-sublist{ display:none; padding-left:12px; }
+  .menu-sublist.open{ display:block; }
+  .menu-sub-link{
+    display:block; font-size:13px; padding:9px 0; border-bottom:1px dashed var(--line);
+    color:var(--ink-soft); font-family:'Noto Sans TC', sans-serif;
+  }
+  .menu-sub-link:last-child{ border-bottom:none; }
+  .menu-add-sub-btn{
+    display:none; margin:8px 0 6px 12px !important; width:calc(100% - 12px) !important;
+    font-size:11px !important; padding:7px 12px !important;
+  }
+  body.edit-mode .menu-add-sub-btn{ display:inline-block; }
+
+  /* ---------- 關於商業（多區塊頁） ---------- */
+  .business-view{ display:none; min-height:100vh; background:var(--paper); padding:90px 8vw 140px; }
+  body.viewing-business .business-view{ display:block; }
+  body.viewing-business .hero, body.viewing-business .quote-section, body.viewing-business #about-daily,
+  body.viewing-business #journal, body.viewing-business footer,
+  body.viewing-business .menu-btn, body.viewing-business .menu-panel,
+  body.viewing-business .article-view{ display:none !important; }
+  .business-inner{ max-width:900px; margin:0 auto; }
+  .biz-section{ margin-bottom:60px; padding-bottom:40px; border-bottom:1px solid var(--line); }
+  .biz-section:last-of-type{ border-bottom:none; }
+  .biz-section h2{ font-size:clamp(19px,2.4vw,26px); font-weight:500; margin:0 0 20px; }
+  .biz-images{ display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:10px; margin-bottom:16px; }
+  .biz-img-wrap{ position:relative; }
+  .biz-img-wrap img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; filter:grayscale(1) contrast(1.05); }
+  .biz-img-del{
+    display:none; position:absolute; top:6px; right:6px; width:24px; height:24px;
+    background:rgba(20,18,15,0.78); color:#fff; border:none; font-size:12px; cursor:pointer;
+    align-items:center; justify-content:center;
+  }
+  body.edit-mode .biz-img-del{ display:flex; }
+  .biz-section-del{ margin-left:10px; }
+
   /* ---------- FORMAT TOOLBAR ---------- */
   .format-toolbar{
     display:none; position:fixed; top:0; left:0; right:0; z-index:220;
@@ -290,12 +377,37 @@
   <span></span><span></span><span></span>
 </button>
 <nav class="menu-panel" id="menuPanel">
-  <a href="#about-en" class="editable" onclick="toggleMenu()">關於 EN</a>
-  <a href="#about-daily" class="editable" onclick="toggleMenu()">關於日常</a>
-  <a href="#journal" class="editable" onclick="toggleMenu()">觀察日記</a>
-  <button class="menu-add-btn" style="margin-top:14px; width:100%;" onclick="addMenuItem()">＋ 新增項目</button>
-  <button class="menu-add-btn" style="margin-top:10px; width:100%;" onclick="addJournalEntry()">✎ 寫文章</button>
-  <button class="menu-add-btn" style="margin-top:10px; width:100%;" onclick="addImageEntry()">🖼 新增圖片</button>
+  <div class="menu-group" data-group="about-en">
+    <div class="menu-group-head">
+      <a href="#about-en" class="editable menu-group-label" onclick="toggleMenu()">關於 EN</a>
+      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)">▾</button>
+    </div>
+    <div class="menu-sublist"></div>
+    <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
+  </div>
+  <div class="menu-group" data-group="about-daily">
+    <div class="menu-group-head">
+      <a href="#about-daily" class="editable menu-group-label" onclick="toggleMenu()">關於日常</a>
+      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)">▾</button>
+    </div>
+    <div class="menu-sublist"></div>
+    <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
+  </div>
+  <div class="menu-group" data-group="journal">
+    <div class="menu-group-head">
+      <a href="#journal" class="editable menu-group-label" onclick="toggleMenu()">觀察日記</a>
+      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)">▾</button>
+    </div>
+    <div class="menu-sublist"></div>
+    <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
+  </div>
+  <div class="menu-group" data-group="business">
+    <div class="menu-group-head">
+      <a href="#" class="editable menu-group-label" onclick="openBusinessPage(event)">關於商業</a>
+    </div>
+  </div>
+  <button class="menu-add-btn" style="margin-top:14px; width:100%;" onclick="addMenuItem()">＋ 新增主項目</button>
+  <button class="menu-add-btn" style="margin-top:10px; width:100%;" onclick="addImageEntry()">🖼 日記新增圖片</button>
   <button class="menu-add-btn" style="margin-top:10px; width:100%;" onclick="editIGLink()">✎ 改IG連結</button>
 </nav>
 
@@ -367,13 +479,13 @@
   </div>
   <div class="journal-list" id="journalList">
     <div class="journal-entry">
-      <div class="journal-row"><span class="title todo editable">[文章標題一]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
+      <div class="journal-row"><span class="title todo editable">[About En]</span><span class="date todo editable">[talk it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
     </div>
     <div class="journal-entry">
-      <div class="journal-row"><span class="title todo editable">[文章標題二]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
+      <div class="journal-row"><span class="title todo editable">[About Life]</span><span class="date todo editable">[listen it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
     </div>
     <div class="journal-entry">
-      <div class="journal-row"><span class="title todo editable">[文章標題三]</span><span class="date todo editable">[日期]</span><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
+      <div class="journal-row"><span class="title todo editable">[About Love]</span><span class="date todo editable">[feel it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
     </div>
   </div>
   <p style="text-align:center; padding:0 8vw;">
@@ -385,15 +497,51 @@
   <div class="footer-top">
     <div class="label editable" style="margin-bottom:20px;">聯絡資訊</div>
     <h2 class="serif editable">MY CONTACT</h2>
-    <span class="ig-handle serif editable ig-handle-text">@enchiang_</span>
-    <a href="https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&amp;utm_source=qr" target="_blank" class="btn ig-link editable">READ MORE</a>
+    <a href="https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener" class="ig-handle serif editable ig-handle-text ig-link">@enchiang_</a>
+    <button class="btn" id="footerMoreBtn" type="button" onclick="toggleMore('footerMorePanel')">More</button>
     <button class="ig-link-edit-btn" onclick="editIGLink()">🔗</button>
+    <div class="more-panel" id="footerMorePanel">
+      <div class="more-inner editable">（進入編輯模式後，點這裡輸入 More 展開時要顯示的文字。）</div>
+    </div>
   </div>
   <div class="footer-bottom">
     <span class="editable">© 2026 En Chiang&nbsp;</span>
     <span class="editable">地理位置：台中</span>
   </div>
 </footer>
+
+<section class="article-view" id="articleView">
+  <div class="article-inner">
+    <a class="article-back" href="#" onclick="closeArticle(event)">← 回到首頁</a>
+    <div class="article-tools">
+      <button onclick="insertArticleImage()">🖼 插入圖片</button>
+      <button onclick="insertArticleLink()">🔗 插入連結（先選取文字）</button>
+    </div>
+    <div id="articleWrap"></div>
+  </div>
+</section>
+<div id="articleStore" style="display:none"></div>
+
+<section class="business-view" id="businessView">
+  <div class="business-inner">
+    <a class="article-back" href="#" onclick="closeBusiness(event)">← 回到首頁</a>
+    <div class="section-head" style="text-align:left; padding-top:0; margin-bottom:44px;">
+      <div class="label editable">Business</div>
+      <h2 class="editable">關於商業</h2>
+    </div>
+    <div id="bizSections">
+      <div class="biz-section">
+        <h2 class="editable">合作項目一</h2>
+        <div class="biz-images"></div>
+        <button class="menu-add-btn" onclick="addBizImage(this)">🖼 新增圖片</button>
+        <button class="journal-del-btn biz-section-del" onclick="deleteBizSection(event)">刪除區塊</button>
+      </div>
+    </div>
+    <p style="text-align:center; padding:0;">
+      <button class="journal-add-btn" onclick="addBizSection()">＋ 新增區塊</button>
+    </p>
+  </div>
+</section>
 
 <button class="edit-toggle" id="editToggle" onclick="toggleEditMode()">✎ 編輯</button>
 <button class="edit-export" id="editExport" onclick="exportSite()">匯出 index.html</button>
@@ -418,6 +566,7 @@
     document.getElementById('editToggle').textContent = editMode ? '✓ 完成編輯' : '✎ 編輯';
     if(editMode){
       hasUnsavedChanges = false;
+      document.querySelectorAll('.more-panel').forEach(mp => mp.classList.add('open'));
       document.querySelectorAll('.editable').forEach(el => {
         el.addEventListener('input', markDirty);
       });
@@ -453,6 +602,7 @@
       <div class="journal-row">
         <span class="title editable">${title}</span>
         <span class="date editable">${date || ''}</span>
+        <button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button>
         <button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button>
       </div>
     `;
@@ -583,6 +733,8 @@
   }
 
   function exportSite(){
+    if(document.body.classList.contains('viewing-article')){ closeArticle(); }
+    if(document.body.classList.contains('viewing-business')){ closeBusiness(); }
     if(editMode){
       editMode = false;
       document.body.classList.remove('edit-mode');
@@ -603,7 +755,280 @@
     alert('已經開始下載 index.html！\n\n請到手機的「檔案」App確認下載完成，再上傳到 GitHub。\n\n（這個頁面不會自動重新整理，你可以繼續編輯或直接關閉分頁。）');
     setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
   }
+
+  /* ---------- MORE 下拉 ---------- */
+  function toggleMore(id){
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  /* ---------- 文章頁系統 ---------- */
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function addArticle(){
+    const title = prompt('文章標題：', '');
+    if(!title) return;
+    const date = prompt('日期（例如 2026.07）：', '') || '';
+    const id = 'post-' + Date.now();
+    const store = document.getElementById('articleStore');
+    const art = document.createElement('article');
+    art.className = 'post';
+    art.id = id;
+    art.innerHTML = `<h1 class="post-title editable">${escapeHtml(title)}</h1><div class="post-date editable">${escapeHtml(date)}</div><div class="post-body editable">（點這裡開始寫內文……）</div>`;
+    store.appendChild(art);
+
+    const list = document.getElementById('journalList');
+    const entry = document.createElement('div');
+    entry.className = 'journal-entry';
+    entry.innerHTML = `
+      <div class="journal-row">
+        <a class="title-link" href="#${id}" target="_blank" rel="noopener"><span class="title editable">${escapeHtml(title)}</span></a>
+        <span class="date editable">${escapeHtml(date)}</span>
+        <button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button>
+        <button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button>
+      </div>`;
+    list.appendChild(entry);
+
+    if(confirm('要把這篇文章也加到右上角選單嗎？（點選單項目會另開新頁）')){
+      addMenuLinkForArticle(id, title);
+    }
+    markDirty();
+    alert('文章已建立！\n\n現在會打開文章頁面，直接點內文就可以編輯。\n寫完後按左上「← 回到首頁」，再按綠色「匯出 index.html」保存。');
+    showArticle(id);
+  }
+
+  function addMenuLinkForArticle(id, title){
+    const panel = document.getElementById('menuPanel');
+    const addBtn = panel.querySelector('.menu-add-btn');
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = title;
+    panel.insertBefore(a, addBtn);
+  }
+
+  function showArticle(id){
+    const art = document.getElementById(id);
+    if(!art) return;
+    document.getElementById('articleWrap').appendChild(art);
+    document.body.classList.add('viewing-article');
+    window.scrollTo(0, 0);
+    if(editMode){
+      art.querySelectorAll('.editable').forEach(el => {
+        el.contentEditable = true;
+        el.addEventListener('input', markDirty);
+      });
+    }
+  }
+
+  function closeArticle(e){
+    if(e) e.preventDefault();
+    const wrap = document.getElementById('articleWrap');
+    const art = wrap.querySelector('article');
+    if(art) document.getElementById('articleStore').appendChild(art);
+    document.body.classList.remove('viewing-article');
+    if(location.hash && location.hash.indexOf('#post-') === 0){
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  }
+
+  function linkJournalTitle(e){
+    e.preventDefault();
+    e.stopPropagation();
+    const row = e.target.closest('.journal-row');
+    const posts = Array.from(document.querySelectorAll('#articleStore .post, #articleWrap .post'));
+    if(!posts.length){
+      alert('目前還沒有文章。\n請先按右上選單的「✎ 寫文章（新頁面）」建立文章。');
+      return;
+    }
+    let msg = '要連結到哪篇文章？輸入編號：\n';
+    posts.forEach((p, i) => { msg += (i+1) + '. ' + p.querySelector('.post-title').textContent + '\n'; });
+    msg += '（輸入 0 可移除連結）';
+    const n = parseInt(prompt(msg, '1'), 10);
+    if(isNaN(n)) return;
+    const titleEl = row.querySelector('.title');
+    const existing = row.querySelector('.title-link');
+    if(n === 0){
+      if(existing) existing.replaceWith(titleEl);
+      markDirty();
+      return;
+    }
+    const post = posts[n-1];
+    if(!post){ alert('沒有這個編號的文章。'); return; }
+    if(existing){
+      existing.href = '#' + post.id;
+    } else {
+      const a = document.createElement('a');
+      a.className = 'title-link';
+      a.href = '#' + post.id;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      titleEl.parentNode.insertBefore(a, titleEl);
+      a.appendChild(titleEl);
+    }
+    markDirty();
+    alert('已連結到：「' + post.querySelector('.post-title').textContent + '」\n記得按「匯出 index.html」保存。');
+  }
+
+  /* 開啟網址帶 #post-xxx 時直接顯示文章頁 */
+  document.addEventListener('DOMContentLoaded', function(){
+    if(location.hash && location.hash.indexOf('#post-') === 0){
+      showArticle(location.hash.slice(1));
+    }
+  });
+  window.addEventListener('hashchange', function(){
+    if(location.hash.indexOf('#post-') === 0){
+      showArticle(location.hash.slice(1));
+    }
+  });
+
+  /* ---------- MINI BAR：主項目 / 子項目手風琴 ---------- */
+  function toggleMenuGroup(btn){
+    const group = btn.closest('.menu-group');
+    const sublist = group.querySelector('.menu-sublist');
+    sublist.classList.toggle('open');
+    btn.classList.toggle('open');
+  }
+
+  function addSubArticle(btn){
+    const group = btn.closest('.menu-group');
+    const sublist = group.querySelector('.menu-sublist');
+    const title = prompt('文章標題：', '');
+    if(!title) return;
+    const date = prompt('日期（例如 2026.07）：', '') || '';
+    const id = 'post-' + Date.now();
+    const store = document.getElementById('articleStore');
+    const art = document.createElement('article');
+    art.className = 'post';
+    art.id = id;
+    art.innerHTML = `<h1 class="post-title editable">${escapeHtml(title)}</h1><div class="post-date editable">${escapeHtml(date)}</div><div class="post-body editable">（點這裡開始寫內文，也可以插入圖片或連結……）</div>`;
+    store.appendChild(art);
+
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.className = 'menu-sub-link';
+    a.innerHTML = `<span class="editable">${escapeHtml(title)}</span>`;
+    sublist.appendChild(a);
+    sublist.classList.add('open');
+    const chevron = group.querySelector('.menu-expand-btn');
+    if(chevron) chevron.classList.add('open');
+
+    markDirty();
+    if(editMode){
+      a.querySelectorAll('.editable').forEach(el => {
+        el.contentEditable = true;
+        el.addEventListener('input', markDirty);
+      });
+    }
+    alert('子項目已建立！\\n\\n現在會打開文章頁面，可以直接編輯標題、日期與內文，也能插入圖片、連結。\\n寫完後按左上「← 回到首頁」，再按綠色「匯出 index.html」保存。');
+    showArticle(id);
+  }
+
+  /* ---------- 文章內：插入圖片／連結 ---------- */
+  function insertArticleImage(){
+    const body = document.querySelector('#articleWrap .post-body');
+    if(!body){ alert('請先打開一篇文章。'); return; }
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = function(e){
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt){
+        const img = document.createElement('img');
+        img.src = evt.target.result;
+        body.appendChild(img);
+        markDirty();
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
+
+  function insertArticleLink(){
+    const sel = window.getSelection();
+    if(!sel || sel.isCollapsed || !sel.rangeCount){
+      alert('請先在文章內文中「選取」想加上連結的文字，再點這個按鈕。');
+      return;
+    }
+    const url = prompt('輸入連結網址（例如 https://...）：', 'https://');
+    if(!url) return;
+    document.execCommand('createLink', false, url);
+    markDirty();
+  }
+
+  /* ---------- 關於商業（多區塊頁） ---------- */
+  function openBusinessPage(e){
+    e.preventDefault();
+    document.getElementById('menuBtn').classList.remove('open');
+    document.getElementById('menuPanel').classList.remove('open');
+    document.body.classList.add('viewing-business');
+    window.scrollTo(0, 0);
+  }
+
+  function closeBusiness(e){
+    if(e) e.preventDefault();
+    document.body.classList.remove('viewing-business');
+  }
+
+  function addBizSection(){
+    const name = prompt('區塊名稱：', '新區塊');
+    if(name === null) return;
+    const wrap = document.getElementById('bizSections');
+    const sec = document.createElement('div');
+    sec.className = 'biz-section';
+    sec.innerHTML = `
+      <h2 class="editable">${escapeHtml(name || '新區塊')}</h2>
+      <div class="biz-images"></div>
+      <button class="menu-add-btn" onclick="addBizImage(this)">🖼 新增圖片</button>
+      <button class="journal-del-btn biz-section-del" onclick="deleteBizSection(event)">刪除區塊</button>
+    `;
+    wrap.appendChild(sec);
+    markDirty();
+    if(editMode){
+      sec.querySelectorAll('.editable').forEach(el => {
+        el.contentEditable = true;
+        el.addEventListener('input', markDirty);
+      });
+    }
+  }
+
+  function deleteBizSection(e){
+    e.preventDefault();
+    if(confirm('確定要刪除這個區塊嗎？（裡面的圖片也會一併刪除）')){
+      e.target.closest('.biz-section').remove();
+      markDirty();
+    }
+  }
+
+  function addBizImage(btn){
+    const section = btn.closest('.biz-section');
+    const grid = section.querySelector('.biz-images');
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = function(e){
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt){
+        const wrap = document.createElement('div');
+        wrap.className = 'biz-img-wrap';
+        wrap.innerHTML = `<img src="${evt.target.result}"><button class="biz-img-del" onclick="this.closest('.biz-img-wrap').remove(); markDirty();">✕</button>`;
+        grid.appendChild(wrap);
+        markDirty();
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
 </script>
+
 
 
 
