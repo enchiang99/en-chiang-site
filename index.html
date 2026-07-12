@@ -373,16 +373,16 @@
   <span class="hint">← 顏色</span>
 </div>
 
-<button class="menu-btn open" id="menuBtn" onclick="toggleMenu()">
+<button class="menu-btn" id="menuBtn" onclick="toggleMenu()">
   <span></span><span></span><span></span>
 </button>
-<nav class="menu-panel open" id="menuPanel">
+<nav class="menu-panel" id="menuPanel">
   <div class="menu-group" data-group="about-en">
     <div class="menu-group-head">
       <a href="#about-en" class="editable menu-group-label" onclick="toggleMenu()">關於 EN</a>
-      <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)">▾</button>
+      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)">▾</button>
     </div>
-    <div class="menu-sublist open"><a href="#post-1783854359669" target="_blank" rel="noopener" class="menu-sub-link"><span class="editable">Hi, Nice to meet you.</span></a></div>
+    <div class="menu-sublist"><a href="#post-1783854359669" target="_blank" rel="noopener" class="menu-sub-link"><span class="editable">Hi, Nice to meet you.</span></a></div>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
   </div>
   <div class="menu-group" data-group="about-daily">
@@ -479,7 +479,7 @@
   </div>
   <div class="journal-list" id="journalList">
     <div class="journal-entry">
-      <div class="journal-row"><span class="title todo editable">[About En]</span><span class="date todo editable">[talk it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
+      <div class="journal-row"><a class="title-link" href="#post-1783854359669" target="_blank" rel="noopener"><span class="title todo editable">[About En]</span></a><span class="date todo editable">[write it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
     </div>
     <div class="journal-entry">
       <div class="journal-row"><span class="title todo editable">[About Life]</span><span class="date todo editable">[listen it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
