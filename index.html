@@ -13,6 +13,7 @@
 <title>En Chiang｜台中人像寫真・樂團演出紀錄・寵物到府攝影</title>
 <meta name="description" content="En Chiang，台中攝影師。拍攝台中人像寫真、樂團演出紀錄、寵物到府攝影。不擺拍、不制式，把故事拍成想珍藏的樣子。私訊 IG @enchiang_ 洽詢報價。">
 <meta name="keywords" content="台中人像寫真,台中樂團拍攝,台中寵物到府攝影,台中攝影師">
+<link rel="canonical" href="https://enchiang.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&amp;family=Noto+Sans+TC:wght@300;400;500&amp;display=swap" rel="stylesheet">
@@ -21,7 +22,7 @@
   "@type": "Photographer",
   "name": "En Chiang",
   "areaServed": "台中市",
-  "url": "https://enchiang99.github.io/en-chiang-site/",
+  "url": "https://enchiang.com/",
   "sameAs": [
     "https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&utm_source=qr"
   ],
@@ -31,21 +32,24 @@
       "@type": "Offer",
       "itemOffered": {
         "@type": "Service",
-        "name": "台中人像寫真"
+        "name": "台中人像寫真",
+        "url": "https://enchiang.com/portrait.html"
       }
     },
     {
       "@type": "Offer",
       "itemOffered": {
         "@type": "Service",
-        "name": "台中樂團演出紀錄"
+        "name": "台中樂團演出紀錄",
+        "url": "https://enchiang.com/band.html"
       }
     },
     {
       "@type": "Offer",
       "itemOffered": {
         "@type": "Service",
-        "name": "台中寵物到府攝影"
+        "name": "台中寵物到府攝影",
+        "url": "https://enchiang.com/pet.html"
       }
     }
   ]
@@ -326,6 +330,30 @@
   .menu-expand-btn.open{ transform:rotate(180deg); }
   .menu-sublist{ display:none; padding-left:12px; }
   .menu-sublist.open{ display:block; }
+  /* ---------- MENU LABEL FLIP (中文 → 英文,觸及即翻轉) ---------- */
+  .flip-label{
+    display:inline-block; perspective:600px; vertical-align:top;
+  }
+  .flip-inner{
+    display:grid; transform-style:preserve-3d; transform-origin:50% 50%;
+    transition: transform .3s ease;
+  }
+  .menu-group-label:active .flip-inner,
+  .menu-group-label:hover .flip-inner{
+    transform: rotateX(180deg);
+  }
+  .flip-front, .flip-back{
+    grid-area: 1 / 1; backface-visibility:hidden; white-space:nowrap;
+  }
+  .flip-back{
+    transform: rotateX(180deg);
+    font-size:0.86em; letter-spacing:0.14em; color:var(--ink-soft);
+    align-self:center;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .flip-inner{ transition:none; }
+  }
+
   .menu-sub-link{
     display:block; font-size:13px; padding:9px 0; border-bottom:1px dashed var(--line);
     color:var(--ink-soft); font-family:'Noto Sans TC', sans-serif;
@@ -358,6 +386,18 @@
   }
   body.edit-mode .biz-img-del{ display:flex; }
   .biz-section-del{ margin-left:10px; }
+
+  .biz-videos{ display:flex; flex-direction:column; gap:24px; margin-bottom:16px; }
+  .biz-video-wrap{ position:relative; }
+  .biz-video-frame{ position:relative; width:100%; padding-top:56.25%; background:var(--paper-deep); }
+  .biz-video-frame iframe{
+    position:absolute; top:0; left:0; width:100%; height:100%; border:0; filter:grayscale(1) contrast(1.05);
+  }
+  .biz-video-wrap .biz-img-del{
+    display:none; position:static; width:auto; height:auto; margin-top:8px;
+    background:none; color:var(--ink-soft); border:1px solid var(--line); padding:6px 12px; font-size:11px;
+  }
+  body.edit-mode .biz-video-wrap .biz-img-del{ display:inline-flex; }
 
   /* ---------- FORMAT TOOLBAR ---------- */
   .format-toolbar{
@@ -410,7 +450,7 @@
 <nav class="menu-panel open" id="menuPanel">
   <div class="menu-group" data-group="about-en">
     <div class="menu-group-head">
-      <a href="#about-en" class="editable menu-group-label" onclick="toggleMenu()">關於 EN</a>
+      <a href="#about-en" class="menu-group-label" onclick="toggleMenu()"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於 EN</span><span class="flip-back">ABOUT EN</span></span></span></a>
       <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)">▾</button>
     </div>
     <div class="menu-sublist open"><a href="#post-1783854359669" target="_blank" rel="noopener" class="menu-sub-link"><span class="editable">Hi, Nice to meet you.</span></a></div>
@@ -418,7 +458,7 @@
   </div>
   <div class="menu-group" data-group="about-daily">
     <div class="menu-group-head">
-      <a href="#about-daily" class="editable menu-group-label" onclick="toggleMenu()">關於日常</a>
+      <a href="#about-daily" class="menu-group-label" onclick="toggleMenu()"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於日常</span><span class="flip-back">ABOUT LIFE</span></span></span></a>
       <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)">▾</button>
     </div>
     <div class="menu-sublist open"><a href="#post-1784208408037" target="_blank" rel="noopener" class="menu-sub-link"><span class="editable">《自然成像》</span></a></div>
@@ -426,7 +466,7 @@
   </div>
   <div class="menu-group" data-group="journal">
     <div class="menu-group-head">
-      <a href="#journal" class="editable menu-group-label" onclick="toggleMenu()">觀察日記</a>
+      <a href="#journal" class="menu-group-label" onclick="toggleMenu()"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於愛</span><span class="flip-back">ABOUT LOVE</span></span></span></a>
       <button class="menu-expand-btn" onclick="toggleMenuGroup(this)">▾</button>
     </div>
     <div class="menu-sublist"></div>
@@ -434,7 +474,13 @@
   </div>
   <div class="menu-group" data-group="business">
     <div class="menu-group-head">
-      <a href="#" class="editable menu-group-label" onclick="openBusinessPage(event)">關於商業</a>
+      <a href="#" class="menu-group-label" onclick="openBusinessPage(event)"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於商業</span><span class="flip-back">ABOUT BUSINESS</span></span></span></a>
+      <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)">▾</button>
+    </div>
+    <div class="menu-sublist open">
+      <a href="#" class="menu-sub-link" onclick="openBusinessSection(event,'biz-portrait')"><span class="editable">人像</span></a>
+      <a href="#" class="menu-sub-link" onclick="openBusinessSection(event,'biz-brand')"><span class="editable">品牌</span></a>
+      <a href="#" class="menu-sub-link" onclick="openBusinessSection(event,'biz-video')"><span class="editable">影片</span></a>
     </div>
   </div>
   <button class="menu-add-btn" style="margin-top:14px; width:100%;" onclick="addMenuItem()">＋ 新增主項目</button>
@@ -505,8 +551,8 @@
 
 <section id="journal">
   <div class="section-head">
-    <div class="label editable">Journal</div>
-    <h2 class="editable">觀察日記</h2>
+    <div class="label editable">Love</div>
+    <h2 class="editable">關於愛</h2>
   </div>
   <div class="journal-list" id="journalList">
     <div class="journal-entry">
@@ -561,11 +607,20 @@
       <h2 class="editable">關於商業</h2>
     </div>
     <div id="bizSections">
-      <div class="biz-section">
-        <h2 class="editable">合作項目一</h2>
+      <div class="biz-section" id="biz-portrait">
+        <h2 class="editable">人像</h2>
         <div class="biz-images"></div>
         <button class="menu-add-btn" onclick="addBizImage(this)">🖼 新增圖片</button>
-        <button class="journal-del-btn biz-section-del" onclick="deleteBizSection(event)">刪除區塊</button>
+      </div>
+      <div class="biz-section" id="biz-brand">
+        <h2 class="editable">品牌</h2>
+        <div class="biz-images"></div>
+        <button class="menu-add-btn" onclick="addBizImage(this)">🖼 新增圖片</button>
+      </div>
+      <div class="biz-section" id="biz-video">
+        <h2 class="editable">影片</h2>
+        <div class="biz-videos"></div>
+        <button class="menu-add-btn" onclick="addBizVideo(this)">🎬 新增影片(貼YouTube連結)</button>
       </div>
     </div>
     <p style="text-align:center; padding:0;">
@@ -1169,6 +1224,48 @@
       reader.readAsDataURL(file);
     };
     input.click();
+  }
+
+  function openBusinessSection(e, targetId){
+    openBusinessPage(e);
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        const el = document.getElementById(targetId);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  }
+
+  function extractYouTubeId(input){
+    input = input.trim();
+    let m = input.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
+    if(m) return m[1];
+    if(/^[A-Za-z0-9_-]{6,}$/.test(input)) return input;
+    return null;
+  }
+
+  function addBizVideo(btn){
+    const section = btn.closest('.biz-section');
+    const list = section.querySelector('.biz-videos');
+    const raw = prompt('貼上 YouTube 影片連結(例如 https://youtu.be/xxxxxxxx）：', '');
+    if(!raw) return;
+    const id = extractYouTubeId(raw);
+    if(!id){
+      alert('看不出來是有效的 YouTube 連結，請確認後再試一次。');
+      return;
+    }
+    const wrap = document.createElement('div');
+    wrap.className = 'biz-video-wrap';
+    wrap.innerHTML = `
+      <div class="biz-video-frame">
+        <iframe src="https://www.youtube.com/embed/${id}" title="YouTube video" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.biz-video-wrap').remove(); markDirty();">✕ 移除</button>
+    `;
+    list.appendChild(wrap);
+    markDirty();
   }
 </script>
 
