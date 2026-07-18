@@ -10,8 +10,8 @@
   gtag('js', new Date());
   gtag('config', 'G-6NLCEX26ZX');
 </script>
-<title>人像寫真 | En Chiang・台中黑白攝影</title>
-<meta name="description" content="台中人像寫真,黑白影像捕捉自然神情。情侶、朋友、個人形象照,從對話開始,留下此刻的樣子。">
+<title>關於EN | En Chiang・台中人像寫真</title>
+<meta name="description" content="台中人像寫真文章總覽——En Chiang 關於EN分類底下的所有文章。">
 <meta name="keywords" content="台中人像寫真,台中人像攝影師,情侶寫真,個人形象照,黑白人像">
 <link rel="canonical" href="https://enchiang.com/portrait.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,37 +40,49 @@
   <a href="index.html" class="back-link">← 回首頁</a>
 </div>
 
-<section class="service-hero">
-  <span class="label">Portrait · 台中人像寫真</span>
-  <h1>拍人像的時候,我很少去想<br>「這張要拍得多完美」。</h1>
-  <p class="lede">反而比較想知道,眼前這個人放鬆下來是什麼樣子。</p>
+<section class="archive-hero">
+  <span class="label">About En · 台中人像寫真</span>
+  <h1>關於 EN</h1>
 </section>
 
-<div class="service-body">
-  <p>台中這幾年拍過不少人像寫真,情侶的、朋友的,也有單純想留一張現在的自己的。黑白是我習慣的語言,少了顏色的干擾,表情跟氣氛反而更清楚——一個眼神、一個沒設計過的笑,通常比擺好的姿勢更值得留下來。</p>
-  <p>拍攝前我會先跟你聊聊,想留下什麼樣的感覺、平常在什麼場景裡最自在。個人形象照、情侶寫真、閨蜜寫真都拍,但比起「類型」,我更在意的是那天實際發生了什麼——光線怎麼落下來,你們怎麼站著說話,笑點在哪裡。</p>
-  <p>如果你也想留一張不那麼「拍照感」的照片,可以來聊聊,看看我們能拍出什麼樣子。</p>
+<div class="archive-list">
+  <div class="archive-cat">
+    <div class="archive-articles" id="articleList">
+      <div class="archive-empty">載入文章清單中…</div>
+    </div>
+  </div>
 </div>
 
-<div class="service-gallery">
-  <!-- 之後把作品照片放進這裡,建議用實際圖檔(例如 /images/portrait-01.jpg),
-       不要用 base64 內嵌,檔案會比較小、載入比較快 -->
-  <div class="gallery-placeholder">作品照片<br>之後補上</div>
-  <div class="gallery-placeholder">作品照片<br>之後補上</div>
-  <div class="gallery-placeholder">作品照片<br>之後補上</div>
-  <div class="gallery-placeholder">作品照片<br>之後補上</div>
-</div>
-
-<div class="service-cta">
-  <a href="https://www.instagram.com/enchiang_" target="_blank" rel="noopener" class="btn">私訊 IG 洽詢拍攝</a>
-</div>
+<script>
+  fetch('index.html')
+    .then(function(r){ return r.text(); })
+    .then(function(html){
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var group = doc.querySelector('.menu-group[data-group="about-en"] .menu-sublist');
+      var list = document.getElementById('articleList');
+      var links = group ? Array.from(group.querySelectorAll('a[href]')) : [];
+      if(!links.length){
+        list.innerHTML = '<div class="archive-empty">目前這個分類還沒有文章。</div>';
+        return;
+      }
+      list.innerHTML = links.map(function(a){
+        var href = a.getAttribute('href') || '#';
+        if(href.charAt(0) === '#') href = 'index.html' + href;
+        var title = a.textContent.trim();
+        return '<a href="' + href + '" target="_blank" rel="noopener">' + title + '<span class="arrow">→</span></a>';
+      }).join('');
+    })
+    .catch(function(){
+      document.getElementById('articleList').innerHTML = '<div class="archive-empty">文章清單載入失敗，請確認網路連線後重新整理。</div>';
+    });
+</script>
 
 <div class="service-related">
-  <span class="label">延伸閱讀</span>
+  <span class="label">其他分類</span>
   <div class="related-links">
-    <a href="band.html">樂團演出紀錄</a>
-    <a href="pet.html">寵物到府攝影</a>
-    <a href="index.html#journal">觀察日記</a>
+    <a href="band.html">關於日常</a>
+    <a href="pet.html">關於愛</a>
+    <a href="archive.html">所有文章</a>
   </div>
 </div>
 

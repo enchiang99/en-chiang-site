@@ -17,21 +17,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="services.css">
-<style>
-  .archive-hero{ padding:72px 8vw 30px; max-width:760px; margin:0 auto; }
-  .archive-hero h1{ font-size:clamp(26px,5vw,40px); font-weight:500; }
-  .archive-list{ padding:20px 8vw 80px; max-width:760px; margin:0 auto; }
-  .archive-cat{ margin-bottom:52px; }
-  .archive-cat-head{ display:flex; align-items:baseline; justify-content:space-between; border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:18px; }
-  .archive-cat-head a{ font-family:'Noto Serif TC',serif; font-size:22px; }
-  .archive-cat-head a:hover{ color:var(--ink-soft); }
-  .archive-articles a{
-    display:flex; justify-content:space-between; align-items:baseline;
-    padding:14px 0; border-bottom:1px dashed var(--line); font-size:14.5px;
-  }
-  .archive-articles a:hover{ color:var(--ink-soft); }
-  .archive-articles .arrow{ font-size:12px; color:var(--ink-soft); }
-</style>
 </head>
 <body>
 
@@ -52,8 +37,8 @@
       <a href="portrait.html">關於 EN</a>
       <span class="label">About EN</span>
     </div>
-    <div class="archive-articles">
-      <a href="index.html#post-1783854359669">Hi, Nice to meet you.<span class="arrow">→</span></a>
+    <div class="archive-articles" id="cat-about-en">
+      <div class="archive-empty">載入中…</div>
     </div>
   </div>
 
@@ -62,8 +47,8 @@
       <a href="band.html">關於日常</a>
       <span class="label">About Life</span>
     </div>
-    <div class="archive-articles">
-      <a href="index.html#post-1784208408037">《自然成像》<span class="arrow">→</span></a>
+    <div class="archive-articles" id="cat-about-daily">
+      <div class="archive-empty">載入中…</div>
     </div>
   </div>
 
@@ -72,8 +57,8 @@
       <a href="pet.html">關於愛</a>
       <span class="label">About Love</span>
     </div>
-    <div class="archive-articles">
-      <a href="index.html#post-1784367526725">《無條件的愛》<span class="arrow">→</span></a>
+    <div class="archive-articles" id="cat-journal">
+      <div class="archive-empty">載入中…</div>
     </div>
   </div>
 
@@ -90,6 +75,35 @@
   </div>
 
 </div>
+
+<script>
+  fetch('index.html')
+    .then(function(r){ return r.text(); })
+    .then(function(html){
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      ['about-en','about-daily','journal'].forEach(function(groupName){
+        var group = doc.querySelector('.menu-group[data-group="' + groupName + '"] .menu-sublist');
+        var list = document.getElementById('cat-' + groupName);
+        var links = group ? Array.from(group.querySelectorAll('a[href]')) : [];
+        if(!links.length){
+          list.innerHTML = '<div class="archive-empty">目前這個分類還沒有文章。</div>';
+          return;
+        }
+        list.innerHTML = links.map(function(a){
+          var href = a.getAttribute('href') || '#';
+          if(href.charAt(0) === '#') href = 'index.html' + href;
+          var title = a.textContent.trim();
+          return '<a href="' + href + '" target="_blank" rel="noopener">' + title + '<span class="arrow">→</span></a>';
+        }).join('');
+      });
+    })
+    .catch(function(){
+      ['cat-about-en','cat-about-daily','cat-journal'].forEach(function(id){
+        var el = document.getElementById(id);
+        if(el) el.innerHTML = '<div class="archive-empty">文章清單載入失敗，請確認網路連線後重新整理。</div>';
+      });
+    });
+</script>
 
 <footer class="service-footer">
   <div class="serif">EN CHIANG</div>
