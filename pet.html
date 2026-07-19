@@ -14,6 +14,17 @@
 <meta name="description" content="台中寵物到府攝影文章總覽——En Chiang 關於愛分類底下的所有文章。">
 <meta name="keywords" content="台中寵物攝影,到府寵物拍照,貓咪寫真,狗狗寫真,寵物寫真推薦">
 <link rel="canonical" href="https://enchiang.com/pet.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="En Chiang">
+<meta property="og:title" content="關於愛 | En Chiang・台中寵物到府攝影">
+<meta property="og:description" content="台中寵物到府攝影文章總覽——En Chiang 關於愛分類底下的所有文章。">
+<meta property="og:url" content="https://enchiang.com/pet.html">
+<meta property="og:image" content="https://enchiang.com/images/hero.jpeg">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="關於愛 | En Chiang・台中寵物到府攝影">
+<meta name="twitter:description" content="台中寵物到府攝影文章總覽——En Chiang 關於愛分類底下的所有文章。">
+<meta name="twitter:image" content="https://enchiang.com/images/hero.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -54,10 +65,7 @@
 <div class="archive-list">
   <div class="archive-cat">
     <div class="archive-articles" id="articleList">
-      <div class="archive-skeleton">
-        <div class="sk-line w70"></div>
-        <div class="sk-line w45"></div>
-      </div>
+      <a href="index.html#post-1784367526725" target="_blank" rel="noopener">《無條件的愛》<span class="arrow">→</span></a>
     </div>
   </div>
 </div>
@@ -105,7 +113,7 @@
         renderCategoryList(html, 'journal', 'articleList');
       })
       .catch(function(){
-        document.getElementById('articleList').innerHTML = '<div class="archive-empty">文章清單載入失敗，請確認網路連線後重新整理。</div>';
+        /* 保留頁面原本就有的靜態內容，抓取失敗時不覆蓋 */
       });
   }
 </script>

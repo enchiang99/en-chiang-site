@@ -13,6 +13,17 @@
 <title>所有文章 | En Chiang</title>
 <meta name="description" content="En Chiang 網站的完整文章與分類總覽——關於EN、關於日常、關於愛、關於商業。">
 <link rel="canonical" href="https://enchiang.com/archive.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="En Chiang">
+<meta property="og:title" content="所有文章 | En Chiang">
+<meta property="og:description" content="En Chiang 網站的完整文章與分類總覽——關於EN、關於日常、關於愛、關於商業。">
+<meta property="og:url" content="https://enchiang.com/archive.html">
+<meta property="og:image" content="https://enchiang.com/images/hero.jpeg">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="所有文章 | En Chiang">
+<meta name="twitter:description" content="En Chiang 網站的完整文章與分類總覽。">
+<meta name="twitter:image" content="https://enchiang.com/images/hero.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -44,7 +55,7 @@
       <span class="label">About EN</span>
     </div>
     <div class="archive-articles" id="cat-about-en">
-      <div class="archive-skeleton"><div class="sk-line w70"></div></div>
+      <a href="index.html#post-1783854359669" target="_blank" rel="noopener">Hi, Nice to meet you.<span class="arrow">→</span></a>
     </div>
   </div>
 
@@ -54,7 +65,7 @@
       <span class="label">About Life</span>
     </div>
     <div class="archive-articles" id="cat-about-daily">
-      <div class="archive-skeleton"><div class="sk-line w70"></div></div>
+      <a href="index.html#post-1784208408037" target="_blank" rel="noopener">《自然成像》<span class="arrow">→</span></a>
     </div>
   </div>
 
@@ -64,7 +75,7 @@
       <span class="label">About Love</span>
     </div>
     <div class="archive-articles" id="cat-journal">
-      <div class="archive-skeleton"><div class="sk-line w70"></div></div>
+      <a href="index.html#post-1784367526725" target="_blank" rel="noopener">《無條件的愛》<span class="arrow">→</span></a>
     </div>
   </div>
 
@@ -127,10 +138,7 @@
         renderAllCategories(html);
       })
       .catch(function(){
-        ['cat-about-en','cat-about-daily','cat-journal'].forEach(function(id){
-          var el = document.getElementById(id);
-          if(el) el.innerHTML = '<div class="archive-empty">文章清單載入失敗，請確認網路連線後重新整理。</div>';
-        });
+        /* 保留頁面原本就有的靜態內容，抓取失敗時不覆蓋 */
       });
   }
 </script>
