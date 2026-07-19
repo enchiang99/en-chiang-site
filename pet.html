@@ -45,36 +45,69 @@
   <h1>關於愛</h1>
 </section>
 
+<div class="float-links">
+  <button type="button" class="float-btn float-textsize" aria-label="放大文字" onclick="toggleTextSize()">
+    <span class="textsize-icon">A<span>+</span></span>
+  </button>
+</div>
+
 <div class="archive-list">
   <div class="archive-cat">
     <div class="archive-articles" id="articleList">
-      <div class="archive-empty">載入文章清單中…</div>
+      <div class="archive-skeleton">
+        <div class="sk-line w70"></div>
+        <div class="sk-line w45"></div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-  fetch('index.html')
-    .then(function(r){ return r.text(); })
-    .then(function(html){
-      var doc = new DOMParser().parseFromString(html, 'text/html');
-      var group = doc.querySelector('.menu-group[data-group="journal"] .menu-sublist');
-      var list = document.getElementById('articleList');
-      var links = group ? Array.from(group.querySelectorAll('a[href]')) : [];
-      if(!links.length){
-        list.innerHTML = '<div class="archive-empty">目前這個分類還沒有文章。</div>';
-        return;
-      }
-      list.innerHTML = links.map(function(a){
-        var href = a.getAttribute('href') || '#';
-        if(href.charAt(0) === '#') href = 'index.html' + href;
-        var title = a.textContent.trim();
-        return '<a href="' + href + '" target="_blank" rel="noopener">' + title + '<span class="arrow">→</span></a>';
-      }).join('');
-    })
-    .catch(function(){
-      document.getElementById('articleList').innerHTML = '<div class="archive-empty">文章清單載入失敗，請確認網路連線後重新整理。</div>';
-    });
+  function toggleTextSize(){
+    var on = document.body.classList.toggle('text-large');
+    localStorage.setItem('enchiang-text-large', on ? '1' : '0');
+    var btn = document.querySelector('.float-textsize');
+    if(btn) btn.classList.toggle('active', on);
+  }
+  if(localStorage.getItem('enchiang-text-large') === '1'){
+    document.body.classList.add('text-large');
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.querySelector('.float-textsize');
+    if(btn && localStorage.getItem('enchiang-text-large') === '1') btn.classList.add('active');
+  });
+
+  function renderCategoryList(html, groupName, listElId){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var group = doc.querySelector('.menu-group[data-group="' + groupName + '"] .menu-sublist');
+    var list = document.getElementById(listElId);
+    var links = group ? Array.from(group.querySelectorAll('a[href]')) : [];
+    if(!links.length){
+      list.innerHTML = '<div class="archive-empty">目前這個分類還沒有文章。</div>';
+      return;
+    }
+    list.innerHTML = links.map(function(a){
+      var href = a.getAttribute('href') || '#';
+      if(href.charAt(0) === '#') href = 'index.html' + href;
+      var title = a.textContent.trim();
+      return '<a href="' + href + '" target="_blank" rel="noopener">' + title + '<span class="arrow">→</span></a>';
+    }).join('');
+  }
+
+  var cached = sessionStorage.getItem('enchiang-index-cache');
+  if(cached){
+    renderCategoryList(cached, 'journal', 'articleList');
+  } else {
+    fetch('index.html')
+      .then(function(r){ return r.text(); })
+      .then(function(html){
+        sessionStorage.setItem('enchiang-index-cache', html);
+        renderCategoryList(html, 'journal', 'articleList');
+      })
+      .catch(function(){
+        document.getElementById('articleList').innerHTML = '<div class="archive-empty">文章清單載入失敗，請確認網路連線後重新整理。</div>';
+      });
+  }
 </script>
 
 <div class="service-related">

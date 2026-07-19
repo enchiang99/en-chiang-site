@@ -30,6 +30,12 @@
   <h1>把每一次快門，<br>都留在這裡。</h1>
 </section>
 
+<div class="float-links">
+  <button type="button" class="float-btn float-textsize" aria-label="放大文字" onclick="toggleTextSize()">
+    <span class="textsize-icon">A<span>+</span></span>
+  </button>
+</div>
+
 <div class="archive-list">
 
   <div class="archive-cat">
@@ -38,7 +44,7 @@
       <span class="label">About EN</span>
     </div>
     <div class="archive-articles" id="cat-about-en">
-      <div class="archive-empty">載入中…</div>
+      <div class="archive-skeleton"><div class="sk-line w70"></div></div>
     </div>
   </div>
 
@@ -48,7 +54,7 @@
       <span class="label">About Life</span>
     </div>
     <div class="archive-articles" id="cat-about-daily">
-      <div class="archive-empty">載入中…</div>
+      <div class="archive-skeleton"><div class="sk-line w70"></div></div>
     </div>
   </div>
 
@@ -58,7 +64,7 @@
       <span class="label">About Love</span>
     </div>
     <div class="archive-articles" id="cat-journal">
-      <div class="archive-empty">載入中…</div>
+      <div class="archive-skeleton"><div class="sk-line w70"></div></div>
     </div>
   </div>
 
@@ -77,32 +83,56 @@
 </div>
 
 <script>
-  fetch('index.html')
-    .then(function(r){ return r.text(); })
-    .then(function(html){
-      var doc = new DOMParser().parseFromString(html, 'text/html');
-      ['about-en','about-daily','journal'].forEach(function(groupName){
-        var group = doc.querySelector('.menu-group[data-group="' + groupName + '"] .menu-sublist');
-        var list = document.getElementById('cat-' + groupName);
-        var links = group ? Array.from(group.querySelectorAll('a[href]')) : [];
-        if(!links.length){
-          list.innerHTML = '<div class="archive-empty">目前這個分類還沒有文章。</div>';
-          return;
-        }
-        list.innerHTML = links.map(function(a){
-          var href = a.getAttribute('href') || '#';
-          if(href.charAt(0) === '#') href = 'index.html' + href;
-          var title = a.textContent.trim();
-          return '<a href="' + href + '" target="_blank" rel="noopener">' + title + '<span class="arrow">→</span></a>';
-        }).join('');
-      });
-    })
-    .catch(function(){
-      ['cat-about-en','cat-about-daily','cat-journal'].forEach(function(id){
-        var el = document.getElementById(id);
-        if(el) el.innerHTML = '<div class="archive-empty">文章清單載入失敗，請確認網路連線後重新整理。</div>';
-      });
+  function toggleTextSize(){
+    var on = document.body.classList.toggle('text-large');
+    localStorage.setItem('enchiang-text-large', on ? '1' : '0');
+    var btn = document.querySelector('.float-textsize');
+    if(btn) btn.classList.toggle('active', on);
+  }
+  if(localStorage.getItem('enchiang-text-large') === '1'){
+    document.body.classList.add('text-large');
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.querySelector('.float-textsize');
+    if(btn && localStorage.getItem('enchiang-text-large') === '1') btn.classList.add('active');
+  });
+
+  function renderAllCategories(html){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    ['about-en','about-daily','journal'].forEach(function(groupName){
+      var group = doc.querySelector('.menu-group[data-group="' + groupName + '"] .menu-sublist');
+      var list = document.getElementById('cat-' + groupName);
+      var links = group ? Array.from(group.querySelectorAll('a[href]')) : [];
+      if(!links.length){
+        list.innerHTML = '<div class="archive-empty">目前這個分類還沒有文章。</div>';
+        return;
+      }
+      list.innerHTML = links.map(function(a){
+        var href = a.getAttribute('href') || '#';
+        if(href.charAt(0) === '#') href = 'index.html' + href;
+        var title = a.textContent.trim();
+        return '<a href="' + href + '" target="_blank" rel="noopener">' + title + '<span class="arrow">→</span></a>';
+      }).join('');
     });
+  }
+
+  var cachedAll = sessionStorage.getItem('enchiang-index-cache');
+  if(cachedAll){
+    renderAllCategories(cachedAll);
+  } else {
+    fetch('index.html')
+      .then(function(r){ return r.text(); })
+      .then(function(html){
+        sessionStorage.setItem('enchiang-index-cache', html);
+        renderAllCategories(html);
+      })
+      .catch(function(){
+        ['cat-about-en','cat-about-daily','cat-journal'].forEach(function(id){
+          var el = document.getElementById(id);
+          if(el) el.innerHTML = '<div class="archive-empty">文章清單載入失敗，請確認網路連線後重新整理。</div>';
+        });
+      });
+  }
 </script>
 
 <footer class="service-footer">

@@ -74,6 +74,66 @@ img{ display:block; max-width:100%; }
 }
 .related-links a:hover{ border-color:var(--ink); }
 
+/* ---------- 資料夾式文章清單(archive / portrait / band / pet 共用) ---------- */
+.archive-hero{ padding:72px 8vw 30px; max-width:760px; margin:0 auto; }
+.archive-hero h1{ font-size:clamp(26px,5vw,40px); font-weight:500; }
+.archive-list{ padding:20px 8vw 80px; max-width:760px; margin:0 auto; }
+.archive-cat{ margin-bottom:36px; border:1px solid var(--line); }
+.archive-cat-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 20px; border-bottom:1px solid var(--line);
+  -webkit-tap-highlight-color:transparent;
+}
+.archive-cat-head a{
+  font-family:'Noto Serif TC',serif; font-size:24px; display:block; padding:4px 0;
+  min-height:44px; display:flex; align-items:center;
+}
+.archive-cat-head a:active{ color:var(--ink-soft); }
+.archive-cat-head .label{ font-size:10.5px; }
+.archive-articles a{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:18px 20px; border-bottom:1px dashed var(--line); font-size:15.5px;
+  min-height:52px; -webkit-tap-highlight-color:rgba(33,31,27,0.06);
+  transition:background .15s ease;
+}
+.archive-articles a:last-child{ border-bottom:none; }
+.archive-articles a:active{ background:rgba(33,31,27,0.05); }
+.archive-articles .arrow{
+  font-size:16px; color:var(--ink-soft); flex:0 0 auto; margin-left:14px;
+}
+.archive-empty{ font-size:13.5px; color:var(--ink-soft); padding:18px 20px; font-style:italic; }
+
+/* 載入中的骨架列,避免內容突然跳出造成版面跳動 */
+.archive-skeleton{ padding:18px 20px; }
+.archive-skeleton .sk-line{
+  height:15px; border-radius:2px; margin:8px 0;
+  background:linear-gradient(90deg, var(--line) 25%, rgba(33,31,27,0.08) 37%, var(--line) 63%);
+  background-size:400% 100%; animation:skShimmer 1.4s ease infinite;
+}
+.archive-skeleton .sk-line.w70{ width:70%; }
+.archive-skeleton .sk-line.w45{ width:45%; }
+@keyframes skShimmer{ 0%{background-position:100% 50%;} 100%{background-position:0 50%;} }
+@media (prefers-reduced-motion: reduce){
+  .archive-skeleton .sk-line{ animation:none; }
+}
+
+/* ---------- 浮動字型放大按鈕(與 index.html 相同邏輯) ---------- */
+.float-links{
+  position:fixed; right:22px; bottom:26px; z-index:200;
+  display:flex; flex-direction:column; gap:10px;
+}
+.float-btn{
+  width:44px; height:44px; background:var(--ink); color:var(--paper);
+  display:flex; align-items:center; justify-content:center;
+  border-radius:50%; border:none; cursor:pointer;
+  transition:transform .25s ease, background .25s ease;
+}
+.float-btn:hover{ background:var(--ink-soft); transform:translateY(-2px); }
+.textsize-icon{ font-family:'Noto Sans TC', sans-serif; font-size:14px; font-weight:500; color:var(--paper); }
+.textsize-icon span{ font-size:10px; vertical-align:super; }
+.float-textsize.active{ background:var(--ink-soft); }
+body.text-large{ zoom:1.18; }
+
 /* ---------- FOOTER(簡化版,呼應首頁footer) ---------- */
 footer.service-footer{
   padding:48px 8vw 40px; text-align:center; border-top:1px solid var(--line);
