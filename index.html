@@ -249,14 +249,16 @@
     position:fixed; bottom:22px; left:22px; z-index:300;
     background:var(--ink); color:var(--paper); border:none; padding:14px 20px;
     font-size:12px; letter-spacing:0.14em; cursor:pointer; text-transform:uppercase;
+    display:none;
   }
+  body.edit-access .edit-toggle{ display:block; }
   .edit-export{
     position:fixed; bottom:22px; left:150px; z-index:300;
     background:#3a6b4a; color:#fff; border:none; padding:14px 20px;
     font-size:12px; letter-spacing:0.14em; cursor:pointer; text-transform:uppercase;
     display:none;
   }
-  body.edit-mode .edit-export{ display:inline-block; }
+  body.edit-access.edit-mode .edit-export{ display:inline-block; }
   body.edit-mode [contenteditable="true"]{
     outline:1px dashed #a3402f; outline-offset:4px; cursor:text; background:rgba(163,64,47,0.04);
   }
@@ -692,6 +694,13 @@
     window.addEventListener('scroll', revealMenuBtn, {passive:true});
   })();
 
+  (function(){
+    var params = new URLSearchParams(location.search);
+    if(params.get('edit') === '1'){
+      document.body.classList.add('edit-access');
+    }
+  })();
+
   function toggleMenu(){
     document.getElementById('menuBtn').classList.toggle('open');
     document.getElementById('menuPanel').classList.toggle('open');
@@ -890,6 +899,9 @@
       document.querySelectorAll('.editable').forEach(el => { el.contentEditable = false; });
       document.getElementById('editToggle').textContent = '✎ 編輯';
     }
+    document.body.classList.remove('edit-access');
+    const menuBtnEl = document.getElementById('menuBtn');
+    if(menuBtnEl) menuBtnEl.classList.remove('visible');
     document.querySelectorAll('.editable').forEach(el => el.removeAttribute('contenteditable'));
     const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     const blob = new Blob([html], {type:'text/html'});
