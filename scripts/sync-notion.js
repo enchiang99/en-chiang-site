@@ -90,13 +90,52 @@ function escapeHtml(str) {
 }
 
 // 把 Notion 的 rich_text 陣列轉成帶基本樣式的 HTML（粗體/斜體/連結）
+// Notion 文字顏色 -> 網站用的 CSS 色碼(取跟 Notion 介面相近的顏色)
+const NOTION_TEXT_COLORS = {
+  gray: '#787774',
+  brown: '#976A46',
+  orange: '#CC782F',
+  yellow: '#C29343',
+  green: '#548164',
+  blue: '#487CA5',
+  purple: '#8A6BAB',
+  pink: '#B75283',
+  red: '#C4554D',
+};
+
+// Notion 螢光筆底色 -> 網站用的 CSS 色碼
+const NOTION_BG_COLORS = {
+  gray_background: '#F1F1EF',
+  brown_background: '#F3EEEE',
+  orange_background: '#FAEBDD',
+  yellow_background: '#FBF3DB',
+  green_background: '#EDF3EC',
+  blue_background: '#E7F3F8',
+  purple_background: '#F6F3F9',
+  pink_background: '#FAF1F5',
+  red_background: '#FDEBEC',
+};
+
 function richTextToHtml(richText) {
   return (richText || [])
     .map((rt) => {
       let text = escapeHtml(rt.plain_text || '');
       if (rt.annotations?.bold) text = `<strong>${text}</strong>`;
       if (rt.annotations?.italic) text = `<em>${text}</em>`;
+      if (rt.annotations?.strikethrough) text = `<s>${text}</s>`;
+      if (rt.annotations?.underline) text = `<u>${text}</u>`;
       if (rt.href) text = `<a href="${escapeHtml(rt.href)}" target="_blank" rel="noopener">${text}</a>`;
+      // 文字顏色 / 螢光筆底色（外層包一個 span，讓顏色蓋在最外面）
+      const color = rt.annotations?.color;
+      if (color && color !== 'default') {
+        if (color.endsWith('_background')) {
+          const bg = NOTION_BG_COLORS[color];
+          if (bg) text = `<span style="background-color:${bg}">${text}</span>`;
+        } else {
+          const c = NOTION_TEXT_COLORS[color];
+          if (c) text = `<span style="color:${c}">${text}</span>`;
+        }
+      }
       return text;
     })
     .join('');
