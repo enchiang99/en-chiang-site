@@ -378,9 +378,7 @@
     transition: transform .3s ease;
   }
   .menu-group-label:active .flip-inner,
-  .menu-group-label:hover .flip-inner,
-  .menu-video-sub-link:active .flip-inner,
-  .menu-video-sub-link:hover .flip-inner{
+  .menu-group-label:hover .flip-inner{
     transform: rotateX(180deg);
   }
   .flip-front, .flip-back{
@@ -409,8 +407,8 @@
   /* ---------- MENU：影片子分類（唯一巢狀項目） ---------- */
   .menu-video-item{
     display:flex; align-items:center; justify-content:space-between; gap:8px;
-    font-size:13px; padding:9px 0; border-bottom:1px dashed var(--line);
-    color:var(--ink-soft); font-family:'Noto Sans TC', sans-serif; cursor:pointer;
+    font-size:17px; padding:12px 0; border-bottom:1px solid var(--line);
+    color:var(--ink); font-family:'Noto Serif TC', serif; cursor:pointer;
   }
   .menu-video-toggle-icon{
     font-size:14px; color:var(--ink-soft); transition:transform .3s ease; flex:0 0 auto;
@@ -420,22 +418,33 @@
     max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.4,0,.2,1);
   }
   .menu-video-subpanel.open{ max-height:220px; }
-  .menu-video-sub-inner{ padding:0; display:flex; flex-direction:column; }
+  .menu-video-sub-inner{ padding:6px 0 4px; display:flex; flex-direction:column; gap:2px; }
   .menu-video-sub-link{
-    display:block; font-size:13px; padding:9px 0 9px 2em;
-    border-bottom:1px dashed var(--line); color:var(--ink-soft);
+    position:relative;
+    display:block; font-size:13px; padding:10px 0 10px 2.6em;
+    color:var(--ink-soft);
     font-family:'Noto Sans TC', sans-serif; text-decoration:none;
-    opacity:0; transform:translateX(-10px);
-    transition:opacity .35s ease, transform .35s ease, color .2s ease;
+    opacity:0; transform:translateX(-12px);
+    transition:opacity .4s ease, transform .4s ease, color .2s ease;
   }
-  .menu-video-sub-link:last-child{ border-bottom:none; }
+  .menu-video-sub-link .cn{
+    font-family:'Noto Serif TC', serif; font-size:14px; color:var(--ink); margin-right:8px;
+  }
+  .menu-video-sub-link .en{
+    display:inline-block;
+    font-family:'Noto Serif TC', serif; font-style:italic; font-size:12.5px; color:var(--ink-soft); letter-spacing:0.02em;
+    opacity:0; transform:translateX(-8px);
+    transition:opacity .35s ease, transform .35s ease;
+  }
   .menu-video-subpanel.open .menu-video-sub-link{ opacity:1; transform:translateX(0); }
   .menu-video-subpanel.open .menu-video-sub-link:nth-child(1){ transition-delay:.05s; }
   .menu-video-subpanel.open .menu-video-sub-link:nth-child(2){ transition-delay:.11s; }
   .menu-video-subpanel.open .menu-video-sub-link:nth-child(3){ transition-delay:.17s; }
+  .menu-video-subpanel.open .menu-video-sub-link .en{ opacity:1; transform:translateX(0); }
+  .menu-video-subpanel.open .menu-video-sub-link:nth-child(1) .en{ transition-delay:.25s; }
+  .menu-video-subpanel.open .menu-video-sub-link:nth-child(2) .en{ transition-delay:.31s; }
+  .menu-video-subpanel.open .menu-video-sub-link:nth-child(3) .en{ transition-delay:.37s; }
   .menu-video-sub-link:hover{ color:var(--ink); }
-  /* 子分類也用中英翻轉效果，跟主選單項目一致 */
-  .menu-video-sub-link .flip-label{ display:inline-block; perspective:600px; vertical-align:top; }
 
 
   /* ---------- 關於商業（多區塊頁） ---------- */
@@ -631,9 +640,9 @@
       </div>
       <div class="menu-video-subpanel" id="menuVideoSubpanel">
         <div class="menu-video-sub-inner">
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'livehouse')"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">展演空間</span><span class="flip-back">LIVE HOUSE</span></span></span></a>
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'brand')"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">品牌合作</span><span class="flip-back">BRAND</span></span></span></a>
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'life')"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">生活日常</span><span class="flip-back">LIFE</span></span></span></a>
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'livehouse')"><span class="cn editable">展演空間</span><span class="en">LIVE HOUSE</span></a>
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'brand')"><span class="cn editable">品牌合作</span><span class="en">BRAND</span></a>
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'life')"><span class="cn editable">生活日常</span><span class="en">LIFE</span></a>
         </div>
       </div>
     </div>
