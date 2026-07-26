@@ -131,6 +131,8 @@
     min-width:200px; padding:70px 26px 26px;
     transform:translateY(-8px) scale(0.97); opacity:0; pointer-events:none;
     transition:transform .3s cubic-bezier(.2,.8,.2,1), opacity .3s ease;
+    max-height: calc(100vh - 44px);
+    overflow-y: auto;
   }
   .menu-panel.open{ transform:translateY(0) scale(1); opacity:1; pointer-events:auto; }
   .menu-panel a{
@@ -402,6 +404,34 @@
   }
   body.edit-mode .menu-add-sub-btn{ display:inline-block; }
 
+  /* ---------- MENU：影片子分類（唯一巢狀項目） ---------- */
+  .menu-video-item{
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    font-size:13px; padding:9px 0; border-bottom:1px dashed var(--line);
+    color:var(--ink-soft); font-family:'Noto Sans TC', sans-serif; cursor:pointer;
+  }
+  .menu-video-toggle-icon{
+    font-size:14px; color:var(--ink-soft); transition:transform .3s ease; flex:0 0 auto;
+  }
+  .menu-video-item.open .menu-video-toggle-icon{ transform:rotate(45deg); }
+  .menu-video-subpanel{
+    max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.4,0,.2,1);
+    padding-left:14px;
+  }
+  .menu-video-subpanel.open{ max-height:220px; }
+  .menu-video-sub-inner{ padding:2px 0 10px; display:flex; flex-direction:column; gap:2px; }
+  .menu-video-sub-link{
+    font-size:12.5px; color:var(--ink-soft); padding:8px 0 8px 14px;
+    border-left:1px solid var(--ink); text-decoration:none;
+    opacity:0; transform:translateX(-10px);
+    transition:opacity .35s ease, transform .35s ease, color .2s ease;
+  }
+  .menu-video-subpanel.open .menu-video-sub-link{ opacity:1; transform:translateX(0); }
+  .menu-video-subpanel.open .menu-video-sub-link:nth-child(1){ transition-delay:.05s; }
+  .menu-video-subpanel.open .menu-video-sub-link:nth-child(2){ transition-delay:.11s; }
+  .menu-video-subpanel.open .menu-video-sub-link:nth-child(3){ transition-delay:.17s; }
+  .menu-video-sub-link:hover{ color:var(--ink); }
+
   /* ---------- 關於商業（多區塊頁） ---------- */
   .business-view{ display:none; min-height:100vh; background:var(--paper); padding:90px 8vw 140px; }
   body.viewing-business .business-view{ display:block; }
@@ -435,6 +465,73 @@
     background:none; color:var(--ink-soft); border:1px solid var(--line); padding:6px 12px; font-size:11px;
   }
   body.edit-mode .biz-video-wrap .biz-img-del{ display:inline-flex; }
+
+  /* ---------- 人像/品牌：相簿式呈現（日記條目 + 輪播 + 逐張敘述） ---------- */
+  .biz-albums{ display:flex; flex-direction:column; }
+  .biz-album{ padding:36px 0; border-top:1px solid var(--line); position:relative; }
+  .biz-album:first-child{ border-top:1px solid var(--ink); }
+
+  .album-meta{ display:flex; align-items:baseline; gap:16px; margin-bottom:10px; }
+  .album-date{
+    font-family:'Noto Serif TC',serif; font-size:12.5px; letter-spacing:0.08em; color:#a8977a;
+  }
+  .album-title{ font-family:'Noto Serif TC',serif; font-size:19px; font-weight:500; margin-bottom:18px; }
+
+  .biz-carousel-frame{ position:relative; width:100%; max-width:360px; aspect-ratio:4/5; overflow:hidden; background:var(--paper-deep); }
+  .biz-carousel-frame .cimg{ display:none; width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.05); }
+  .biz-carousel-frame .cimg.active{ display:block; }
+  .biz-carousel-frame .empty-hint{ display:flex; align-items:center; justify-content:center; height:100%; color:var(--ink-soft); font-size:13px; }
+  .biz-carousel-frame .carousel-arrow{ font-size:14px; width:30px; height:30px; }
+
+  .biz-captions{ max-width:360px; margin-top:12px; min-height:24px; }
+  .biz-caption{ display:none; font-size:14px; line-height:1.8; color:var(--ink-soft); }
+  .biz-caption.active{ display:block; }
+
+  .biz-carousel-foot{ display:flex; justify-content:space-between; align-items:center; max-width:360px; margin-top:10px; }
+  .biz-dots{ display:flex; gap:6px; }
+  .biz-dot{ width:6px; height:6px; border-radius:50%; background:var(--line); }
+  .biz-dot.active{ background:var(--ink); }
+  .biz-counter{ font-family:'Noto Serif TC',serif; font-size:11.5px; color:var(--ink-soft); }
+
+  .biz-filmstrip{
+    display:flex; gap:6px; max-width:360px; margin-top:16px; overflow-x:auto; padding-bottom:4px;
+  }
+  .biz-filmstrip::-webkit-scrollbar{ display:none; }
+  .biz-thumb-wrap{ position:relative; flex:0 0 auto; }
+  .biz-filmstrip img{
+    width:58px; aspect-ratio:4/5; object-fit:cover; filter:grayscale(1) contrast(1.05);
+    opacity:0.55; cursor:pointer; display:block; transition:opacity .25s ease, outline-color .25s ease;
+  }
+  .biz-filmstrip img.current{ outline:2px solid var(--ink); outline-offset:-2px; opacity:1; }
+  .biz-thumb-del{
+    display:none; position:absolute; top:2px; right:2px; width:16px; height:16px;
+    background:rgba(20,18,15,0.82); color:#fff; border:none; font-size:9px; cursor:pointer;
+    align-items:center; justify-content:center; line-height:1;
+  }
+  body.edit-mode .biz-thumb-del{ display:flex; }
+
+  .biz-album-actions{ display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; }
+
+  /* ---------- 影片：分類標籤 + 直式雙欄卡片 ---------- */
+  .video-tabs{ display:flex; gap:20px; margin:0 0 8px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  .video-tab{
+    background:none; border:none; font-family:'Noto Serif TC',serif; font-size:13px; letter-spacing:0.08em;
+    color:var(--ink-soft); padding:0 0 12px; cursor:pointer; position:relative;
+  }
+  .video-tab.active{ color:var(--ink); }
+  .video-tab.active::after{ content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:var(--ink); }
+
+  .video-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px 14px; margin-top:24px; }
+  .video-card{ position:relative; }
+  .video-thumb-frame{ position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:var(--paper-deep); }
+  .video-thumb-frame iframe{ position:absolute; top:0; left:0; width:100%; height:100%; border:0; filter:grayscale(1) contrast(1.05); }
+  .video-card-meta{ font-family:'Noto Serif TC',serif; font-size:11px; letter-spacing:0.05em; color:#a8977a; margin-top:8px; }
+  .video-card .biz-img-del{ position:static; display:none; width:auto; height:auto; margin-top:6px; background:none; color:var(--ink-soft); border:1px solid var(--line); padding:5px 10px; font-size:10.5px; }
+  body.edit-mode .video-card .biz-img-del{ display:inline-flex; }
+
+  @media (max-width:520px){
+    .video-grid{ gap:16px 10px; }
+  }
 
   /* ---------- FORMAT TOOLBAR ---------- */
   .format-toolbar{
@@ -517,7 +614,17 @@
     <div class="menu-sublist open">
       <a href="#" class="menu-sub-link" onclick="openBusinessSection(event,'biz-portrait')"><span class="editable">人像</span></a>
       <a href="#" class="menu-sub-link" onclick="openBusinessSection(event,'biz-brand')"><span class="editable">品牌</span></a>
-      <a href="#" class="menu-sub-link" onclick="openBusinessSection(event,'biz-video')"><span class="editable">影片</span></a>
+      <div class="menu-video-item" id="menuVideoToggle" onclick="toggleMenuVideoSub(event)">
+        <span class="editable">影片</span>
+        <span class="menu-video-toggle-icon">+</span>
+      </div>
+      <div class="menu-video-subpanel" id="menuVideoSubpanel">
+        <div class="menu-video-sub-inner">
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'livehouse')"><span class="editable">展演空間</span></a>
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'brand')"><span class="editable">品牌合作</span></a>
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'life')"><span class="editable">生活日常</span></a>
+        </div>
+      </div>
     </div>
   </div>
   <button class="menu-add-btn" style="margin-top:14px; width:100%;" onclick="addMenuItem()">＋ 新增主項目</button>
@@ -646,7 +753,7 @@
     <div id="articleWrap"></div>
   </div>
 </section>
-<div id="articleStore" style="display:none"><article class="post" id="post-3a5249b8283381b78aaff908365cc2bb"><h1 class="post-title editable">《無條件的愛》</h1><div class="post-date editable">2026.07</div><div class="post-body editable"><p><br></p></div></article><article class="post" id="post-3a5249b8283381989dcfeb503e82db5f"><h1 class="post-title editable">Hi, Nice to meet you.</h1><div class="post-date editable">2026.07</div><div class="post-body editable"><p>我是EN,</p><p>做這個網頁的起心動念，其實是想像以前無名小站的網誌。</p><p>說出一些關於自己的主題，本身是一個喜歡拍攝記錄生活的人，</p><p>但從沒想過要把我的興趣當成工作，放在工作裡很多時候就變得不像自己了。</p><p>一場際遇，認識了一位朋友，透過交流和分享知道有咖啡廳可以投稿參展，</p><p>當時累積了一些作品，但在最後一刻 退縮了。</p><p>退縮不因為什麼，只因自卑感的作祟，還有崇尚完美主義的自我，</p><p>感受當下的作品，有些無法露出，有些累積地不夠好。</p><p>於是在很久以後(彼時)，不然辦個線上展覽好了。</p><p>在社群媒體上，資訊的流動太快，常常想發點什麼但卻寫不出來，已經無法讓人好好停留下來閱讀。</p><p>最後開始慢慢著手這個網站的建構，回到網誌的呢喃，給未來遇見的有緣人。</p><p>Nice to meet you.</p></div></article><article class="post" id="post-3a5249b828338107b18eeb8c0f081131"><h1 class="post-title editable">《自然成像》</h1><div class="post-date editable">2025.07</div><div class="post-body editable"><p>關於日常｜ABOUT LIFE</p><p>我是EN,</p><p>關於ai的世代，好似打開了一個新的世界，邊驚嘆邊感慨，但這裡不會有ai文，都會是自己撰寫的。</p><p>在自我介紹的篇章，</p><p>說過我想讓這網站變成無名小站網誌的調性。（如果你不知道無名網站，不要跟我分享這年齡的差距）</p><p>曾經自己想像生活中可以做一個主題</p><p>《自然成像》 但我沒有大力的推廣它，都是靠著緣分走著。</p><p>📸 主軸很簡單：</p><p>我想好好認識世界上更多不同面向的人。</p><p>你選一家你喜歡的店、地方、任何人事物。</p><p>我們一起分享彼此的故事，而在感受一切的時候也許會拿起相機、也許不會，讓一切都呈現最自然的樣子。</p><p>但把握幾個原則：</p><p>· 不拍攝商業、網美照，圖也不會被精修，希望一切都很純粹</p><p>· 若同意拍攝作品，希望你願意讓我分享在網頁或IG</p><p>（相同的我也會把檔案傳給你，但不接受商業行為的使用）</p><p>· 若有餐飲費用相關支出，就是各付各的</p><p>· 如果你很喜歡作品，想給我一些鼓勵，也可以進行打賞</p><p>· 最後也最重要，以禮相待，事前可以先聊聊有沒有共同興趣，分享彼此的界限，來看看有沒有緣份。</p><p>Btw 我有點恐男，但沒有排斥。</p><p>如果你是男生，</p><p>希望你是很活潑會主動開話題的人，</p><p>不然空氣可能會凝結成冰。</p><p>謝謝你們看完。</p><p>Nice to meet you.</p></div></article></div>
+<div id="articleStore" style="display:none"><article class="post" id="post-3a5249b8283381b78aaff908365cc2bb"><h1 class="post-title editable">《無條件的愛》</h1><div class="post-date editable">2026.07</div><div class="post-body editable"></div></article><article class="post" id="post-3a5249b8283381989dcfeb503e82db5f"><h1 class="post-title editable">Hi, Nice to meet you.</h1><div class="post-date editable">2026.07</div><div class="post-body editable"><p>我是EN,</p><p>做這個網頁的起心動念，其實是想像以前無名小站的網誌。</p><p>說出一些關於自己的主題，本身是一個喜歡拍攝記錄生活的人，</p><p>但從沒想過要把我的興趣當成工作，放在工作裡很多時候就變得不像自己了。</p><p>一場際遇，認識了一位朋友，透過交流和分享知道有咖啡廳可以投稿參展，</p><p>當時累積了一些作品，但在最後一刻 退縮了。</p><p>退縮不因為什麼，只因自卑感的作祟，還有崇尚完美主義的自我，</p><p>感受當下的作品，有些無法露出，有些累積地不夠好。</p><p>於是在很久以後(彼時)，不然辦個線上展覽好了。</p><p>在社群媒體上，資訊的流動太快，常常想發點什麼但卻寫不出來，已經無法讓人好好停留下來閱讀。</p><p>最後開始慢慢著手這個網站的建構，回到網誌的呢喃，給未來遇見的有緣人。</p><p>Nice to meet you.</p></div></article><article class="post" id="post-3a5249b828338107b18eeb8c0f081131"><h1 class="post-title editable">《自然成像》</h1><div class="post-date editable">2025.07</div><div class="post-body editable"><p>關於日常｜ABOUT LIFE</p><p>我是EN,</p><p>關於ai的世代，好似打開了一個新的世界，邊驚嘆邊感慨，但這裡不會有ai文，都會是自己撰寫的。</p><p>在自我介紹的篇章，</p><p>說過我想讓這網站變成無名小站網誌的調性。（如果你不知道無名網站，不要跟我分享這年齡的差距）</p><p>曾經自己想像生活中可以做一個主題</p><p>《自然成像》 但我沒有大力的推廣它，都是靠著緣分走著。</p><p>📸 主軸很簡單：</p><p>我想好好認識世界上更多不同面向的人。</p><p>你選一家你喜歡的店、地方、任何人事物。</p><p>我們一起分享彼此的故事，而在感受一切的時候也許會拿起相機、也許不會，讓一切都呈現最自然的樣子。</p><p>但把握幾個原則：</p><p>· 不拍攝商業、網美照，圖也不會被精修，希望一切都很純粹</p><p>· 若同意拍攝作品，希望你願意讓我分享在網頁或IG</p><p>（相同的我也會把檔案傳給你，但不接受商業行為的使用）</p><p>· 若有餐飲費用相關支出，就是各付各的</p><p>· 如果你很喜歡作品，想給我一些鼓勵，也可以進行打賞</p><p>· 最後也最重要，以禮相待，事前可以先聊聊有沒有共同興趣，分享彼此的界限，來看看有沒有緣份。</p><p>Btw 我有點恐男，但沒有排斥。</p><p>如果你是男生，</p><p>希望你是很活潑會主動開話題的人，</p><p>不然空氣可能會凝結成冰。</p><p>謝謝你們看完。</p><p>Nice to meet you.</p></div></article></div>
 
 <section class="business-view" id="businessView">
   <div class="business-inner">
@@ -658,18 +765,28 @@
     <div id="bizSections">
       <div class="biz-section" id="biz-portrait">
         <h2 class="editable">人像</h2>
-        <div class="biz-images"></div>
-        <button class="menu-add-btn" onclick="addBizImage(this)">🖼 新增圖片</button>
+        <div class="biz-albums" id="biz-portrait-albums"></div>
+        <div class="biz-album-actions">
+          <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-portrait-albums')">＋ 新增相簿</button>
+        </div>
       </div>
       <div class="biz-section" id="biz-brand">
         <h2 class="editable">品牌</h2>
-        <div class="biz-images"></div>
-        <button class="menu-add-btn" onclick="addBizImage(this)">🖼 新增圖片</button>
+        <div class="biz-albums" id="biz-brand-albums"></div>
+        <div class="biz-album-actions">
+          <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-brand-albums')">＋ 新增相簿</button>
+        </div>
       </div>
       <div class="biz-section" id="biz-video">
         <h2 class="editable">影片</h2>
-        <div class="biz-videos"></div>
-        <button class="menu-add-btn" onclick="addBizVideo(this)">🎬 新增影片(貼YouTube連結)</button>
+        <div class="video-tabs" id="videoTabs">
+          <button class="video-tab active" data-cat="all" onclick="filterVideoTab(this)">全部</button>
+          <button class="video-tab" data-cat="livehouse" onclick="filterVideoTab(this)">展演空間</button>
+          <button class="video-tab" data-cat="brand" onclick="filterVideoTab(this)">品牌合作</button>
+          <button class="video-tab" data-cat="life" onclick="filterVideoTab(this)">生活日常</button>
+        </div>
+        <div class="video-grid" id="videoGrid"></div>
+        <button class="menu-add-btn" style="margin-top:20px;" onclick="addBizVideo(this)">🎬 新增影片(貼YouTube連結)</button>
       </div>
     </div>
     <p style="text-align:center; padding:0;">
@@ -704,6 +821,27 @@
   function toggleMenu(){
     document.getElementById('menuBtn').classList.toggle('open');
     document.getElementById('menuPanel').classList.toggle('open');
+  }
+
+  /* ---------- 選單：影片子分類（唯一巢狀項目，滑入動畫） ---------- */
+  function toggleMenuVideoSub(e){
+    e.preventDefault();
+    e.stopPropagation();
+    document.getElementById('menuVideoToggle').classList.toggle('open');
+    document.getElementById('menuVideoSubpanel').classList.toggle('open');
+  }
+
+  function openBusinessVideoCat(e, cat){
+    openBusinessPage(e);
+    toggleMenu();
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        var el = document.getElementById('biz-video');
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        var tabBtn = document.querySelector('.video-tab[data-cat="' + cat + '"]');
+        if(tabBtn) filterVideoTab(tabBtn);
+      });
+    });
   }
 
   let editMode = false;
@@ -1109,7 +1247,7 @@
         el.addEventListener('input', markDirty);
       });
     }
-    alert('子項目已建立！\\n\\n現在會打開文章頁面，可以直接編輯標題、日期與內文，也能插入圖片、連結。\\n寫完後按左上「← 回到首頁」，再按綠色「匯出 index.html」保存。');
+    alert('子項目已建立！\n\n現在會打開文章頁面，可以直接編輯標題、日期與內文，也能插入圖片、連結。\n寫完後按左上「← 回到首頁」，再按綠色「匯出 index.html」保存。');
     showArticle(id);
   }
 
@@ -1347,9 +1485,214 @@
     return null;
   }
 
+  /* ================= 人像 / 品牌：相簿式呈現 ================= */
+  let albumCounter = 0;
+
+  function addBizAlbum(btn, containerId){
+    const title = prompt('這次拍攝的標題（例如「午後，她說想拍點自然光」）：', '');
+    if(title === null) return;
+    const date = prompt('日期（例如 2026 · 07）：', '') || '';
+    const container = document.getElementById(containerId);
+    albumCounter++;
+    const albumId = 'album-' + Date.now() + '-' + albumCounter;
+    const album = document.createElement('div');
+    album.className = 'biz-album';
+    album.id = albumId;
+    album.innerHTML = `
+      <div class="album-meta">
+        <span class="album-date editable">${escapeHtml(date)}</span>
+      </div>
+      <div class="album-title editable">${escapeHtml(title || '未命名相簿')}</div>
+      <div class="biz-carousel-frame">
+        <div class="empty-hint">尚未新增照片</div>
+      </div>
+      <div class="biz-captions"></div>
+      <div class="biz-carousel-foot" style="display:none;">
+        <div class="biz-dots"></div>
+        <span class="biz-counter"></span>
+      </div>
+      <div class="biz-filmstrip"></div>
+      <div class="biz-album-actions">
+        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片</button>
+        <button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+      </div>
+    `;
+    container.appendChild(album);
+    markDirty();
+    if(editMode){
+      album.querySelectorAll('.editable').forEach(el => {
+        el.contentEditable = true;
+        el.addEventListener('input', markDirty);
+      });
+    }
+  }
+
+  function deleteBizAlbum(e){
+    e.preventDefault();
+    if(confirm('確定要刪除這本相簿嗎？（裡面的照片會一併刪除）')){
+      e.target.closest('.biz-album').remove();
+      markDirty();
+    }
+  }
+
+  function addAlbumPhoto(btn){
+    const album = btn.closest('.biz-album');
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = function(e){
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt){
+        const caption = prompt('這張照片的一句敘述（會跟著輪播一起換）：', '') || '';
+        const altText = prompt('這張照片的簡短描述（幫助 Google 圖片搜尋找到它）：', '') || '';
+        insertAlbumPhoto(album, evt.target.result, caption, altText);
+        markDirty();
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
+
+  function insertAlbumPhoto(album, src, caption, altText){
+    const frame = album.querySelector('.biz-carousel-frame');
+    const captions = album.querySelector('.biz-captions');
+    const filmstrip = album.querySelector('.biz-filmstrip');
+    const foot = album.querySelector('.biz-carousel-foot');
+    const dotsWrap = album.querySelector('.biz-dots');
+
+    const emptyHint = frame.querySelector('.empty-hint');
+    if(emptyHint) emptyHint.remove();
+
+    const existingCount = frame.querySelectorAll('.cimg').length;
+    const idx = existingCount;
+
+    const cimg = document.createElement('img');
+    cimg.className = 'cimg' + (idx === 0 ? ' active' : '');
+    cimg.src = src;
+    cimg.setAttribute('alt', altText || '');
+    cimg.dataset.i = idx;
+    frame.appendChild(cimg);
+
+    if(idx === 0){
+      const prevBtn = document.createElement('button');
+      prevBtn.type = 'button';
+      prevBtn.className = 'carousel-arrow prev';
+      prevBtn.textContent = '‹';
+      prevBtn.onclick = function(){ bizCarouselNav(album, -1); };
+      const nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'carousel-arrow next';
+      nextBtn.textContent = '›';
+      nextBtn.onclick = function(){ bizCarouselNav(album, 1); };
+      frame.appendChild(prevBtn);
+      frame.appendChild(nextBtn);
+    }
+
+    const capEl = document.createElement('div');
+    capEl.className = 'biz-caption editable' + (idx === 0 ? ' active' : '');
+    capEl.dataset.i = idx;
+    capEl.textContent = caption;
+    if(editMode) capEl.contentEditable = true;
+    captions.appendChild(capEl);
+
+    const dot = document.createElement('span');
+    dot.className = 'biz-dot' + (idx === 0 ? ' active' : '');
+    dotsWrap.appendChild(dot);
+
+    const thumbWrap = document.createElement('div');
+    thumbWrap.className = 'biz-thumb-wrap';
+    const thumb = document.createElement('img');
+    thumb.src = src;
+    thumb.className = idx === 0 ? 'current' : '';
+    thumb.dataset.i = idx;
+    thumb.onclick = function(){ bizCarouselGoto(album, idx); };
+    const delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'biz-thumb-del';
+    delBtn.textContent = '✕';
+    delBtn.onclick = function(ev){ ev.stopPropagation(); deleteAlbumPhoto(album, idx); };
+    thumbWrap.appendChild(thumb);
+    thumbWrap.appendChild(delBtn);
+    filmstrip.appendChild(thumbWrap);
+
+    foot.style.display = 'flex';
+    updateBizCounter(album);
+  }
+
+  function updateBizCounter(album){
+    const total = album.querySelectorAll('.cimg').length;
+    const activeImg = album.querySelector('.cimg.active');
+    const idx = activeImg ? parseInt(activeImg.dataset.i, 10) : 0;
+    const counterEl = album.querySelector('.biz-counter');
+    if(counterEl && total > 0){
+      counterEl.textContent = String(idx + 1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+    }
+  }
+
+  function bizCarouselGoto(album, targetIdx){
+    const imgs = album.querySelectorAll('.cimg');
+    const caps = album.querySelectorAll('.biz-caption');
+    const dots = album.querySelectorAll('.biz-dot');
+    const thumbs = album.querySelectorAll('.biz-filmstrip img');
+    imgs.forEach(img => img.classList.toggle('active', parseInt(img.dataset.i,10) === targetIdx));
+    caps.forEach(cap => cap.classList.toggle('active', parseInt(cap.dataset.i,10) === targetIdx));
+    dots.forEach((d,i) => d.classList.toggle('active', i === targetIdx));
+    thumbs.forEach(t => t.classList.toggle('current', parseInt(t.dataset.i,10) === targetIdx));
+    const activeThumb = album.querySelector('.biz-filmstrip img.current');
+    if(activeThumb) activeThumb.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    updateBizCounter(album);
+  }
+
+  function bizCarouselNav(album, dir){
+    const imgs = album.querySelectorAll('.cimg');
+    if(!imgs.length) return;
+    const activeImg = album.querySelector('.cimg.active');
+    let idx = activeImg ? parseInt(activeImg.dataset.i, 10) : 0;
+    idx = (idx + dir + imgs.length) % imgs.length;
+    bizCarouselGoto(album, idx);
+  }
+
+  function deleteAlbumPhoto(album, idx){
+    if(!confirm('確定要刪除這張照片嗎？')) return;
+    const cimg = album.querySelector('.cimg[data-i="' + idx + '"]');
+    const cap = album.querySelector('.biz-caption[data-i="' + idx + '"]');
+    const thumbWrap = album.querySelectorAll('.biz-thumb-wrap')[idx];
+    const wasActive = cimg && cimg.classList.contains('active');
+    if(cimg) cimg.remove();
+    if(cap) cap.remove();
+    if(thumbWrap) thumbWrap.remove();
+
+    const remaining = album.querySelectorAll('.cimg');
+    remaining.forEach((img, newIdx) => { img.dataset.i = newIdx; });
+    album.querySelectorAll('.biz-caption').forEach((cap, newIdx) => { cap.dataset.i = newIdx; });
+    album.querySelectorAll('.biz-filmstrip img').forEach((t, newIdx) => {
+      t.dataset.i = newIdx;
+      t.onclick = (function(i){ return function(){ bizCarouselGoto(album, i); }; })(newIdx);
+    });
+    album.querySelectorAll('.biz-thumb-del').forEach((btn2, newIdx) => {
+      btn2.onclick = (function(i){ return function(ev){ ev.stopPropagation(); deleteAlbumPhoto(album, i); }; })(newIdx);
+    });
+
+    if(remaining.length === 0){
+      const frame = album.querySelector('.biz-carousel-frame');
+      frame.querySelectorAll('.carousel-arrow').forEach(a => a.remove());
+      const hint = document.createElement('div');
+      hint.className = 'empty-hint';
+      hint.textContent = '尚未新增照片';
+      frame.appendChild(hint);
+      album.querySelector('.biz-carousel-foot').style.display = 'none';
+    } else if(wasActive){
+      bizCarouselGoto(album, 0);
+    } else {
+      updateBizCounter(album);
+    }
+    markDirty();
+  }
+
+  /* ================= 影片：分類標籤 + 直式雙欄卡片 ================= */
   function addBizVideo(btn){
-    const section = btn.closest('.biz-section');
-    const list = section.querySelector('.biz-videos');
     const raw = prompt('貼上 YouTube 影片連結(例如 https://youtu.be/xxxxxxxx）：', '');
     if(!raw) return;
     const id = extractYouTubeId(raw);
@@ -1357,23 +1700,42 @@
       alert('看不出來是有效的 YouTube 連結，請確認後再試一次。');
       return;
     }
-    const wrap = document.createElement('div');
-    wrap.className = 'biz-video-wrap';
-    wrap.innerHTML = `
-      <div class="biz-video-frame">
+    const catLabel = prompt('這支影片屬於哪個分類？輸入：1（展演空間）／2（品牌合作）／3（生活日常）', '1') || '1';
+    const catMap = { '1':'livehouse', '2':'brand', '3':'life' };
+    const catNameMap = { 'livehouse':'展演空間', 'brand':'品牌合作', 'life':'生活日常' };
+    const cat = catMap[catLabel.trim()] || 'livehouse';
+    const dateStr = prompt('日期（例如 2026 · 07）：', '') || '';
+
+    const grid = document.getElementById('videoGrid');
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.dataset.cat = cat;
+    card.innerHTML = `
+      <div class="video-thumb-frame">
         <iframe src="https://www.youtube.com/embed/${id}" title="YouTube video" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen></iframe>
       </div>
-      <button class="biz-img-del" onclick="this.closest('.biz-video-wrap').remove(); markDirty();">✕ 移除</button>
+      <div class="video-card-meta editable">${escapeHtml(dateStr)} · ${catNameMap[cat]}</div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
     `;
-    list.appendChild(wrap);
+    grid.appendChild(card);
     markDirty();
+
+    const activeTab = document.querySelector('.video-tab.active');
+    if(activeTab && activeTab.dataset.cat !== 'all' && activeTab.dataset.cat !== cat){
+      card.style.display = 'none';
+    }
+  }
+
+  function filterVideoTab(tabBtn){
+    document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+    tabBtn.classList.add('active');
+    const cat = tabBtn.dataset.cat;
+    document.querySelectorAll('.video-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
   }
 </script>
-
-
-
-
 
 </body></html>
