@@ -547,6 +547,7 @@
   .video-card{ position:relative; }
   .video-thumb-frame{ position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:var(--paper-deep); }
   .video-thumb-frame iframe{ position:absolute; top:0; left:0; width:100%; height:100%; border:0; filter:grayscale(1) contrast(1.05); }
+  .video-thumb-frame.color-mode iframe{ filter:none; }
   .video-card-meta{ font-family:'Noto Serif TC',serif; font-size:11px; letter-spacing:0.05em; color:#a8977a; margin-top:8px; }
   .video-card .biz-img-del{ position:static; display:none; width:auto; height:auto; margin-top:6px; background:none; color:var(--ink-soft); border:1px solid var(--line); padding:5px 10px; font-size:10.5px; }
   body.edit-mode .video-card .biz-img-del{ display:inline-flex; }
@@ -1535,7 +1536,7 @@
         <span class="album-date editable">${escapeHtml(date)}</span>
       </div>
       <div class="album-title editable">${escapeHtml(title || '未命名相簿')}</div>
-      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
+      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">黑白</button>
       <div class="biz-carousel-frame">
         <div class="empty-hint">尚未新增照片</div>
       </div>
@@ -1560,18 +1561,27 @@
     }
   }
 
+  function toggleVideoBW(btn){
+    const frame = btn.closest('.video-card').querySelector('.video-thumb-frame');
+    const toColor = !frame.classList.contains('color-mode');
+    frame.classList.toggle('color-mode', toColor);
+    btn.textContent = toColor ? '原圖' : '黑白';
+    markDirty();
+  }
+
   function toggleAlbumBW(btn){
     const album = btn.closest('.biz-album');
-    const imgs = album.querySelectorAll('.biz-carousel-frame .cimg');
-    const thumbs = album.querySelectorAll('.biz-filmstrip img');
-    if(!imgs.length){
+    const activeImg = album.querySelector('.biz-carousel-frame .cimg.active');
+    if(!activeImg){
       alert('請先新增照片，再切換黑白／原圖。');
       return;
     }
-    const toColor = !imgs[0].classList.contains('color-mode');
-    imgs.forEach(img => img.classList.toggle('color-mode', toColor));
-    thumbs.forEach(t => t.classList.toggle('color-mode', toColor));
-    btn.textContent = toColor ? '黑白' : '原圖';
+    const idx = activeImg.dataset.i;
+    const toColor = !activeImg.classList.contains('color-mode');
+    activeImg.classList.toggle('color-mode', toColor);
+    const thumb = album.querySelector('.biz-filmstrip img[data-i="' + idx + '"]');
+    if(thumb) thumb.classList.toggle('color-mode', toColor);
+    btn.textContent = toColor ? '原圖' : '黑白';
     markDirty();
   }
 
@@ -1615,10 +1625,9 @@
 
     const existingCount = frame.querySelectorAll('.cimg').length;
     const idx = existingCount;
-    const albumIsColorMode = !!frame.querySelector('.cimg.color-mode');
 
     const cimg = document.createElement('img');
-    cimg.className = 'cimg' + (idx === 0 ? ' active' : '') + (albumIsColorMode ? ' color-mode' : '');
+    cimg.className = 'cimg' + (idx === 0 ? ' active' : '');
     cimg.src = src;
     cimg.setAttribute('alt', altText || '');
     cimg.dataset.i = idx;
@@ -1654,7 +1663,7 @@
     thumbWrap.className = 'biz-thumb-wrap';
     const thumb = document.createElement('img');
     thumb.src = src;
-    thumb.className = (idx === 0 ? 'current' : '') + (albumIsColorMode ? ' color-mode' : '');
+    thumb.className = idx === 0 ? 'current' : '';
     thumb.dataset.i = idx;
     thumb.onclick = function(){ bizCarouselGoto(album, idx); };
     const delBtn = document.createElement('button');
@@ -1691,6 +1700,12 @@
     thumbs.forEach(t => t.classList.toggle('current', parseInt(t.dataset.i,10) === targetIdx));
     const activeThumb = album.querySelector('.biz-filmstrip img.current');
     if(activeThumb) activeThumb.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    const toggleBtn = album.querySelector('.bw-toggle-btn');
+    if(toggleBtn){
+      const newActiveImg = album.querySelector('.cimg.active');
+      const isColor = newActiveImg && newActiveImg.classList.contains('color-mode');
+      toggleBtn.textContent = isColor ? '原圖' : '黑白';
+    }
     updateBizCounter(album);
   }
 
@@ -1732,6 +1747,8 @@
       hint.textContent = '尚未新增照片';
       frame.appendChild(hint);
       album.querySelector('.biz-carousel-foot').style.display = 'none';
+      const toggleBtn = album.querySelector('.bw-toggle-btn');
+      if(toggleBtn) toggleBtn.textContent = '黑白';
     } else if(wasActive){
       bizCarouselGoto(album, 0);
     } else {
@@ -1766,6 +1783,7 @@
           allowfullscreen></iframe>
       </div>
       <div class="video-card-meta editable">${escapeHtml(dateStr)} · ${catNameMap[cat]}</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">黑白</button>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
     `;
     grid.appendChild(card);
