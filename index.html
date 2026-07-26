@@ -378,7 +378,9 @@
     transition: transform .3s ease;
   }
   .menu-group-label:active .flip-inner,
-  .menu-group-label:hover .flip-inner{
+  .menu-group-label:hover .flip-inner,
+  .menu-video-sub-link:active .flip-inner,
+  .menu-video-sub-link:hover .flip-inner{
     transform: rotateX(180deg);
   }
   .flip-front, .flip-back{
@@ -416,21 +418,25 @@
   .menu-video-item.open .menu-video-toggle-icon{ transform:rotate(45deg); }
   .menu-video-subpanel{
     max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.4,0,.2,1);
-    padding-left:14px;
   }
   .menu-video-subpanel.open{ max-height:220px; }
-  .menu-video-sub-inner{ padding:2px 0 10px; display:flex; flex-direction:column; gap:2px; }
+  .menu-video-sub-inner{ padding:0; display:flex; flex-direction:column; }
   .menu-video-sub-link{
-    font-size:12.5px; color:var(--ink-soft); padding:8px 0 8px 14px;
-    border-left:1px solid var(--ink); text-decoration:none;
+    display:block; font-size:13px; padding:9px 0 9px 2em;
+    border-bottom:1px dashed var(--line); color:var(--ink-soft);
+    font-family:'Noto Sans TC', sans-serif; text-decoration:none;
     opacity:0; transform:translateX(-10px);
     transition:opacity .35s ease, transform .35s ease, color .2s ease;
   }
+  .menu-video-sub-link:last-child{ border-bottom:none; }
   .menu-video-subpanel.open .menu-video-sub-link{ opacity:1; transform:translateX(0); }
   .menu-video-subpanel.open .menu-video-sub-link:nth-child(1){ transition-delay:.05s; }
   .menu-video-subpanel.open .menu-video-sub-link:nth-child(2){ transition-delay:.11s; }
   .menu-video-subpanel.open .menu-video-sub-link:nth-child(3){ transition-delay:.17s; }
   .menu-video-sub-link:hover{ color:var(--ink); }
+  /* 子分類也用中英翻轉效果，跟主選單項目一致 */
+  .menu-video-sub-link .flip-label{ display:inline-block; perspective:600px; vertical-align:top; }
+
 
   /* ---------- 關於商業（多區塊頁） ---------- */
   .business-view{ display:none; min-height:100vh; background:var(--paper); padding:90px 8vw 140px; }
@@ -440,7 +446,12 @@
   body.viewing-business .menu-btn, body.viewing-business .menu-panel,
   body.viewing-business .article-view{ display:none !important; }
   .business-inner{ max-width:900px; margin:0 auto; }
-  .biz-section{ margin-bottom:60px; padding-bottom:40px; border-bottom:1px solid var(--line); }
+  .biz-section{ margin-bottom:60px; padding-bottom:40px; border-bottom:1px solid var(--line); scroll-margin-top:24px; }
+  .biz-section.jump-highlight{ animation:bizJumpFlash 1s ease; }
+  @keyframes bizJumpFlash{
+    0%{ background:rgba(168,151,122,0.18); }
+    100%{ background:transparent; }
+  }
   .biz-section:last-of-type{ border-bottom:none; }
   .biz-section h2{ font-size:clamp(19px,2.4vw,26px); font-weight:500; margin:0 0 20px; }
   .biz-images{ display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:10px; margin-bottom:16px; }
@@ -620,9 +631,9 @@
       </div>
       <div class="menu-video-subpanel" id="menuVideoSubpanel">
         <div class="menu-video-sub-inner">
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'livehouse')"><span class="editable">展演空間</span></a>
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'brand')"><span class="editable">品牌合作</span></a>
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'life')"><span class="editable">生活日常</span></a>
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'livehouse')"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">展演空間</span><span class="flip-back">LIVE HOUSE</span></span></span></a>
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'brand')"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">品牌合作</span><span class="flip-back">BRAND</span></span></span></a>
+          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'life')"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">生活日常</span><span class="flip-back">LIFE</span></span></span></a>
         </div>
       </div>
     </div>
@@ -837,7 +848,12 @@
     requestAnimationFrame(function(){
       requestAnimationFrame(function(){
         var el = document.getElementById('biz-video');
-        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        if(el){
+          el.scrollIntoView({behavior:'smooth', block:'start'});
+          el.classList.remove('jump-highlight');
+          void el.offsetWidth;
+          el.classList.add('jump-highlight');
+        }
         var tabBtn = document.querySelector('.video-tab[data-cat="' + cat + '"]');
         if(tabBtn) filterVideoTab(tabBtn);
       });
@@ -1472,7 +1488,12 @@
     requestAnimationFrame(function(){
       requestAnimationFrame(function(){
         const el = document.getElementById(targetId);
-        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        if(el){
+          el.scrollIntoView({behavior:'smooth', block:'start'});
+          el.classList.remove('jump-highlight');
+          void el.offsetWidth;
+          el.classList.add('jump-highlight');
+        }
       });
     });
   }
