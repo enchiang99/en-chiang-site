@@ -553,15 +553,25 @@
   }
   .video-tab.active{ color:var(--ink); }
   .video-tab.active::after{ content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:var(--ink); }
-  .tab-del-x{ display:none; font-size:10px; color:var(--ink-soft); margin-left:3px; }
-  body.edit-mode .tab-del-x{ display:inline; }
-  .tab-del-x:hover{ color:#a3402f; }
-  .add-video-cat-btn{
-    display:none; margin:14px 0 4px; background:none; border:1px dashed #a8977a; color:#a8977a;
-    font-family:'Noto Serif TC',serif; font-style:italic; font-size:12px; padding:6px 14px;
+
+  /* 子分類列：每個主分類自己專屬一列，只有該主分類被選取時才顯示 */
+  .video-subtags{ display:none; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0 4px; }
+  .video-subtags.visible{ display:flex; }
+  .video-subtag{
+    background:none; border:1px solid var(--line); color:var(--ink-soft);
+    font-family:'Noto Serif TC',serif; font-size:12px; padding:5px 12px; border-radius:20px; cursor:pointer;
+  }
+  .video-subtag.active{ border-color:var(--ink); color:var(--ink); background:rgba(43,40,37,0.05); }
+  .subtag-del-x{ display:none; font-size:10px; margin-left:3px; }
+  body.edit-mode .subtag-del-x{ display:inline; }
+  .subtag-del-x:hover{ color:#a3402f; }
+  .add-subtag-btn{
+    display:none; background:none; border:1px dashed #a8977a; color:#a8977a;
+    font-family:'Noto Serif TC',serif; font-style:italic; font-size:12px; padding:5px 12px;
     border-radius:20px; cursor:pointer;
   }
-  body.edit-mode .add-video-cat-btn{ display:inline-block; }
+  body.edit-mode .add-subtag-btn{ display:inline-block; }
+
   .video-reorder{ display:none; gap:6px; margin-top:6px; }
   body.edit-mode .video-reorder{ display:flex; }
   .video-reorder button{
@@ -871,12 +881,23 @@
       <div class="biz-section" id="biz-video">
         <h2 class="editable">影片</h2>
         <div class="video-tabs" id="videoTabs">
-          <button class="video-tab active" data-cat="all" onclick="filterVideoTab(this)">全部</button>
-          <button class="video-tab" data-cat="livehouse" onclick="filterVideoTab(this)">展演空間</button>
-          <button class="video-tab" data-cat="brand" onclick="filterVideoTab(this)">品牌合作</button>
-          <button class="video-tab" data-cat="life" onclick="filterVideoTab(this)">生活日常</button>
+          <button class="video-tab active" data-cat="all" onclick="selectMainCat(this)">全部</button>
+          <button class="video-tab" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
+          <button class="video-tab" data-cat="brand" onclick="selectMainCat(this)">品牌合作</button>
+          <button class="video-tab" data-cat="life" onclick="selectMainCat(this)">生活日常</button>
         </div>
-        <button class="add-video-cat-btn" onclick="addVideoCategory()">＋ 新增分類</button>
+        <div class="video-subtags" data-owner="livehouse">
+          <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
+          <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+        </div>
+        <div class="video-subtags" data-owner="brand">
+          <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
+          <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+        </div>
+        <div class="video-subtags" data-owner="life">
+          <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
+          <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+        </div>
         <div class="video-grid" id="videoGrid"></div>
         <button class="menu-add-btn" style="margin-top:20px;" onclick="addBizVideo(this)">🎬 新增影片(貼YouTube連結)</button>
       </div>
@@ -969,7 +990,7 @@
           el.classList.add('jump-highlight');
         }
         var tabBtn = document.querySelector('.video-tab[data-cat="' + cat + '"]');
-        if(tabBtn) filterVideoTab(tabBtn);
+        if(tabBtn) selectMainCat(tabBtn);
       });
     });
   }
@@ -1961,17 +1982,30 @@
       alert('看不出來是有效的 YouTube 連結，請確認後再試一次。');
       return;
     }
-    const catTabs = Array.from(document.querySelectorAll('#videoTabs .video-tab')).filter(t => t.dataset.cat !== 'all');
-    if(!catTabs.length){
-      alert('目前沒有任何分類，請先點「＋ 新增分類」建立至少一個分類。');
-      return;
+    const mainTabs = Array.from(document.querySelectorAll('#videoTabs .video-tab')).filter(t => t.dataset.cat !== 'all');
+    let mainMsg = '這支影片屬於哪個主分類？輸入數字：\n';
+    mainTabs.forEach((t, i) => { mainMsg += (i + 1) + '. ' + t.textContent.trim() + '\n'; });
+    const mainChoiceNum = parseInt(prompt(mainMsg, '1'), 10);
+    const chosenMainTab = mainTabs[mainChoiceNum - 1] || mainTabs[0];
+    const cat = chosenMainTab.dataset.cat;
+    const catName = chosenMainTab.textContent.trim();
+
+    let subKey = 'all';
+    let subName = '';
+    const subRow = document.querySelector('.video-subtags[data-owner="' + cat + '"]');
+    if(subRow){
+      const subTags = Array.from(subRow.querySelectorAll('.video-subtag')).filter(t => t.dataset.subcat !== 'all');
+      if(subTags.length){
+        let subMsg = '要放進哪個子分類？（輸入 0 表示不指定子分類）\n0. 不指定\n';
+        subTags.forEach((t, i) => { subMsg += (i + 1) + '. ' + t.childNodes[0].textContent.trim() + '\n'; });
+        const subChoiceNum = parseInt(prompt(subMsg, '0'), 10);
+        if(subChoiceNum > 0 && subTags[subChoiceNum - 1]){
+          subKey = subTags[subChoiceNum - 1].dataset.subcat;
+          subName = subTags[subChoiceNum - 1].childNodes[0].textContent.trim();
+        }
+      }
     }
-    let msg = '這支影片屬於哪個分類？輸入數字：\n';
-    catTabs.forEach((t, i) => { msg += (i + 1) + '. ' + t.childNodes[0].textContent.trim() + '\n'; });
-    const choiceNum = parseInt(prompt(msg, '1'), 10);
-    const chosenTab = catTabs[choiceNum - 1] || catTabs[0];
-    const cat = chosenTab.dataset.cat;
-    const catName = chosenTab.childNodes[0].textContent.trim();
+
     const dateStr = prompt('日期（例如 2026 · 07）：', '') || '';
     const coverUrl = await pickVideoCover(id);
 
@@ -1979,12 +2013,14 @@
     const card = document.createElement('div');
     card.className = 'video-card';
     card.dataset.cat = cat;
+    card.dataset.subcat = subKey;
+    const metaText = subName ? (catName + ' · ' + subName) : catName;
     card.innerHTML = `
       <div class="video-thumb-frame" data-yt="${escapeHtml(id)}" onclick="playVideoCard(this)">
         <img class="video-cover" src="${escapeHtml(coverUrl)}" alt="">
         <div class="video-play-overlay"></div>
       </div>
-      <div class="video-card-meta editable">${escapeHtml(dateStr)} · ${escapeHtml(catName)}</div>
+      <div class="video-card-meta editable">${escapeHtml(dateStr)} · ${escapeHtml(metaText)}</div>
       <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">黑白</button>
       <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
       <div class="video-reorder">
@@ -1996,33 +2032,10 @@
     grid.appendChild(card);
     markDirty();
 
-    const activeTab = document.querySelector('.video-tab.active');
-    if(activeTab && activeTab.dataset.cat !== 'all' && activeTab.dataset.cat !== cat){
+    const cardMatchesCurrentFilter = (currentMainCat === 'all' || cat === currentMainCat) &&
+      (currentSubCat === 'all' || subKey === currentSubCat);
+    if(!cardMatchesCurrentFilter){
       card.style.display = 'none';
-    }
-  }
-
-  function addVideoCategory(){
-    const name = prompt('新分類名稱：', '');
-    if(!name || !name.trim()) return;
-    const catKey = 'custom-' + Date.now();
-    const tabsWrap = document.getElementById('videoTabs');
-    tabsWrap.insertAdjacentHTML('beforeend',
-      `<button class="video-tab video-tab-custom" data-cat="${catKey}" onclick="filterVideoTab(this)">${escapeHtml(name.trim())}<span class="tab-del-x" onclick="event.stopPropagation(); removeVideoCategory(this)"> ✕</span></button>`
-    );
-    markDirty();
-  }
-
-  function removeVideoCategory(el){
-    const tab = el.closest('.video-tab');
-    if(!tab) return;
-    if(!confirm('確定要刪除這個分類標籤嗎？（分類裡的影片不會被刪除，只是暫時看不到分類標籤，可以在影片本身的說明文字找回）')) return;
-    const wasActive = tab.classList.contains('active');
-    tab.remove();
-    markDirty();
-    if(wasActive){
-      const allTab = document.querySelector('.video-tab[data-cat="all"]');
-      if(allTab) filterVideoTab(allTab);
     }
   }
 
@@ -2040,13 +2053,66 @@
     markDirty();
   }
 
-  function filterVideoTab(tabBtn){
-    document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+  let currentMainCat = 'all';
+  let currentSubCat = 'all';
+
+  function selectMainCat(tabBtn){
+    document.querySelectorAll('#videoTabs .video-tab').forEach(t => t.classList.remove('active'));
     tabBtn.classList.add('active');
-    const cat = tabBtn.dataset.cat;
-    document.querySelectorAll('.video-card').forEach(card => {
-      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    currentMainCat = tabBtn.dataset.cat;
+    currentSubCat = 'all';
+
+    document.querySelectorAll('.video-subtags').forEach(row => {
+      const isOwner = row.dataset.owner === currentMainCat;
+      row.classList.toggle('visible', isOwner);
+      if(isOwner){
+        row.querySelectorAll('.video-subtag').forEach(s => s.classList.remove('active'));
+        const allBtn = row.querySelector('.video-subtag[data-subcat="all"]');
+        if(allBtn) allBtn.classList.add('active');
+      }
     });
+    applyVideoFilter();
+  }
+
+  function selectSubCat(subBtn){
+    const row = subBtn.closest('.video-subtags');
+    row.querySelectorAll('.video-subtag').forEach(s => s.classList.remove('active'));
+    subBtn.classList.add('active');
+    currentSubCat = subBtn.dataset.subcat;
+    applyVideoFilter();
+  }
+
+  function applyVideoFilter(){
+    document.querySelectorAll('.video-card').forEach(card => {
+      const matchMain = (currentMainCat === 'all' || card.dataset.cat === currentMainCat);
+      const matchSub = (currentSubCat === 'all' || card.dataset.subcat === currentSubCat);
+      card.style.display = (matchMain && matchSub) ? '' : 'none';
+    });
+  }
+
+  function addVideoSubCategory(btn){
+    const row = btn.closest('.video-subtags');
+    const name = prompt('新子分類名稱：', '');
+    if(!name || !name.trim()) return;
+    const key = 'sub-' + Date.now();
+    btn.insertAdjacentHTML('beforebegin',
+      `<button class="video-subtag" data-subcat="${key}" onclick="selectSubCat(this)">${escapeHtml(name.trim())}<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button>`
+    );
+    markDirty();
+  }
+
+  function removeVideoSubCategory(el){
+    const tag = el.closest('.video-subtag');
+    if(!tag) return;
+    if(!confirm('確定要刪除這個子分類嗎？（子分類裡的影片不會被刪除，只是暫時歸類回「全部」）')) return;
+    const wasActive = tag.classList.contains('active');
+    const row = tag.closest('.video-subtags');
+    tag.remove();
+    markDirty();
+    if(wasActive){
+      const allBtn = row.querySelector('.video-subtag[data-subcat="all"]');
+      if(allBtn) selectSubCat(allBtn);
+    }
   }
 </script>
 
