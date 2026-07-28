@@ -881,24 +881,76 @@
       <div class="biz-section" id="biz-video">
         <h2 class="editable">影片</h2>
         <div class="video-tabs" id="videoTabs">
-          <button class="video-tab active" data-cat="all" onclick="selectMainCat(this)">全部</button>
+          <button class="video-tab" data-cat="all" onclick="selectMainCat(this)">全部</button>
           <button class="video-tab" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
-          <button class="video-tab" data-cat="brand" onclick="selectMainCat(this)">品牌合作</button>
+          <button class="video-tab active" data-cat="brand" onclick="selectMainCat(this)">品牌合作</button>
           <button class="video-tab" data-cat="life" onclick="selectMainCat(this)">生活日常</button>
         </div>
         <div class="video-subtags" data-owner="livehouse">
           <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
           <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
-        <div class="video-subtags" data-owner="brand">
-          <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+        <div class="video-subtags visible" data-owner="brand">
+          <button class="video-subtag" data-subcat="all" onclick="selectSubCat(this)">全部</button>
+          <button class="video-subtag active" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
         <div class="video-subtags" data-owner="life">
           <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
           <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
-        <div class="video-grid" id="videoGrid"></div>
+        <div class="video-grid" id="videoGrid"><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
+      <div class="video-thumb-frame color-mode" data-yt="m_wVqrJGq1M" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/m_wVqrJGq1M/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">燒肉天皇 ｜ tennoyakiniku · 品牌合作 · 餐飲</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
+      <div class="video-thumb-frame color-mode" data-yt="KFhMifh_CnI" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/KFhMifh_CnI/1.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">燒肉天皇 | tennoyakiniku · 品牌合作 · 餐飲</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
+      <div class="video-thumb-frame color-mode" data-yt="BgyIOYi1tM8" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/BgyIOYi1tM8/2.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">燒肉天皇 ｜ tennoyakiniku · 品牌合作 · 餐飲</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
+      <div class="video-thumb-frame color-mode" data-yt="N0RnrgDakpk" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/N0RnrgDakpk/3.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">燒肉天皇 ｜ tennoyakiniku · 品牌合作 · 餐飲</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div></div>
         <button class="menu-add-btn" style="margin-top:20px;" onclick="addBizVideo(this)">🎬 新增影片(貼YouTube連結)</button>
       </div>
     </div>
@@ -2115,5 +2167,6 @@
     }
   }
 </script>
+
 
 </body></html>
