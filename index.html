@@ -1559,7 +1559,8 @@
       </div>
       <div class="biz-filmstrip"></div>
       <div class="biz-album-actions">
-        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片</button>
+        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
+        <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
         <button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
@@ -1647,6 +1648,16 @@
       reader.readAsDataURL(file);
     };
     input.click();
+  }
+
+  function addAlbumPhotoByUrl(btn){
+    const album = btn.closest('.biz-album');
+    const url = prompt('貼上圖片網址（例如先把照片上傳到 GitHub 的 images/ 資料夾，再貼 https://enchiang.com/images/檔名.jpeg）：', 'https://enchiang.com/images/');
+    if(!url || url.trim() === '' || url.trim() === 'https://enchiang.com/images/') return;
+    const caption = prompt('這張照片的一句敘述（會跟著輪播一起換）：', '') || '';
+    const altText = prompt('這張照片的簡短描述（幫助 Google 圖片搜尋找到它）：', '') || '';
+    insertAlbumPhoto(album, url.trim(), caption, altText);
+    markDirty();
   }
 
   function insertAlbumPhoto(album, src, caption, altText){
