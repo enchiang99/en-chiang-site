@@ -852,6 +852,39 @@
     }
   })();
 
+  /* ---------- 相簿輪播：用事件委派處理縮圖點擊/刪除/左右箭頭 ----------
+     （用 document.createElement 動態產生的按鈕，直接指定 .onclick 屬性
+     在「匯出 index.html」存檔後不會被保留下來，重新打開檔案時會失效。
+     改用委派監聽（掛在 document 上，每次載入頁面都會重新註冊），
+     不管照片是這次新增的還是從舊檔案載入的，點擊都能正常運作。） */
+  document.addEventListener('click', function(e){
+    const thumbDel = e.target.closest('.biz-thumb-del');
+    if(thumbDel){
+      e.stopPropagation();
+      const album = thumbDel.closest('.biz-album');
+      if(album) deleteAlbumPhoto(album, parseInt(thumbDel.dataset.i, 10));
+      return;
+    }
+    const filmThumb = e.target.closest('.biz-filmstrip img');
+    if(filmThumb){
+      const album = filmThumb.closest('.biz-album');
+      if(album) bizCarouselGoto(album, parseInt(filmThumb.dataset.i, 10));
+      return;
+    }
+    const carouselPrev = e.target.closest('.biz-carousel-frame .carousel-arrow.prev');
+    if(carouselPrev){
+      const album = carouselPrev.closest('.biz-album');
+      if(album) bizCarouselNav(album, -1);
+      return;
+    }
+    const carouselNext = e.target.closest('.biz-carousel-frame .carousel-arrow.next');
+    if(carouselNext){
+      const album = carouselNext.closest('.biz-album');
+      if(album) bizCarouselNav(album, 1);
+      return;
+    }
+  });
+
   function toggleMenu(){
     document.getElementById('menuBtn').classList.toggle('open');
     document.getElementById('menuPanel').classList.toggle('open');
@@ -1685,12 +1718,10 @@
       prevBtn.type = 'button';
       prevBtn.className = 'carousel-arrow prev';
       prevBtn.textContent = '‹';
-      prevBtn.onclick = function(){ bizCarouselNav(album, -1); };
       const nextBtn = document.createElement('button');
       nextBtn.type = 'button';
       nextBtn.className = 'carousel-arrow next';
       nextBtn.textContent = '›';
-      nextBtn.onclick = function(){ bizCarouselNav(album, 1); };
       frame.appendChild(prevBtn);
       frame.appendChild(nextBtn);
     }
@@ -1712,12 +1743,11 @@
     thumb.src = src;
     thumb.className = idx === 0 ? 'current' : '';
     thumb.dataset.i = idx;
-    thumb.onclick = function(){ bizCarouselGoto(album, idx); };
     const delBtn = document.createElement('button');
     delBtn.type = 'button';
     delBtn.className = 'biz-thumb-del';
     delBtn.textContent = '✕';
-    delBtn.onclick = function(ev){ ev.stopPropagation(); deleteAlbumPhoto(album, idx); };
+    delBtn.dataset.i = idx;
     thumbWrap.appendChild(thumb);
     thumbWrap.appendChild(delBtn);
     filmstrip.appendChild(thumbWrap);
@@ -1778,13 +1808,8 @@
     const remaining = album.querySelectorAll('.cimg');
     remaining.forEach((img, newIdx) => { img.dataset.i = newIdx; });
     album.querySelectorAll('.biz-caption').forEach((cap, newIdx) => { cap.dataset.i = newIdx; });
-    album.querySelectorAll('.biz-filmstrip img').forEach((t, newIdx) => {
-      t.dataset.i = newIdx;
-      t.onclick = (function(i){ return function(){ bizCarouselGoto(album, i); }; })(newIdx);
-    });
-    album.querySelectorAll('.biz-thumb-del').forEach((btn2, newIdx) => {
-      btn2.onclick = (function(i){ return function(ev){ ev.stopPropagation(); deleteAlbumPhoto(album, i); }; })(newIdx);
-    });
+    album.querySelectorAll('.biz-filmstrip img').forEach((t, newIdx) => { t.dataset.i = newIdx; });
+    album.querySelectorAll('.biz-thumb-del').forEach((btn2, newIdx) => { btn2.dataset.i = newIdx; });
 
     if(remaining.length === 0){
       const frame = album.querySelector('.biz-carousel-frame');
