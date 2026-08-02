@@ -510,7 +510,7 @@
   body.edit-mode .album-link-del{ display:inline-block; }
 
   .biz-carousel-frame{ position:relative; width:100%; max-width:360px; aspect-ratio:4/5; overflow:hidden; background:var(--paper-deep); }
-  .biz-carousel-frame .cimg{ display:none; width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.05); }
+  .biz-carousel-frame .cimg{ display:none; width:100%; height:100%; object-fit:contain; filter:grayscale(1) contrast(1.05); }
   .biz-carousel-frame .cimg.active{ display:block; }
   .biz-carousel-frame .cimg.color-mode{ filter:none; }
   .biz-filmstrip img.color-mode{ filter:none; }
@@ -599,11 +599,33 @@
     border-top:7px solid transparent; border-bottom:7px solid transparent;
     border-left:11px solid var(--ink); margin-left:3px;
   }
+  .video-play-overlay.ig-mode{ width:auto; height:auto; border-radius:20px; padding:6px 14px; }
+  .video-play-overlay.ig-mode::after{
+    content:'IG ↗'; width:auto; height:auto; border:none; margin-left:0;
+    font-family:'Noto Serif TC',serif; font-size:12px; letter-spacing:0.05em; color:var(--ink);
+  }
   .video-cover-btn{
     display:none; margin-top:6px; width:100%; background:none; border:1px solid var(--line); color:var(--ink-soft);
     font-family:'Noto Serif TC',serif; font-size:10.5px; padding:5px 0; cursor:pointer;
   }
   body.edit-mode .video-cover-btn{ display:block; }
+
+  /* ---------- 相簿主圖點擊放大燈箱 ---------- */
+  .biz-carousel-frame .cimg.active{ cursor:zoom-in; }
+  .photo-lightbox-overlay{
+    position:fixed; inset:0; z-index:500; background:rgba(20,18,15,0.92);
+    display:none; align-items:center; justify-content:center; padding:24px;
+  }
+  .photo-lightbox-overlay.open{ display:flex; }
+  .photo-lightbox-overlay img{
+    max-width:92vw; max-height:88vh; width:auto; height:auto;
+    object-fit:contain; display:block; box-shadow:0 8px 40px rgba(0,0,0,0.5);
+  }
+  .photo-lightbox-close{
+    position:absolute; top:20px; right:20px; width:38px; height:38px; border-radius:50%;
+    background:rgba(233,229,221,0.9); border:1px solid var(--line); color:var(--ink);
+    font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
 
   /* ---------- 影片封面選擇視窗 ---------- */
   .cover-picker-overlay{
@@ -1134,7 +1156,7 @@
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
     </div></div>
-        <button class="menu-add-btn" style="margin-top:20px;" onclick="addBizVideo(this)">🎬 新增影片(貼YouTube連結)</button>
+        <button class="menu-add-btn" style="margin-top:20px;" onclick="addBizVideo(this)">🎬 新增影片(貼YouTube或Instagram連結)</button>
       </div>
     </div>
     <p style="text-align:center; padding:0;">
@@ -1145,6 +1167,11 @@
 
 <button class="edit-toggle" id="editToggle" onclick="toggleEditMode()">✎ 編輯</button>
 <button class="edit-export" id="editExport" onclick="exportSite()">匯出 index.html</button>
+
+<div class="photo-lightbox-overlay" id="photoLightbox" onclick="if(event.target===this) closePhotoLightbox();">
+  <button type="button" class="photo-lightbox-close" onclick="closePhotoLightbox()">✕</button>
+  <img id="photoLightboxImg" src="" alt="">
+</div>
 
 <script>
   (function(){
@@ -1197,7 +1224,25 @@
       if(album) bizCarouselNav(album, 1);
       return;
     }
+    const mainImg = e.target.closest('.biz-carousel-frame .cimg.active');
+    if(mainImg){
+      openPhotoLightbox(mainImg.getAttribute('src'));
+      return;
+    }
   });
+
+  function openPhotoLightbox(src){
+    if(!src) return;
+    document.getElementById('photoLightboxImg').setAttribute('src', src);
+    document.getElementById('photoLightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePhotoLightbox(){
+    document.getElementById('photoLightbox').classList.remove('open');
+    document.getElementById('photoLightboxImg').setAttribute('src', '');
+    document.body.style.overflow = '';
+  }
 
   function toggleMenu(){
     document.getElementById('menuBtn').classList.toggle('open');
@@ -1876,6 +1921,12 @@
     return null;
   }
 
+  function extractInstagramUrl(input){
+    input = input.trim();
+    const m = input.match(/^https?:\/\/(www\.)?instagram\.com\/(reel|p|tv)\/[A-Za-z0-9_-]+\/?/);
+    return m ? m[0] : null;
+  }
+
   /* ================= 人像 / 品牌：相簿式呈現 ================= */
   let albumCounter = 0;
 
@@ -1923,6 +1974,11 @@
   }
 
   function playVideoCard(frame){
+    const igUrl = frame.dataset.ig;
+    if(igUrl){
+      window.open(igUrl, '_blank', 'noopener');
+      return;
+    }
     const id = frame.dataset.yt;
     if(!id) return;
     const isColor = frame.classList.contains('color-mode');
@@ -2210,13 +2266,17 @@
   }
 
   async function addBizVideo(btn){
-    const raw = prompt('貼上 YouTube 影片連結(例如 https://youtu.be/xxxxxxxx）：', '');
+    const raw = prompt('貼上 YouTube 或 Instagram 影片連結（例如 https://youtu.be/xxxx 或 https://www.instagram.com/reel/xxxx）：', '');
     if(!raw) return;
-    const id = extractYouTubeId(raw);
-    if(!id){
-      alert('看不出來是有效的 YouTube 連結，請確認後再試一次。');
+
+    const ytId = extractYouTubeId(raw);
+    const igUrl = !ytId ? extractInstagramUrl(raw) : null;
+
+    if(!ytId && !igUrl){
+      alert('看不出來是有效的 YouTube 或 Instagram 影片連結，請確認後再試一次。');
       return;
     }
+
     const mainTabs = Array.from(document.querySelectorAll('#videoTabs .video-tab')).filter(t => t.dataset.cat !== 'all');
     let mainMsg = '這支影片屬於哪個主分類？輸入數字：\n';
     mainTabs.forEach((t, i) => { mainMsg += (i + 1) + '. ' + t.textContent.trim() + '\n'; });
@@ -2242,7 +2302,16 @@
     }
 
     const dateStr = prompt('日期（例如 2026 · 07）：', '') || '';
-    const coverUrl = await pickVideoCover(id);
+
+    let coverUrl, frameAttrs, overlayClass = '';
+    if(ytId){
+      coverUrl = await pickVideoCover(ytId);
+      frameAttrs = `data-yt="${escapeHtml(ytId)}"`;
+    } else {
+      coverUrl = prompt('貼上這支 Instagram 影片的封面圖片網址（可以先把畫面截圖上傳到圖床，再貼網址）：', '') || '';
+      frameAttrs = `data-ig="${escapeHtml(igUrl)}"`;
+      overlayClass = ' ig-mode';
+    }
 
     const grid = document.getElementById('videoGrid');
     const card = document.createElement('div');
@@ -2251,11 +2320,11 @@
     card.dataset.subcat = subKey;
     const metaText = subName ? (catName + ' · ' + subName) : catName;
     card.innerHTML = `
-      <div class="video-thumb-frame" data-yt="${escapeHtml(id)}" onclick="playVideoCard(this)">
+      <div class="video-thumb-frame" ${frameAttrs} onclick="playVideoCard(this)">
         <img class="video-cover" src="${escapeHtml(coverUrl)}" alt="">
-        <div class="video-play-overlay"></div>
+        <div class="video-play-overlay${overlayClass}"></div>
       </div>
-      <div class="video-card-meta editable">${escapeHtml(dateStr)} · ${escapeHtml(metaText)}</div>
+      <div class="video-card-meta editable">${escapeHtml(dateStr)} · ${escapeHtml(metaText)}${igUrl ? ' · Instagram' : ''}</div>
       <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">黑白</button>
       <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
       <div class="video-reorder">
