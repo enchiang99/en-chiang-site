@@ -32,8 +32,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&amp;family=Noto+Sans+TC:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
-  "@type": "Photographer",
+  "@type": "Person",
   "name": "En Chiang",
+  "jobTitle": "攝影師",
   "areaServed": "台中市",
   "url": "https://enchiang.com/",
   "sameAs": [
@@ -709,21 +710,21 @@
   </div>
   <div class="menu-group" data-group="business">
     <div class="menu-group-head">
-      <a href="#" class="menu-group-label" onclick="openBusinessPage(event)"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於商業</span><span class="flip-back">ABOUT BUSINESS</span></span></span></a>
+      <a href="business.html" class="menu-group-label" onclick="if(document.body.classList.contains('edit-access')){ openBusinessPage(event); }"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於商業</span><span class="flip-back">ABOUT BUSINESS</span></span></span></a>
       <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)">▾</button>
     </div>
     <div class="menu-sublist open">
-      <a href="#" class="menu-sub-link" onclick="openBusinessSection(event,'biz-portrait')"><span class="editable">人像</span></a>
-      <a href="#" class="menu-sub-link" onclick="openBusinessSection(event,'biz-brand')"><span class="editable">品牌</span></a>
+      <a href="business-portrait.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-portrait'); }"><span class="editable">人像</span></a>
+      <a href="business-brand.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand'); }"><span class="editable">品牌</span></a>
       <div class="menu-video-item" id="menuVideoToggle" onclick="toggleMenuVideoSub(event)">
         <span class="editable">影片</span>
         <span class="menu-video-toggle-icon">+</span>
       </div>
       <div class="menu-video-subpanel" id="menuVideoSubpanel">
         <div class="menu-video-sub-inner">
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'livehouse')"><span class="cn editable">展演空間</span><span class="en">LIVE HOUSE</span></a>
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'brand')"><span class="cn editable">品牌合作</span><span class="en">BRAND</span></a>
-          <a href="#" class="menu-video-sub-link" onclick="openBusinessVideoCat(event,'life')"><span class="cn editable">生活日常</span><span class="en">LIFE</span></a>
+          <a href="business-video.html#cat=livehouse" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessVideoCat(event,'livehouse'); }"><span class="cn editable">展演空間</span><span class="en">LIVE HOUSE</span></a>
+          <a href="business-video.html#cat=brand" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessVideoCat(event,'brand'); }"><span class="cn editable">品牌合作</span><span class="en">BRAND</span></a>
+          <a href="business-video.html#cat=life" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessVideoCat(event,'life'); }"><span class="cn editable">生活日常</span><span class="en">LIFE</span></a>
         </div>
       </div>
     </div>

@@ -134,6 +134,68 @@ img{ display:block; max-width:100%; }
 .float-textsize.active{ background:var(--ink-soft); }
 body.text-large{ zoom:1.18; }
 
+/* ---------- 關於商業：Hub 卡片(business.html 用) ---------- */
+.biz-hub-grid{ padding:20px 8vw 60px; max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr; gap:16px; }
+.biz-hub-card{
+  display:block; border:1px solid var(--line); padding:26px 24px; transition:border-color .25s ease, background .25s ease;
+}
+.biz-hub-card:hover{ border-color:var(--ink); background:rgba(33,31,27,0.03); }
+.biz-hub-card .biz-hub-title{ font-family:'Noto Serif TC',serif; font-size:21px; margin-bottom:8px; }
+.biz-hub-card .biz-hub-desc{ font-size:13.5px; line-height:1.9; color:var(--ink-soft); }
+@media (min-width:640px){ .biz-hub-grid{ grid-template-columns:repeat(3,1fr); } }
+
+/* ---------- 常見問題（FAQ，供 AEO / 結構化資料引用） ---------- */
+.biz-faq{ padding:10px 8vw 60px; max-width:660px; margin:0 auto; }
+.biz-faq-item{ border-top:1px solid var(--line); padding:20px 0; }
+.biz-faq-item:last-child{ border-bottom:1px solid var(--line); }
+.biz-faq-q{ font-family:'Noto Serif TC',serif; font-size:15.5px; font-weight:500; margin-bottom:10px; }
+.biz-faq-a{ font-size:13.5px; line-height:1.95; color:var(--ink-soft); }
+
+/* ---------- 人像 / 品牌：作品集相簿(靜態展示版，無需輪播 JS) ---------- */
+.biz-albums-static{ padding:10px 8vw 20px; max-width:900px; margin:0 auto; }
+.biz-album-static{ padding:36px 0; border-top:1px solid var(--line); }
+.biz-album-static:first-child{ border-top:1px solid var(--ink); }
+.biz-album-static .album-meta{ display:flex; align-items:baseline; gap:16px; margin-bottom:10px; }
+.biz-album-static .album-date{ font-family:'Noto Serif TC',serif; font-size:12.5px; letter-spacing:0.08em; color:#a8977a; }
+.biz-album-static .album-title{ font-family:'Noto Serif TC',serif; font-size:19px; font-weight:500; margin-bottom:18px; }
+.biz-album-static .service-gallery{ padding:0; margin:0; }
+.biz-empty-hint{ font-size:13.5px; color:var(--ink-soft); font-style:italic; padding:8px 0 0; }
+
+/* ---------- 影片：分類標籤 + 直式雙欄卡片(公開瀏覽版) ---------- */
+.video-section{ padding:10px 8vw 20px; max-width:900px; margin:0 auto; }
+.video-tabs{ display:flex; gap:20px; margin:0 0 8px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.video-tab{
+  background:none; border:none; font-family:'Noto Serif TC',serif; font-size:13px; letter-spacing:0.08em;
+  color:var(--ink-soft); padding:0 0 12px; cursor:pointer; position:relative;
+}
+.video-tab.active{ color:var(--ink); }
+.video-tab.active::after{ content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:var(--ink); }
+.video-subtags{ display:none; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0 4px; }
+.video-subtags.visible{ display:flex; }
+.video-subtag{
+  background:none; border:1px solid var(--line); color:var(--ink-soft);
+  font-family:'Noto Serif TC',serif; font-size:12px; padding:5px 12px; border-radius:20px; cursor:pointer;
+}
+.video-subtag.active{ border-color:var(--ink); color:var(--ink); background:rgba(43,40,37,0.05); }
+.video-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px 14px; margin-top:24px; }
+.video-card{ position:relative; }
+.video-thumb-frame{ position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:var(--paper-deep); cursor:pointer; }
+.video-thumb-frame iframe{ position:absolute; top:0; left:0; width:100%; height:100%; border:0; filter:grayscale(1) contrast(1.05); }
+.video-thumb-frame .video-cover{ width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(1) contrast(1.05); }
+.video-play-overlay{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:44px; height:44px; border-radius:50%;
+  background:rgba(233,229,221,0.9); border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center; pointer-events:none;
+}
+.video-play-overlay::after{
+  content:''; width:0; height:0;
+  border-top:7px solid transparent; border-bottom:7px solid transparent;
+  border-left:11px solid var(--ink); margin-left:3px;
+}
+.video-card-meta{ font-family:'Noto Serif TC',serif; font-size:11px; letter-spacing:0.05em; color:#a8977a; margin-top:8px; }
+@media (max-width:520px){ .video-grid{ gap:16px 10px; } }
+
 /* ---------- FOOTER(簡化版,呼應首頁footer) ---------- */
 footer.service-footer{
   padding:48px 8vw 40px; text-align:center; border-top:1px solid var(--line);

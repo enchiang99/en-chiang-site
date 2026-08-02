@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6NLCEX26ZX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6NLCEX26ZX');
+</script>
+<title>品牌合作｜En Chiang・台中品牌攝影</title>
+<meta name="description" content="En Chiang 台中品牌形象攝影合作。商品情境、空間氛圍、品牌故事，把品牌調性轉化成有溫度的畫面。">
+<meta name="keywords" content="台中品牌攝影,台中商業攝影,品牌形象拍攝,商品情境攝影">
+<link rel="canonical" href="https://enchiang.com/business-brand.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="En Chiang">
+<meta property="og:title" content="品牌合作｜En Chiang・台中品牌攝影">
+<meta property="og:description" content="En Chiang 台中品牌形象攝影合作。商品情境、空間氛圍、品牌故事，把品牌調性轉化成有溫度的畫面。">
+<meta property="og:url" content="https://enchiang.com/business-brand.html">
+<meta property="og:image" content="https://enchiang.com/images/hero.jpeg">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="品牌合作｜En Chiang・台中品牌攝影">
+<meta name="twitter:description" content="En Chiang 台中品牌形象攝影合作。">
+<meta name="twitter:image" content="https://enchiang.com/images/hero.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="services.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "台中品牌形象攝影合作",
+  "serviceType": "商業攝影",
+  "areaServed": "台中市",
+  "provider": {
+    "@type": "Person",
+    "name": "En Chiang",
+    "jobTitle": "攝影師",
+    "url": "https://enchiang.com/",
+    "sameAs": ["https://www.instagram.com/enchiang_"]
+  },
+  "url": "https://enchiang.com/business-brand.html"
+}</script>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="wordmark">EN CHIANG</a>
+  <a href="index.html" class="back-link">← 回首頁</a>
+</div>
+
+<section class="service-hero">
+  <span class="label">Business · 品牌</span>
+  <h1>品牌</h1>
+  <p class="lede">台中品牌形象攝影合作。把品牌想傳達的調性，轉化成能被記住的畫面。</p>
+</section>
+
+<div class="service-body">
+  <p>合作前會先了解品牌的定位與這次想呈現的情境，不論是商品情境、空間氛圍或品牌故事，都希望畫面帶著真實的溫度，而不是制式的型錄感。搭配的短片與側拍作品可以參考「影片」頁面。</p>
+  <p>拍攝範圍以台中為主，實際場地、檔期與報價會依合作內容另行討論。</p>
+</div>
+
+<div id="bizAlbumsBrand" class="biz-albums-static">
+  <p class="biz-empty-hint">合作案例陸續整理上架中，歡迎先到「影片」頁面看品牌合作短片。</p>
+</div>
+
+<div class="service-cta">
+  <a class="btn" href="https://www.instagram.com/enchiang_" target="_blank" rel="noopener">私訊 Instagram 洽談合作</a>
+</div>
+
+<script>
+  function escapeHtml(s){
+    return String(s || '').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function renderBizAlbums(html, containerId, targetElId){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var container = doc.getElementById(containerId);
+    var target = document.getElementById(targetElId);
+    if(!target) return;
+    var albums = container ? Array.from(container.querySelectorAll('.biz-album')) : [];
+    if(!albums.length) return;
+
+    var out = albums.map(function(album){
+      var titleEl = album.querySelector('.album-title');
+      var dateEl = album.querySelector('.album-date');
+      var title = titleEl ? titleEl.textContent.trim() : '';
+      var date = dateEl ? dateEl.textContent.trim() : '';
+      var imgs = Array.from(album.querySelectorAll('.biz-filmstrip img, .biz-carousel-frame img'));
+      var seen = {};
+      var gallery = imgs.filter(function(img){
+        var src = img.getAttribute('src');
+        if(!src || seen[src]) return false;
+        seen[src] = true;
+        return true;
+      }).map(function(img){
+        var alt = img.getAttribute('alt') || title;
+        return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" loading="lazy">';
+      }).join('');
+
+      if(!gallery) return '';
+      return '<div class="biz-album-static">' +
+        '<div class="album-meta"><span class="album-date">' + escapeHtml(date) + '</span></div>' +
+        '<div class="album-title">' + escapeHtml(title) + '</div>' +
+        '<div class="service-gallery">' + gallery + '</div>' +
+        '</div>';
+    }).join('');
+
+    if(out.trim()) target.innerHTML = out;
+  }
+
+  var cached = sessionStorage.getItem('enchiang-index-cache');
+  if(cached){
+    renderBizAlbums(cached, 'biz-brand-albums', 'bizAlbumsBrand');
+  } else {
+    fetch('index.html')
+      .then(function(r){ return r.text(); })
+      .then(function(html){
+        sessionStorage.setItem('enchiang-index-cache', html);
+        renderBizAlbums(html, 'biz-brand-albums', 'bizAlbumsBrand');
+      })
+      .catch(function(){ /* 保留頁面原本就有的靜態內容，抓取失敗時不覆蓋 */ });
+  }
+</script>
+
+<div class="service-related">
+  <span class="label">其他分類</span>
+  <div class="related-links">
+    <a href="business.html">關於商業</a>
+    <a href="business-portrait.html">人像</a>
+    <a href="business-video.html">影片</a>
+  </div>
+</div>
+
+<footer class="service-footer">
+  <div class="serif">EN CHIANG</div>
+  <div class="foot-meta">台中 | 自然 人像 寵物 側拍花絮攝影　·　en.hi.light@gmail.com</div>
+</footer>
+
+</body></html>
