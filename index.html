@@ -883,17 +883,17 @@
         <h2 class="editable">影片</h2>
         <div class="video-tabs" id="videoTabs">
           <button class="video-tab" data-cat="all" onclick="selectMainCat(this)">全部</button>
-          <button class="video-tab" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
-          <button class="video-tab active" data-cat="brand" onclick="selectMainCat(this)">品牌合作</button>
+          <button class="video-tab active" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
+          <button class="video-tab" data-cat="brand" onclick="selectMainCat(this)">品牌合作</button>
           <button class="video-tab" data-cat="life" onclick="selectMainCat(this)">生活日常</button>
         </div>
-        <div class="video-subtags" data-owner="livehouse">
-          <button class="video-subtag" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button class="video-subtag active" data-subcat="sub-1785666898557" onclick="selectSubCat(this)">LIVE HOUSE<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+        <div class="video-subtags visible" data-owner="livehouse">
+          <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
+          <button class="video-subtag" data-subcat="sub-1785666898557" onclick="selectSubCat(this)">LIVE HOUSE<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
-        <div class="video-subtags visible" data-owner="brand">
+        <div class="video-subtags" data-owner="brand">
           <button class="video-subtag" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button class="video-subtag" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag active" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+          <button class="video-subtag" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag active" data-subcat="sub-1785667896912" onclick="selectSubCat(this)">手創<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
         <div class="video-subtags" data-owner="life">
           <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
@@ -951,7 +951,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
       <div class="video-thumb-frame color-mode" data-yt="NeXWSn-wDR4" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/NeXWSn-wDR4/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -964,7 +964,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
       <div class="video-thumb-frame color-mode" data-yt="zqGvkxjDnkU" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/zqGvkxjDnkU/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -977,7 +977,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
       <div class="video-thumb-frame color-mode" data-yt="OnU-7IVmp-A" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/OnU-7IVmp-A/3.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -990,7 +990,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
       <div class="video-thumb-frame" data-yt="HweyZz9oCxQ" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/HweyZz9oCxQ/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1003,7 +1003,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="AOEGVhJfdY8" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/AOEGVhJfdY8/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1016,7 +1016,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="F0DuDXXKgDs" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/F0DuDXXKgDs/1.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1029,7 +1029,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="4ElWGitH_P8" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/4ElWGitH_P8/1.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1042,7 +1042,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="unUTtDJ-7OM" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/unUTtDJ-7OM/1.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1055,7 +1055,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="NJBfao-XAoY" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/NJBfao-XAoY/2.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1068,12 +1068,64 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="U30UE8s1I18" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/U30UE8s1I18/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
       </div>
       <div class="video-card-meta editable">沐澄診所 LITHE CLINIC · 品牌合作 · 醫療</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667896912" style="display: none;">
+      <div class="video-thumb-frame color-mode" data-yt="VGE-mDsUXVk" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/VGE-mDsUXVk/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">NVB · 品牌合作 · 手創</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557">
+      <div class="video-thumb-frame color-mode" data-yt="B0lusEcy1nk" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/B0lusEcy1nk/2.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">椅子樂團｜The Chairs · 展演空間 · LIVE HOUSE</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557">
+      <div class="video-thumb-frame color-mode" data-yt="1PFzmP_iELI" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/1PFzmP_iELI/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">椅子樂團｜The Chairs · 展演空間 · LIVE HOUSE</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557">
+      <div class="video-thumb-frame color-mode" data-yt="rNstNAuVGus" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/rNstNAuVGus/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">黃玠 · 展演空間 · LIVE HOUSE</div>
       <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
       <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
       <div class="video-reorder">
