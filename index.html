@@ -888,18 +888,18 @@
           <button class="video-tab" data-cat="life" onclick="selectMainCat(this)">生活日常</button>
         </div>
         <div class="video-subtags" data-owner="livehouse">
-          <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+          <button class="video-subtag" data-subcat="all" onclick="selectSubCat(this)">全部</button>
+          <button class="video-subtag active" data-subcat="sub-1785666898557" onclick="selectSubCat(this)">LIVE HOUSE<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
         <div class="video-subtags visible" data-owner="brand">
           <button class="video-subtag" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button class="video-subtag active" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+          <button class="video-subtag" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag active" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
         <div class="video-subtags" data-owner="life">
           <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
           <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
-        <div class="video-grid" id="videoGrid"><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
+        <div class="video-grid" id="videoGrid"><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="m_wVqrJGq1M" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/m_wVqrJGq1M/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -912,7 +912,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="KFhMifh_CnI" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/KFhMifh_CnI/1.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -925,7 +925,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="BgyIOYi1tM8" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/BgyIOYi1tM8/2.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -938,12 +938,142 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="N0RnrgDakpk" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/N0RnrgDakpk/3.jpg" alt="">
         <div class="video-play-overlay"></div>
       </div>
       <div class="video-card-meta editable">燒肉天皇 ｜ tennoyakiniku · 品牌合作 · 餐飲</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+      <div class="video-thumb-frame color-mode" data-yt="NeXWSn-wDR4" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/NeXWSn-wDR4/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">Deca joins · 展演空間 · LIVE HOUSE</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+      <div class="video-thumb-frame color-mode" data-yt="zqGvkxjDnkU" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/zqGvkxjDnkU/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">Deca joins · 展演空間 · LIVE HOUSE</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+      <div class="video-thumb-frame color-mode" data-yt="OnU-7IVmp-A" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/OnU-7IVmp-A/3.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">Orange Ocean · 展演空間 · LIVE HOUSE</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+      <div class="video-thumb-frame" data-yt="HweyZz9oCxQ" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/HweyZz9oCxQ/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">Orange ocean · 展演空間 · LIVE HOUSE</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">黑白</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+      <div class="video-thumb-frame color-mode" data-yt="AOEGVhJfdY8" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/AOEGVhJfdY8/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">昕澄診所 Omni Clinic · 品牌合作 · 醫療</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+      <div class="video-thumb-frame color-mode" data-yt="F0DuDXXKgDs" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/F0DuDXXKgDs/1.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">昕澄診所 Omni Clinic · 品牌合作 · 醫療</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+      <div class="video-thumb-frame color-mode" data-yt="4ElWGitH_P8" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/4ElWGitH_P8/1.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">沐澄診所 LITHE CLINIC · 品牌合作 · 醫療</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+      <div class="video-thumb-frame color-mode" data-yt="unUTtDJ-7OM" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/unUTtDJ-7OM/1.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">沐澄診所 LITHE CLINIC · 品牌合作 · 醫療</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+      <div class="video-thumb-frame color-mode" data-yt="NJBfao-XAoY" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/NJBfao-XAoY/2.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">沐澄診所 LITHE CLINIC · 品牌合作 · 醫療</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526">
+      <div class="video-thumb-frame color-mode" data-yt="U30UE8s1I18" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/U30UE8s1I18/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">沐澄診所 LITHE CLINIC · 品牌合作 · 醫療</div>
       <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
       <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
       <div class="video-reorder">
