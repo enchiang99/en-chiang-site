@@ -19,6 +19,11 @@ const ARTICLES_DB_ID = process.env.ARTICLES_DB_ID;
 const NOTION_VERSION = '2022-06-28';
 const INDEX_PATH = path.join(__dirname, '..', 'index.html');
 
+// 每次呼叫 Notion API 的逾時秒數，超過就視為失敗（避免卡住整個 workflow）
+const FETCH_TIMEOUT_MS = 15000;
+// 失敗或逾時時最多重試幾次
+const MAX_RETRIES = 2;
+
 // 分類 -> index.html 裡對應的 menu-group data-group 值
 const CATEGORY_TO_GROUP = {
   '關於EN': 'about-en',
@@ -31,21 +36,41 @@ if (!NOTION_TOKEN || !ARTICLES_DB_ID) {
   process.exit(1);
 }
 
-async function notionFetch(url, options = {}) {
-  const res = await fetch(url, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${NOTION_TOKEN}`,
-      'Notion-Version': NOTION_VERSION,
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-    },
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Notion API ${res.status} ${res.statusText}: ${body}`);
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function notionFetch(url, options = {}, attempt = 1) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        Authorization: `Bearer ${NOTION_TOKEN}`,
+        'Notion-Version': NOTION_VERSION,
+        'Content-Type': 'application/json',
+        ...(options.headers || {}),
+      },
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Notion API ${res.status} ${res.statusText}: ${body}`);
+    }
+    return await res.json();
+  } catch (err) {
+    const isTimeout = err.name === 'AbortError';
+    const reason = isTimeout ? `逾時（超過 ${FETCH_TIMEOUT_MS / 1000} 秒未回應）` : err.message;
+    if (attempt <= MAX_RETRIES) {
+      console.warn(`Notion API 呼叫失敗（第 ${attempt} 次），原因：${reason}，準備重試...`);
+      await sleep(2000 * attempt);
+      return notionFetch(url, options, attempt + 1);
+    }
+    throw new Error(`Notion API 呼叫失敗，已重試 ${MAX_RETRIES} 次仍失敗：${reason}\nURL: ${url}`);
+  } finally {
+    clearTimeout(timer);
   }
-  return res.json();
 }
 
 // 抓資料庫裡所有「狀態 = 發佈」的頁面
