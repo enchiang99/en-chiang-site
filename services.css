@@ -47,7 +47,7 @@ img{ display:block; max-width:100%; }
   padding:20px 8vw 60px; max-width:900px; margin:0 auto;
   display:grid; grid-template-columns:repeat(2, 1fr); gap:14px;
 }
-.service-gallery img{ width:100%; aspect-ratio:4/5; object-fit:cover; }
+.service-gallery img{ width:100%; aspect-ratio:4/5; object-fit:contain; background:var(--paper-deep); cursor:zoom-in; }
 .service-gallery.bw-mode img{ filter:grayscale(1) contrast(1.05); }
 .service-gallery .gallery-placeholder{
   aspect-ratio:4/5; border:1px dashed var(--line); display:flex; align-items:center; justify-content:center;
@@ -55,6 +55,45 @@ img{ display:block; max-width:100%; }
 }
 @media (max-width:640px){
   .service-gallery{ grid-template-columns:repeat(2, 1fr); gap:8px; }
+}
+
+/* ---------- 作品輪播（相簿照片超過2張時使用） ---------- */
+.album-carousel{ padding:20px 8vw 60px; max-width:500px; margin:0 auto; }
+.album-carousel-frame{
+  position:relative; width:100%; aspect-ratio:4/5; overflow:hidden; background:var(--paper-deep);
+}
+.album-carousel-frame img{
+  position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; display:none; cursor:zoom-in;
+}
+.album-carousel-frame img.active{ display:block; }
+.album-carousel-frame img.bw-mode{ filter:grayscale(1) contrast(1.05); }
+.album-carousel-frame .carousel-arrow{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+  width:34px; height:34px; border-radius:50%; border:1px solid var(--line);
+  background:rgba(233,229,221,0.85); color:var(--ink); font-size:16px; line-height:1;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.album-carousel-frame .carousel-arrow.prev{ left:10px; }
+.album-carousel-frame .carousel-arrow.next{ right:10px; }
+.album-carousel-counter{
+  text-align:center; margin-top:10px; font-family:'Noto Serif TC',serif;
+  font-size:12px; letter-spacing:0.08em; color:var(--ink-soft);
+}
+
+/* ---------- 照片點擊放大燈箱（公開頁面用） ---------- */
+.photo-lightbox-overlay{
+  position:fixed; inset:0; z-index:500; background:rgba(20,18,15,0.92);
+  display:none; align-items:center; justify-content:center; padding:24px;
+}
+.photo-lightbox-overlay.open{ display:flex; }
+.photo-lightbox-overlay img{
+  max-width:92vw; max-height:88vh; width:auto; height:auto;
+  object-fit:contain; display:block; box-shadow:0 8px 40px rgba(0,0,0,0.5);
+}
+.photo-lightbox-close{
+  position:absolute; top:20px; right:20px; width:38px; height:38px; border-radius:50%;
+  background:rgba(233,229,221,0.9); border:1px solid var(--line); color:var(--ink);
+  font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
 }
 
 /* ---------- CTA ---------- */
@@ -135,18 +174,6 @@ img{ display:block; max-width:100%; }
 .float-textsize.active{ background:var(--ink-soft); }
 body.text-large{ zoom:1.18; }
 
-/* ---------- 彩色／黑白 切換按鈕（訪客可選） ---------- */
-.color-toggle-wrap{ display:flex; justify-content:flex-end; padding:0 8vw; max-width:900px; margin:0 auto 4px; }
-.color-toggle-btn{
-  background:none; border:1px solid var(--line); color:var(--ink-soft);
-  font-family:'Noto Serif TC',serif; font-size:12px; letter-spacing:0.05em;
-  padding:6px 14px; border-radius:20px; cursor:pointer; transition:border-color .2s ease, color .2s ease;
-}
-.color-toggle-btn:hover{ border-color:var(--ink); color:var(--ink); }
-.viewer-bw-all img,
-.viewer-bw-all .video-cover,
-.viewer-bw-all iframe{ filter:grayscale(1) contrast(1.05) !important; }
-
 /* ---------- 關於商業：Hub 卡片(business.html 用) ---------- */
 .biz-hub-grid{ padding:20px 8vw 60px; max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr; gap:16px; }
 .biz-hub-card{
@@ -172,6 +199,7 @@ body.text-large{ zoom:1.18; }
 .biz-album-static .album-date{ font-family:'Noto Serif TC',serif; font-size:12.5px; letter-spacing:0.08em; color:#a8977a; }
 .biz-album-static .album-title{ font-family:'Noto Serif TC',serif; font-size:19px; font-weight:500; margin-bottom:18px; }
 .biz-album-static .service-gallery{ padding:0; margin:0; }
+.biz-album-static .album-carousel{ padding:0; margin:0; }
 .biz-empty-hint{ font-size:13.5px; color:var(--ink-soft); font-style:italic; padding:8px 0 0; }
 
 /* ---------- 影片：分類標籤 + 直式雙欄卡片(公開瀏覽版) ---------- */
@@ -192,7 +220,7 @@ body.text-large{ zoom:1.18; }
 .video-subtag.active{ border-color:var(--ink); color:var(--ink); background:rgba(43,40,37,0.05); }
 .video-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px 14px; margin-top:24px; }
 .video-card{ position:relative; }
-.video-thumb-frame{ position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:var(--paper-deep); cursor:pointer; }
+.video-thumb-frame{ display:block; position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:var(--paper-deep); cursor:pointer; }
 .video-thumb-frame iframe{ position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
 .video-thumb-frame .video-cover{ width:100%; height:100%; object-fit:cover; display:block; }
 .video-thumb-frame.bw-mode iframe,

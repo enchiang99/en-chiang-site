@@ -58,10 +58,6 @@
   <p class="lede">台中品牌形象攝影合作。把品牌想傳達的調性，轉化成能被記住的畫面。</p>
 </section>
 
-<div class="color-toggle-wrap">
-  <button type="button" class="color-toggle-btn" id="bwToggleBtn" onclick="toggleViewerBW()">黑白瀏覽</button>
-</div>
-
 <div id="bizAlbumsBrand" class="biz-albums-static">
   <p class="biz-empty-hint">合作案例陸續整理上架中，歡迎先到「影片」頁面看品牌合作短片。</p>
 </div>
@@ -75,6 +71,11 @@
   <a class="btn" href="https://www.instagram.com/enchiang_" target="_blank" rel="noopener">私訊 Instagram 洽談合作</a>
 </div>
 
+<div class="photo-lightbox-overlay" id="photoLightbox" onclick="if(event.target===this) closePhotoLightbox();">
+  <button type="button" class="photo-lightbox-close" onclick="closePhotoLightbox()">✕</button>
+  <img id="photoLightboxImg" src="" alt="">
+</div>
+
 <script>
   function escapeHtml(s){
     return String(s || '').replace(/[&<>"']/g, function(c){
@@ -82,11 +83,28 @@
     });
   }
 
-  function toggleViewerBW(){
-    var gallery = document.getElementById('bizAlbumsBrand');
-    var btn = document.getElementById('bwToggleBtn');
-    var isBW = gallery.classList.toggle('viewer-bw-all');
-    btn.textContent = isBW ? '彩色瀏覽' : '黑白瀏覽';
+  function openPhotoLightbox(src){
+    if(!src) return;
+    document.getElementById('photoLightboxImg').setAttribute('src', src);
+    document.getElementById('photoLightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePhotoLightbox(){
+    document.getElementById('photoLightbox').classList.remove('open');
+    document.getElementById('photoLightboxImg').setAttribute('src', '');
+    document.body.style.overflow = '';
+  }
+
+  function albumCarouselNav(btn, dir){
+    var wrap = btn.closest('.album-carousel');
+    var imgs = Array.prototype.slice.call(wrap.querySelectorAll('.album-carousel-frame img'));
+    var current = 0;
+    imgs.forEach(function(img, i){ if(img.classList.contains('active')) current = i; });
+    var next = (current + dir + imgs.length) % imgs.length;
+    imgs.forEach(function(img, i){ img.classList.toggle('active', i === next); });
+    var counter = wrap.querySelector('.album-carousel-counter');
+    if(counter) counter.textContent = String(next + 1).padStart(2, '0') + ' / ' + String(imgs.length).padStart(2, '0');
   }
 
   function renderBizAlbums(html, containerId, targetElId){
@@ -102,24 +120,44 @@
       var dateEl = album.querySelector('.album-date');
       var title = titleEl ? titleEl.textContent.trim() : '';
       var date = dateEl ? dateEl.textContent.trim() : '';
-      var imgs = Array.from(album.querySelectorAll('.biz-filmstrip img, .biz-carousel-frame img'));
+      var rawImgs = Array.from(album.querySelectorAll('.biz-filmstrip img, .biz-carousel-frame img'));
       var seen = {};
-      var gallery = imgs.filter(function(img){
+      var photos = rawImgs.filter(function(img){
         var src = img.getAttribute('src');
         if(!src || seen[src]) return false;
         seen[src] = true;
         return true;
-      }).map(function(img){
-        var alt = img.getAttribute('alt') || title;
-        var bwClass = img.classList.contains('bw-mode') ? ' bw-mode' : '';
-        return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" class="' + bwClass.trim() + '" loading="lazy">';
-      }).join('');
+      });
+      if(!photos.length) return '';
 
-      if(!gallery) return '';
+      var body;
+      if(photos.length > 2){
+        var frames = photos.map(function(img, i){
+          var alt = img.getAttribute('alt') || title;
+          var bwClass = img.classList.contains('bw-mode') ? ' bw-mode' : '';
+          var activeClass = i === 0 ? ' active' : '';
+          return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" class="' + (bwClass + activeClass).trim() + '" loading="lazy" onclick="openPhotoLightbox(this.src)">';
+        }).join('');
+        body = '<div class="album-carousel">' +
+          '<div class="album-carousel-frame">' + frames +
+          '<button type="button" class="carousel-arrow prev" onclick="albumCarouselNav(this,-1)">‹</button>' +
+          '<button type="button" class="carousel-arrow next" onclick="albumCarouselNav(this,1)">›</button>' +
+          '</div>' +
+          '<div class="album-carousel-counter">01 / ' + String(photos.length).padStart(2, '0') + '</div>' +
+          '</div>';
+      } else {
+        var gallery = photos.map(function(img){
+          var alt = img.getAttribute('alt') || title;
+          var bwClass = img.classList.contains('bw-mode') ? ' bw-mode' : '';
+          return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" class="' + bwClass.trim() + '" loading="lazy" onclick="openPhotoLightbox(this.src)">';
+        }).join('');
+        body = '<div class="service-gallery">' + gallery + '</div>';
+      }
+
       return '<div class="biz-album-static">' +
         '<div class="album-meta"><span class="album-date">' + escapeHtml(date) + '</span></div>' +
         '<div class="album-title">' + escapeHtml(title) + '</div>' +
-        '<div class="service-gallery">' + gallery + '</div>' +
+        body +
         '</div>';
     }).join('');
 

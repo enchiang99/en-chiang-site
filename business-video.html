@@ -58,48 +58,36 @@
   <p class="lede">展演空間、品牌合作、生活日常——用影像記錄現場的溫度。</p>
 </section>
 
-<div class="color-toggle-wrap">
-  <button type="button" class="color-toggle-btn" id="bwToggleBtn" onclick="toggleViewerBW()">黑白瀏覽</button>
-</div>
-
 <div class="video-section" id="videoSection">
-  <div class="video-tabs" id="videoTabs">
-    <button class="video-tab active" data-cat="all" onclick="selectMainCat(this)">全部</button>
-    <button class="video-tab" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
-    <button class="video-tab" data-cat="brand" onclick="selectMainCat(this)">品牌合作</button>
-    <button class="video-tab" data-cat="life" onclick="selectMainCat(this)">生活日常</button>
-  </div>
+  <div class="video-tabs" id="videoTabs"></div>
   <div class="video-subtags" data-owner="livehouse"></div>
-  <div class="video-subtags" data-owner="brand">
-    <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-    <button class="video-subtag" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲</button>
-  </div>
+  <div class="video-subtags" data-owner="brand"></div>
   <div class="video-subtags" data-owner="life"></div>
 
   <div class="video-grid" id="videoGrid">
     <div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
-      <a class="video-thumb-frame" data-yt="m_wVqrJGq1M" href="https://youtu.be/m_wVqrJGq1M" target="_blank" rel="noopener" onclick="return playVideoCard(this, event)">
+      <a class="video-thumb-frame" data-yt="m_wVqrJGq1M" href="https://youtu.be/m_wVqrJGq1M" onclick="return playVideoCard(this, event)">
         <img class="video-cover" src="https://img.youtube.com/vi/m_wVqrJGq1M/hqdefault.jpg" alt="燒肉天皇品牌合作短片 En Chiang 拍攝">
         <div class="video-play-overlay"></div>
       </a>
       <div class="video-card-meta">燒肉天皇 ｜ tennoyakiniku · 品牌合作 · 餐飲</div>
     </div>
     <div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
-      <a class="video-thumb-frame" data-yt="KFhMifh_CnI" href="https://youtu.be/KFhMifh_CnI" target="_blank" rel="noopener" onclick="return playVideoCard(this, event)">
+      <a class="video-thumb-frame" data-yt="KFhMifh_CnI" href="https://youtu.be/KFhMifh_CnI" onclick="return playVideoCard(this, event)">
         <img class="video-cover" src="https://img.youtube.com/vi/KFhMifh_CnI/1.jpg" alt="燒肉天皇品牌合作短片 En Chiang 拍攝">
         <div class="video-play-overlay"></div>
       </a>
       <div class="video-card-meta">燒肉天皇 | tennoyakiniku · 品牌合作 · 餐飲</div>
     </div>
     <div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
-      <a class="video-thumb-frame" data-yt="BgyIOYi1tM8" href="https://youtu.be/BgyIOYi1tM8" target="_blank" rel="noopener" onclick="return playVideoCard(this, event)">
+      <a class="video-thumb-frame" data-yt="BgyIOYi1tM8" href="https://youtu.be/BgyIOYi1tM8" onclick="return playVideoCard(this, event)">
         <img class="video-cover" src="https://img.youtube.com/vi/BgyIOYi1tM8/2.jpg" alt="燒肉天皇品牌合作短片 En Chiang 拍攝">
         <div class="video-play-overlay"></div>
       </a>
       <div class="video-card-meta">燒肉天皇 ｜ tennoyakiniku · 品牌合作 · 餐飲</div>
     </div>
     <div class="video-card" data-cat="brand" data-subcat="sub-1785257430478">
-      <a class="video-thumb-frame" data-yt="N0RnrgDakpk" href="https://youtu.be/N0RnrgDakpk" target="_blank" rel="noopener" onclick="return playVideoCard(this, event)">
+      <a class="video-thumb-frame" data-yt="N0RnrgDakpk" href="https://youtu.be/N0RnrgDakpk" onclick="return playVideoCard(this, event)">
         <img class="video-cover" src="https://img.youtube.com/vi/N0RnrgDakpk/3.jpg" alt="燒肉天皇品牌合作短片 En Chiang 拍攝">
         <div class="video-play-overlay"></div>
       </a>
@@ -130,15 +118,9 @@
     return false;
   }
 
-  function toggleViewerBW(){
-    var section = document.getElementById('videoSection');
-    var btn = document.getElementById('bwToggleBtn');
-    var isBW = section.classList.toggle('viewer-bw-all');
-    btn.textContent = isBW ? '彩色瀏覽' : '黑白瀏覽';
-  }
-
   function applyFilter(){
-    var mainCat = document.querySelector('.video-tab.active').dataset.cat;
+    var activeTab = document.querySelector('.video-tab.active');
+    var mainCat = activeTab ? activeTab.dataset.cat : 'all';
     var subtagsWrap = document.querySelector('.video-subtags[data-owner="' + mainCat + '"]');
     var subCat = subtagsWrap ? (subtagsWrap.querySelector('.video-subtag.active') || {}).dataset : null;
     subCat = subCat ? subCat.subcat : 'all';
@@ -171,6 +153,45 @@
     applyFilter();
   }
 
+  /* 依 index.html 目前實際的分類/子分類設定，重新產生分類標籤列。
+     主分類不含「全部」，子分類保留「全部」。 */
+  function renderTabs(html){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var srcTabs = doc.getElementById('videoTabs');
+    if(!srcTabs) return;
+
+    var mainTabsSrc = Array.from(srcTabs.querySelectorAll('.video-tab')).filter(function(t){
+      return t.dataset.cat !== 'all';
+    });
+    if(!mainTabsSrc.length) return;
+
+    var currentActiveCat = (document.querySelector('.video-tab.active') || {}).dataset;
+    currentActiveCat = currentActiveCat ? currentActiveCat.cat : null;
+
+    var tabsHtml = mainTabsSrc.map(function(t){
+      return '<button class="video-tab" data-cat="' + escapeHtml(t.dataset.cat) + '" onclick="selectMainCat(this)">' + escapeHtml(t.textContent.trim()) + '</button>';
+    }).join('');
+    document.getElementById('videoTabs').innerHTML = tabsHtml;
+
+    mainTabsSrc.forEach(function(t){
+      var cat = t.dataset.cat;
+      var subWrap = document.querySelector('.video-subtags[data-owner="' + cat + '"]');
+      if(!subWrap) return;
+      var srcSubWrap = doc.querySelector('.video-subtags[data-owner="' + cat + '"]');
+      var subTagsSrc = srcSubWrap ? Array.from(srcSubWrap.querySelectorAll('.video-subtag')) : [];
+      var subHtml = subTagsSrc.map(function(s){
+        var label = s.childNodes[0] ? s.childNodes[0].textContent.trim() : s.textContent.trim();
+        return '<button class="video-subtag' + (s.dataset.subcat === 'all' ? ' active' : '') + '" data-subcat="' + escapeHtml(s.dataset.subcat) + '" onclick="selectSubCat(this)">' + escapeHtml(label) + '</button>';
+      }).join('');
+      subWrap.innerHTML = subHtml;
+    });
+
+    var restoreTab = currentActiveCat && document.querySelector('.video-tab[data-cat="' + currentActiveCat + '"]');
+    if(restoreTab) restoreTab.classList.add('active');
+
+    applyFilter();
+  }
+
   function renderVideoGrid(html){
     var doc = new DOMParser().parseFromString(html, 'text/html');
     var srcGrid = doc.getElementById('videoGrid');
@@ -188,14 +209,21 @@
 
       var bwClass = frame && frame.classList.contains('bw-mode') ? ' bw-mode' : '';
       var overlayClass = ig ? ' ig-mode' : '';
-      var linkHref = ig || ('https://youtu.be/' + yt);
-      var frameAttr = ig ? ('data-ig="' + escapeHtml(ig) + '"') : ('data-yt="' + escapeHtml(yt) + '"');
       var src = img ? img.getAttribute('src') : ('https://img.youtube.com/vi/' + yt + '/hqdefault.jpg');
       var metaText = meta ? meta.textContent.trim() : '';
       var altText = (metaText || 'En Chiang 影片作品') + ' En Chiang 拍攝';
 
+      var linkAttrs, onclickAttr;
+      if(ig){
+        linkAttrs = 'data-ig="' + escapeHtml(ig) + '" href="' + escapeHtml(ig) + '" target="_blank" rel="noopener"';
+        onclickAttr = '';
+      } else {
+        linkAttrs = 'data-yt="' + escapeHtml(yt) + '" href="https://youtu.be/' + escapeHtml(yt) + '"';
+        onclickAttr = ' onclick="return playVideoCard(this, event)"';
+      }
+
       return '<div class="video-card" data-cat="' + escapeHtml(card.dataset.cat || '') + '" data-subcat="' + escapeHtml(card.dataset.subcat || '') + '">' +
-        '<a class="video-thumb-frame' + bwClass + '" ' + frameAttr + ' href="' + escapeHtml(linkHref) + '" target="_blank" rel="noopener" onclick="return playVideoCard(this, event)">' +
+        '<a class="video-thumb-frame' + bwClass + '" ' + linkAttrs + onclickAttr + '>' +
         '<img class="video-cover" src="' + escapeHtml(src) + '" alt="' + escapeHtml(altText) + '">' +
         '<div class="video-play-overlay' + overlayClass + '"></div></a>' +
         '<div class="video-card-meta">' + escapeHtml(metaText) + '</div></div>';
@@ -208,7 +236,7 @@
   }
 
   /* 支援選單深連結，例如 business-video.html#cat=livehouse */
-  (function(){
+  function applyHashCat(){
     var hash = location.hash.replace('#', '');
     var params = new URLSearchParams(hash.indexOf('cat=') === 0 ? hash : '');
     var cat = params.get('cat');
@@ -216,19 +244,23 @@
       var tab = document.querySelector('.video-tab[data-cat="' + cat + '"]');
       if(tab) selectMainCat(tab);
     }
-  })();
+  }
 
   applyFilter();
 
   var cached = sessionStorage.getItem('enchiang-index-cache');
   if(cached){
+    renderTabs(cached);
     renderVideoGrid(cached);
+    applyHashCat();
   } else {
     fetch('index.html')
       .then(function(r){ return r.text(); })
       .then(function(html){
         sessionStorage.setItem('enchiang-index-cache', html);
+        renderTabs(html);
         renderVideoGrid(html);
+        applyHashCat();
       })
       .catch(function(){ /* 保留頁面原本就有的靜態內容，抓取失敗時不覆蓋 */ });
   }
