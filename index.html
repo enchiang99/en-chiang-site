@@ -676,7 +676,7 @@
 
 </style>
 </head>
-<body class="">
+<body class="" style="">
 
 <div class="grain"></div>
 
@@ -889,22 +889,73 @@
     <div id="bizSections">
       <div class="biz-section" id="biz-portrait">
         <h2 class="editable">人像</h2>
-        <div class="biz-albums" id="biz-portrait-albums"><div class="biz-album" id="album-1786167303048-1">
+        <div class="biz-albums" id="biz-portrait-albums"></div>
+        <div class="biz-album-actions">
+          <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-portrait-albums')">＋ 新增相簿</button>
+        </div>
+      </div>
+      <div class="biz-section" id="biz-brand">
+        <h2 class="editable">品牌</h2>
+        <div class="biz-albums" id="biz-brand-albums"><div class="biz-album" id="album-1786169897642-1">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
-      <div class="album-title editable">日常形象</div>
+      <div class="album-title editable">圈圈 Chuan Chuan Studio</div>
       <div class="album-link-wrap"></div>
-      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">黑白</button>
+      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
       <div class="biz-carousel-frame">
-        <div class="empty-hint">尚未新增照片</div>
+        
+      <img class="cimg color-mode" src="https://enchiang.com/images/IMG_9491.png" alt="" data-i="0"><button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg active color-mode" src="https://enchiang.com/images/IMG_9490.png" alt="" data-i="1"></div>
+      <div class="biz-captions"><div class="biz-caption editable" data-i="0"></div><div class="biz-caption editable active" data-i="1"></div></div>
+      <div class="biz-carousel-foot" style="display: flex;">
+        <div class="biz-dots"><span class="biz-dot"></span><span class="biz-dot active"></span></div>
+        <span class="biz-counter">02 / 02</span>
       </div>
-      <div class="biz-captions"></div>
-      <div class="biz-carousel-foot" style="display:none;">
-        <div class="biz-dots"></div>
-        <span class="biz-counter"></span>
+      <div class="biz-filmstrip"><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/IMG_9491.png" class="color-mode" data-i="0"><button type="button" class="biz-thumb-del" data-i="0">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/IMG_9490.png" class="current color-mode" data-i="1"><button type="button" class="biz-thumb-del" data-i="1">✕</button></div></div>
+      <div class="biz-album-actions">
+        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
+        <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
+        <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
+        <button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
-      <div class="biz-filmstrip"></div>
+    </div><div class="biz-album" id="album-1786170058698-2">
+      <div class="album-meta">
+        <span class="album-date editable"></span>
+      </div>
+      <div class="album-title editable">昕澄診所 Omni Clinic</div>
+      <div class="album-link-wrap"></div>
+      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
+      <div class="biz-carousel-frame">
+        
+      <img class="cimg color-mode" src="https://enchiang.com/images/1768026543000_R0010078.jpg" alt="" data-i="0"><button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg color-mode" src="https://enchiang.com/images/1768026529000_R0010077.jpg" alt="" data-i="1"><img class="cimg color-mode" src="https://enchiang.com/images/1768026507000_R0010076.jpg" alt="" data-i="2"><img class="cimg active color-mode" src="https://enchiang.com/images/1768026665000_R0010085.jpg" alt="" data-i="3"></div>
+      <div class="biz-captions"><div class="biz-caption editable" data-i="0"></div><div class="biz-caption editable" data-i="1"></div><div class="biz-caption editable" data-i="2"></div><div class="biz-caption editable active" data-i="3"></div></div>
+      <div class="biz-carousel-foot" style="display: flex;">
+        <div class="biz-dots"><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot active"></span></div>
+        <span class="biz-counter">04 / 04</span>
+      </div>
+      <div class="biz-filmstrip"><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/1768026543000_R0010078.jpg" class="color-mode" data-i="0"><button type="button" class="biz-thumb-del" data-i="0">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/1768026529000_R0010077.jpg" class="color-mode" data-i="1"><button type="button" class="biz-thumb-del" data-i="1">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/1768026507000_R0010076.jpg" class="color-mode" data-i="2"><button type="button" class="biz-thumb-del" data-i="2">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/1768026665000_R0010085.jpg" class="current color-mode" data-i="3"><button type="button" class="biz-thumb-del" data-i="3">✕</button></div></div>
+      <div class="biz-album-actions">
+        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
+        <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
+        <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
+        <button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+      </div>
+    </div><div class="biz-album" id="album-1786170221720-3">
+      <div class="album-meta">
+        <span class="album-date editable"></span>
+      </div>
+      <div class="album-title editable">燒肉天皇 Tennoyakiniku</div>
+      <div class="album-link-wrap"></div>
+      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
+      <div class="biz-carousel-frame">
+        
+      <img class="cimg color-mode" src="https://enchiang.com/images/R0003321.jpg" alt="" data-i="0"><button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg color-mode" src="https://enchiang.com/images/R0003344.jpg" alt="" data-i="1"><img class="cimg color-mode" src="https://enchiang.com/images/R0003399.jpg" alt="" data-i="2"><img class="cimg color-mode" src="https://enchiang.com/images/R0003438.jpg" alt="" data-i="3"><img class="cimg color-mode" src="https://enchiang.com/images/R0003737.jpg" alt="" data-i="4"><img class="cimg color-mode" src="https://enchiang.com/images/R0003898.jpg" alt="" data-i="5"><img class="cimg color-mode" src="https://enchiang.com/images/R0003909.jpg" alt="" data-i="6"><img class="cimg color-mode" src="https://enchiang.com/images/R0003963.jpg" alt="" data-i="7"><img class="cimg active color-mode" src="https://enchiang.com/images/R0004019.jpg" alt="" data-i="8"></div>
+      <div class="biz-captions"><div class="biz-caption editable" data-i="0"></div><div class="biz-caption editable" data-i="1"></div><div class="biz-caption editable" data-i="2"></div><div class="biz-caption editable" data-i="3"></div><div class="biz-caption editable" data-i="4"></div><div class="biz-caption editable" data-i="5"></div><div class="biz-caption editable" data-i="6"></div><div class="biz-caption editable" data-i="7"></div><div class="biz-caption editable active" data-i="8"></div></div>
+      <div class="biz-carousel-foot" style="display: flex;">
+        <div class="biz-dots"><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot active"></span></div>
+        <span class="biz-counter">09 / 09</span>
+      </div>
+      <div class="biz-filmstrip"><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0003321.jpg" class="color-mode" data-i="0"><button type="button" class="biz-thumb-del" data-i="0">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0003344.jpg" class="color-mode" data-i="1"><button type="button" class="biz-thumb-del" data-i="1">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0003399.jpg" class="color-mode" data-i="2"><button type="button" class="biz-thumb-del" data-i="2">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0003438.jpg" class="color-mode" data-i="3"><button type="button" class="biz-thumb-del" data-i="3">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0003737.jpg" class="color-mode" data-i="4"><button type="button" class="biz-thumb-del" data-i="4">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0003898.jpg" class="color-mode" data-i="5"><button type="button" class="biz-thumb-del" data-i="5">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0003909.jpg" class="color-mode" data-i="6"><button type="button" class="biz-thumb-del" data-i="6">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0003963.jpg" class="color-mode" data-i="7"><button type="button" class="biz-thumb-del" data-i="7">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0004019.jpg" class="current color-mode" data-i="8"><button type="button" class="biz-thumb-del" data-i="8">✕</button></div></div>
       <div class="biz-album-actions">
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
@@ -912,13 +963,6 @@
         <button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
     </div></div>
-        <div class="biz-album-actions">
-          <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-portrait-albums')">＋ 新增相簿</button>
-        </div>
-      </div>
-      <div class="biz-section" id="biz-brand">
-        <h2 class="editable">品牌</h2>
-        <div class="biz-albums" id="biz-brand-albums"></div>
         <div class="biz-album-actions">
           <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-brand-albums')">＋ 新增相簿</button>
         </div>
