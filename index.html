@@ -711,7 +711,7 @@
       <a href="portrait.html" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於 EN</span><span class="flip-back">ABOUT EN</span></span></span></a>
       <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)">▾</button>
     </div>
-    <div class="menu-sublist open"><a href="#post-3a5249b8283381989dcfeb503e82db5f" target="_blank" rel="noopener" class="menu-sub-link"><span class="editable">Hi, Nice to meet you.</span></a></div>
+    <div class="menu-sublist open"><a href="portrait.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3a5249b8283381989dcfeb503e82db5f'); }"><span class="editable">Hi, Nice to meet you.</span></a></div>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
   </div>
   <div class="menu-group" data-group="about-daily">
@@ -719,7 +719,7 @@
       <a href="band.html" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於日常</span><span class="flip-back">ABOUT LIFE</span></span></span></a>
       <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)">▾</button>
     </div>
-    <div class="menu-sublist open"><a href="#post-3a5249b828338107b18eeb8c0f081131" target="_blank" rel="noopener" class="menu-sub-link"><span class="editable">《自然成像》</span></a></div>
+    <div class="menu-sublist open"><a href="band.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3a5249b828338107b18eeb8c0f081131'); }"><span class="editable">《自然成像》</span></a></div>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
   </div>
   <div class="menu-group" data-group="journal">
@@ -727,7 +727,7 @@
       <a href="pet.html" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於愛</span><span class="flip-back">ABOUT LOVE</span></span></span></a>
       <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)">▾</button>
     </div>
-    <div class="menu-sublist open"><a href="#post-3a5249b8283381b78aaff908365cc2bb" target="_blank" rel="noopener" class="menu-sub-link"><span class="editable">《無條件的愛》</span></a></div>
+    <div class="menu-sublist open"><a href="pet.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3a5249b8283381b78aaff908365cc2bb'); }"><span class="editable">《無條件的愛》</span></a></div>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
   </div>
   <div class="menu-group" data-group="business">
@@ -889,7 +889,29 @@
     <div id="bizSections">
       <div class="biz-section" id="biz-portrait">
         <h2 class="editable">人像</h2>
-        <div class="biz-albums" id="biz-portrait-albums"></div>
+        <div class="biz-albums" id="biz-portrait-albums"><div class="biz-album" id="album-1786167303048-1">
+      <div class="album-meta">
+        <span class="album-date editable"></span>
+      </div>
+      <div class="album-title editable">日常形象</div>
+      <div class="album-link-wrap"></div>
+      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">黑白</button>
+      <div class="biz-carousel-frame">
+        <div class="empty-hint">尚未新增照片</div>
+      </div>
+      <div class="biz-captions"></div>
+      <div class="biz-carousel-foot" style="display:none;">
+        <div class="biz-dots"></div>
+        <span class="biz-counter"></span>
+      </div>
+      <div class="biz-filmstrip"></div>
+      <div class="biz-album-actions">
+        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
+        <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
+        <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
+        <button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+      </div>
+    </div></div>
         <div class="biz-album-actions">
           <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-portrait-albums')">＋ 新增相簿</button>
         </div>
@@ -905,21 +927,21 @@
         <h2 class="editable">影片</h2>
         <div class="video-tabs" id="videoTabs">
           <button class="video-tab" data-cat="all" onclick="selectMainCat(this)">全部</button>
-          <button class="video-tab active" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
+          <button class="video-tab" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
           <button class="video-tab" data-cat="brand" onclick="selectMainCat(this)">品牌合作</button>
-          <button class="video-tab" data-cat="life" onclick="selectMainCat(this)">生活日常</button>
+          <button class="video-tab active" data-cat="life" onclick="selectMainCat(this)">生活日常</button>
         </div>
-        <div class="video-subtags visible" data-owner="livehouse">
+        <div class="video-subtags" data-owner="livehouse">
           <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
           <button class="video-subtag" data-subcat="sub-1785666898557" onclick="selectSubCat(this)">LIVE HOUSE<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
         <div class="video-subtags" data-owner="brand">
-          <button class="video-subtag" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button class="video-subtag" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag active" data-subcat="sub-1785667896912" onclick="selectSubCat(this)">手創<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
-        </div>
-        <div class="video-subtags" data-owner="life">
           <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+          <button class="video-subtag" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667896912" onclick="selectSubCat(this)">手創<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+        </div>
+        <div class="video-subtags visible" data-owner="life">
+          <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
+          <button class="video-subtag" data-subcat="sub-1786167131053" onclick="selectSubCat(this)">日常紀錄<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
         <div class="video-grid" id="videoGrid"><div class="video-card" data-cat="brand" data-subcat="sub-1785257430478" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="m_wVqrJGq1M" onclick="playVideoCard(this)">
@@ -973,7 +995,33 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+      <div class="video-thumb-frame color-mode" data-yt="1PFzmP_iELI" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/1PFzmP_iELI/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">椅子樂團｜The Chairs · 展演空間 · LIVE HOUSE</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+      <div class="video-thumb-frame color-mode" data-yt="B0lusEcy1nk" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://img.youtube.com/vi/B0lusEcy1nk/2.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>
+      <div class="video-card-meta editable">椅子樂團｜The Chairs · 展演空間 · LIVE HOUSE</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+      <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="NeXWSn-wDR4" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/NeXWSn-wDR4/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -986,7 +1034,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="zqGvkxjDnkU" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/zqGvkxjDnkU/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -999,7 +1047,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="OnU-7IVmp-A" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/OnU-7IVmp-A/3.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1012,7 +1060,7 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
       <div class="video-thumb-frame" data-yt="HweyZz9oCxQ" onclick="playVideoCard(this)">
         <img class="video-cover" src="https://img.youtube.com/vi/HweyZz9oCxQ/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1116,12 +1164,12 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557">
-      <div class="video-thumb-frame color-mode" data-yt="B0lusEcy1nk" onclick="playVideoCard(this)">
-        <img class="video-cover" src="https://img.youtube.com/vi/B0lusEcy1nk/2.jpg" alt="">
-        <div class="video-play-overlay"></div>
+    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="display: none;">
+      <div class="video-thumb-frame color-mode" data-ig="https://www.instagram.com/reel/DTnOj_OESPI/" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://www.instagram.com/reel/DTnOj_OESPI/?igsh=bjc3YWt0Ym5zdHhs" alt="">
+        <div class="video-play-overlay ig-mode"></div>
       </div>
-      <div class="video-card-meta editable">椅子樂團｜The Chairs · 展演空間 · LIVE HOUSE</div>
+      <div class="video-card-meta editable">黃玠 · 展演空間 · LIVE HOUSE · Instagram</div>
       <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
       <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
       <div class="video-reorder">
@@ -1129,25 +1177,12 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557">
-      <div class="video-thumb-frame color-mode" data-yt="1PFzmP_iELI" onclick="playVideoCard(this)">
-        <img class="video-cover" src="https://img.youtube.com/vi/1PFzmP_iELI/hqdefault.jpg" alt="">
-        <div class="video-play-overlay"></div>
+    </div><div class="video-card" data-cat="life" data-subcat="sub-1786167131053">
+      <div class="video-thumb-frame color-mode" data-ig="https://www.instagram.com/reel/C8yT4HtPtmc/" onclick="playVideoCard(this)">
+        <img class="video-cover" src="https://www.instagram.com/reel/C8yT4HtPtmc/?igsh=MTVvMWFxMHY3c2t1NQ==" alt="">
+        <div class="video-play-overlay ig-mode"></div>
       </div>
-      <div class="video-card-meta editable">椅子樂團｜The Chairs · 展演空間 · LIVE HOUSE</div>
-      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
-      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
-      <div class="video-reorder">
-        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
-        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
-      </div>
-      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557">
-      <div class="video-thumb-frame color-mode" data-yt="rNstNAuVGus" onclick="playVideoCard(this)">
-        <img class="video-cover" src="https://img.youtube.com/vi/rNstNAuVGus/hqdefault.jpg" alt="">
-        <div class="video-play-overlay"></div>
-      </div>
-      <div class="video-card-meta editable">黃玠 · 展演空間 · LIVE HOUSE</div>
+      <div class="video-card-meta editable">@missflorrietw · 生活日常 · 日常紀錄 · Instagram</div>
       <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
       <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
       <div class="video-reorder">
@@ -1661,10 +1696,11 @@
     store.appendChild(art);
 
     const a = document.createElement('a');
-    a.href = '#' + id;
-    a.target = '_blank';
-    a.rel = 'noopener';
+    const groupLabel = group.querySelector('.menu-group-label');
+    const folderHref = groupLabel ? groupLabel.getAttribute('href') : ('#' + id);
+    a.href = folderHref;
     a.className = 'menu-sub-link';
+    a.setAttribute('onclick', "if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('" + id + "'); }");
     a.innerHTML = `<span class="editable">${escapeHtml(title)}</span>`;
     sublist.appendChild(a);
     sublist.classList.add('open');
