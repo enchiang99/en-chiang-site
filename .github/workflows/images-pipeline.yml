@@ -1,0 +1,52 @@
+name: 圖片自動壓縮與索引更新
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'images/**'
+      - '!images/README.md'
+
+permissions:
+  contents: write
+
+jobs:
+  process-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout（含上一版，才能比對這次變動了哪些檔案）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 安裝 sharp（圖片處理套件）
+        run: npm install sharp --no-save
+
+      - name: 找出這次變動的圖片檔案
+        id: changed
+        run: |
+          FILES=$(git diff --name-only --diff-filter=ACM HEAD^ HEAD -- images -- ':!images/README.md')
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$FILES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: 壓縮新上傳／有變動的圖片
+        env:
+          CHANGED_FILES: ${{ steps.changed.outputs.files }}
+        run: node scripts/compress-images.js
+
+      - name: 重新產生 images/README.md（縮圖索引）
+        run: node scripts/gen-images-readme.js
+
+      - name: 若有變動則自動提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add images
+          git diff --staged --quiet || git commit -m "chore: auto-compress images + update README [skip ci]"
+          git push
