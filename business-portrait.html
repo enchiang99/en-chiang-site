@@ -58,13 +58,17 @@
   <p class="lede">台中人像寫真拍攝。若有幸能遇見，我們交換彼此的故事——自然地對談，當下就是最好的樣子。</p>
 </section>
 
-<div class="service-body">
-  <p>拍攝前會先簡單聊聊，了解這次想留下的是什麼樣的心情，而不是先套一套姿勢清單。現場多半是自然對談、走動、生活感的互動，鏡頭只是在旁邊記錄下那個瞬間。作品多以黑白顆粒質感呈現，也可依需求保留彩色版本。</p>
-  <p>拍攝範圍以台中為主，個人形象照、情侶寫真皆可洽詢，實際場地與檔期會依內容另行討論。</p>
+<div class="color-toggle-wrap">
+  <button type="button" class="color-toggle-btn" id="bwToggleBtn" onclick="toggleViewerBW()">黑白瀏覽</button>
 </div>
 
 <div id="bizAlbumsPortrait" class="biz-albums-static">
   <p class="biz-empty-hint">作品集陸續整理上架中，歡迎先到 Instagram 看更多拍攝紀錄。</p>
+</div>
+
+<div class="service-body">
+  <p>拍攝前會先簡單聊聊，了解這次想留下的是什麼樣的心情，而不是先套一套姿勢清單。現場多半是自然對談、走動、生活感的互動，鏡頭只是在旁邊記錄下那個瞬間。作品以原圖顏色呈現，也可以切換上方「黑白瀏覽」看不同的質感。</p>
+  <p>拍攝範圍以台中為主，個人形象照、情侶寫真皆可洽詢，實際場地與檔期會依內容另行討論。</p>
 </div>
 
 <div class="service-cta">
@@ -76,6 +80,13 @@
     return String(s || '').replace(/[&<>"']/g, function(c){
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
+  }
+
+  function toggleViewerBW(){
+    var gallery = document.getElementById('bizAlbumsPortrait');
+    var btn = document.getElementById('bwToggleBtn');
+    var isBW = gallery.classList.toggle('viewer-bw-all');
+    btn.textContent = isBW ? '彩色瀏覽' : '黑白瀏覽';
   }
 
   function renderBizAlbums(html, containerId, targetElId){
@@ -100,7 +111,8 @@
         return true;
       }).map(function(img){
         var alt = img.getAttribute('alt') || title;
-        return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" loading="lazy">';
+        var bwClass = img.classList.contains('bw-mode') ? ' bw-mode' : '';
+        return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" class="' + bwClass.trim() + '" loading="lazy">';
       }).join('');
 
       if(!gallery) return '';

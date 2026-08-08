@@ -466,7 +466,8 @@
   .biz-section h2{ font-size:clamp(19px,2.4vw,26px); font-weight:500; margin:0 0 20px; }
   .biz-images{ display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:10px; margin-bottom:16px; }
   .biz-img-wrap{ position:relative; }
-  .biz-img-wrap img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; filter:grayscale(1) contrast(1.05); }
+  .biz-img-wrap img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+  .biz-img-wrap img.bw-mode{ filter:grayscale(1) contrast(1.05); }
   .biz-img-del{
     display:none; position:absolute; top:6px; right:6px; width:24px; height:24px;
     background:rgba(20,18,15,0.78); color:#fff; border:none; font-size:12px; cursor:pointer;
@@ -479,8 +480,9 @@
   .biz-video-wrap{ position:relative; }
   .biz-video-frame{ position:relative; width:100%; padding-top:56.25%; background:var(--paper-deep); }
   .biz-video-frame iframe{
-    position:absolute; top:0; left:0; width:100%; height:100%; border:0; filter:grayscale(1) contrast(1.05);
+    position:absolute; top:0; left:0; width:100%; height:100%; border:0;
   }
+  .biz-video-frame iframe.bw-mode{ filter:grayscale(1) contrast(1.05); }
   .biz-video-wrap .biz-img-del{
     display:none; position:static; width:auto; height:auto; margin-top:8px;
     background:none; color:var(--ink-soft); border:1px solid var(--line); padding:6px 12px; font-size:11px;
@@ -510,10 +512,10 @@
   body.edit-mode .album-link-del{ display:inline-block; }
 
   .biz-carousel-frame{ position:relative; width:100%; max-width:360px; aspect-ratio:4/5; overflow:hidden; background:var(--paper-deep); }
-  .biz-carousel-frame .cimg{ display:none; width:100%; height:100%; object-fit:contain; filter:grayscale(1) contrast(1.05); }
+  .biz-carousel-frame .cimg{ display:none; width:100%; height:100%; object-fit:contain; }
+  .biz-carousel-frame .cimg.bw-mode{ filter:grayscale(1) contrast(1.05); }
   .biz-carousel-frame .cimg.active{ display:block; }
-  .biz-carousel-frame .cimg.color-mode{ filter:none; }
-  .biz-filmstrip img.color-mode{ filter:none; }
+  .biz-filmstrip img.bw-mode{ filter:grayscale(1) contrast(1.05); }
   .biz-carousel-frame .empty-hint{ display:flex; align-items:center; justify-content:center; height:100%; color:var(--ink-soft); font-size:13px; }
   .biz-carousel-frame .carousel-arrow{ font-size:14px; width:30px; height:30px; }
 
@@ -533,7 +535,7 @@
   .biz-filmstrip::-webkit-scrollbar{ display:none; }
   .biz-thumb-wrap{ position:relative; flex:0 0 auto; }
   .biz-filmstrip img{
-    width:58px; aspect-ratio:4/5; object-fit:cover; filter:grayscale(1) contrast(1.05);
+    width:58px; aspect-ratio:4/5; object-fit:cover;
     opacity:0.55; cursor:pointer; display:block; transition:opacity .25s ease, outline-color .25s ease;
   }
   .biz-filmstrip img.current{ outline:2px solid var(--ink); outline-offset:-2px; opacity:1; }
@@ -584,10 +586,10 @@
   .video-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px 14px; margin-top:24px; }
   .video-card{ position:relative; }
   .video-thumb-frame{ position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:var(--paper-deep); cursor:pointer; }
-  .video-thumb-frame iframe{ position:absolute; top:0; left:0; width:100%; height:100%; border:0; filter:grayscale(1) contrast(1.05); }
-  .video-thumb-frame .video-cover{ width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(1) contrast(1.05); }
-  .video-thumb-frame.color-mode iframe,
-  .video-thumb-frame.color-mode .video-cover{ filter:none; }
+  .video-thumb-frame iframe{ position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+  .video-thumb-frame .video-cover{ width:100%; height:100%; object-fit:cover; display:block; }
+  .video-thumb-frame.bw-mode iframe,
+  .video-thumb-frame.bw-mode .video-cover{ filter:grayscale(1) contrast(1.05); }
   .video-play-overlay{
     position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     width:44px; height:44px; border-radius:50%;
@@ -643,7 +645,7 @@
     aspect-ratio:9/16; overflow:hidden; cursor:pointer; border:2px solid transparent; position:relative;
   }
   .cover-option-wrap:hover{ border-color:var(--accent); }
-  .cover-option-wrap img{ width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.05); display:block; }
+  .cover-option-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
   .cover-picker-box button{
     display:block; width:100%; margin-top:8px; background:none; border:1px solid var(--ink-soft);
     color:var(--ink-soft); font-family:'Noto Serif TC',serif; font-size:13px; padding:10px; cursor:pointer;
@@ -2061,11 +2063,11 @@
     }
     const id = frame.dataset.yt;
     if(!id) return;
-    const isColor = frame.classList.contains('color-mode');
+    const isBW = frame.classList.contains('bw-mode');
     frame.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" title="YouTube video" frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen></iframe>`;
-    frame.classList.toggle('color-mode', isColor);
+    frame.classList.toggle('bw-mode', isBW);
     frame.removeAttribute('onclick');
   }
 
@@ -2085,9 +2087,9 @@
 
   function toggleVideoBW(btn){
     const frame = btn.closest('.video-card').querySelector('.video-thumb-frame');
-    const toColor = !frame.classList.contains('color-mode');
-    frame.classList.toggle('color-mode', toColor);
-    btn.textContent = toColor ? '原圖' : '黑白';
+    const toBW = !frame.classList.contains('bw-mode');
+    frame.classList.toggle('bw-mode', toBW);
+    btn.textContent = toBW ? '黑白' : '原圖';
     markDirty();
   }
 
@@ -2099,11 +2101,11 @@
       return;
     }
     const idx = activeImg.dataset.i;
-    const toColor = !activeImg.classList.contains('color-mode');
-    activeImg.classList.toggle('color-mode', toColor);
+    const toBW = !activeImg.classList.contains('bw-mode');
+    activeImg.classList.toggle('bw-mode', toBW);
     const thumb = album.querySelector('.biz-filmstrip img[data-i="' + idx + '"]');
-    if(thumb) thumb.classList.toggle('color-mode', toColor);
-    btn.textContent = toColor ? '原圖' : '黑白';
+    if(thumb) thumb.classList.toggle('bw-mode', toBW);
+    btn.textContent = toBW ? '黑白' : '原圖';
     markDirty();
   }
 
@@ -2255,8 +2257,8 @@
     const toggleBtn = album.querySelector('.bw-toggle-btn');
     if(toggleBtn){
       const newActiveImg = album.querySelector('.cimg.active');
-      const isColor = newActiveImg && newActiveImg.classList.contains('color-mode');
-      toggleBtn.textContent = isColor ? '原圖' : '黑白';
+      const isBW = newActiveImg && newActiveImg.classList.contains('bw-mode');
+      toggleBtn.textContent = isBW ? '黑白' : '原圖';
     }
     updateBizCounter(album);
   }

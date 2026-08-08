@@ -58,13 +58,17 @@
   <p class="lede">台中品牌形象攝影合作。把品牌想傳達的調性，轉化成能被記住的畫面。</p>
 </section>
 
-<div class="service-body">
-  <p>合作前會先了解品牌的定位與這次想呈現的情境，不論是商品情境、空間氛圍或品牌故事，都希望畫面帶著真實的溫度，而不是制式的型錄感。搭配的短片與側拍作品可以參考「影片」頁面。</p>
-  <p>拍攝範圍以台中為主，實際場地、檔期與報價會依合作內容另行討論。</p>
+<div class="color-toggle-wrap">
+  <button type="button" class="color-toggle-btn" id="bwToggleBtn" onclick="toggleViewerBW()">黑白瀏覽</button>
 </div>
 
 <div id="bizAlbumsBrand" class="biz-albums-static">
   <p class="biz-empty-hint">合作案例陸續整理上架中，歡迎先到「影片」頁面看品牌合作短片。</p>
+</div>
+
+<div class="service-body">
+  <p>合作前會先了解品牌的定位與這次想呈現的情境，不論是商品情境、空間氛圍或品牌故事，都希望畫面帶著真實的溫度，而不是制式的型錄感。搭配的短片與側拍作品可以參考「影片」頁面。</p>
+  <p>拍攝範圍以台中為主，實際場地、檔期與報價會依合作內容另行討論。</p>
 </div>
 
 <div class="service-cta">
@@ -76,6 +80,13 @@
     return String(s || '').replace(/[&<>"']/g, function(c){
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
+  }
+
+  function toggleViewerBW(){
+    var gallery = document.getElementById('bizAlbumsBrand');
+    var btn = document.getElementById('bwToggleBtn');
+    var isBW = gallery.classList.toggle('viewer-bw-all');
+    btn.textContent = isBW ? '彩色瀏覽' : '黑白瀏覽';
   }
 
   function renderBizAlbums(html, containerId, targetElId){
@@ -100,7 +111,8 @@
         return true;
       }).map(function(img){
         var alt = img.getAttribute('alt') || title;
-        return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" loading="lazy">';
+        var bwClass = img.classList.contains('bw-mode') ? ' bw-mode' : '';
+        return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" class="' + bwClass.trim() + '" loading="lazy">';
       }).join('');
 
       if(!gallery) return '';

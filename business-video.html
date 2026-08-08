@@ -58,7 +58,11 @@
   <p class="lede">展演空間、品牌合作、生活日常——用影像記錄現場的溫度。</p>
 </section>
 
-<div class="video-section">
+<div class="color-toggle-wrap">
+  <button type="button" class="color-toggle-btn" id="bwToggleBtn" onclick="toggleViewerBW()">黑白瀏覽</button>
+</div>
+
+<div class="video-section" id="videoSection">
   <div class="video-tabs" id="videoTabs">
     <button class="video-tab active" data-cat="all" onclick="selectMainCat(this)">全部</button>
     <button class="video-tab" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
@@ -113,11 +117,24 @@
   }
 
   function playVideoCard(frame, e){
+    var igUrl = frame.getAttribute('data-ig');
+    if(igUrl){
+      return true; /* 一般連結行為，直接開新分頁到 Instagram */
+    }
     var id = frame.getAttribute('data-yt');
     if(!id) return true;
     if(e) e.preventDefault();
+    var isBW = frame.classList.contains('bw-mode');
     frame.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+    frame.classList.toggle('bw-mode', isBW);
     return false;
+  }
+
+  function toggleViewerBW(){
+    var section = document.getElementById('videoSection');
+    var btn = document.getElementById('bwToggleBtn');
+    var isBW = section.classList.toggle('viewer-bw-all');
+    btn.textContent = isBW ? '彩色瀏覽' : '黑白瀏覽';
   }
 
   function applyFilter(){
@@ -166,14 +183,21 @@
       var img = card.querySelector('.video-cover');
       var meta = card.querySelector('.video-card-meta');
       var yt = frame ? frame.getAttribute('data-yt') : '';
-      if(!yt) return '';
+      var ig = frame ? frame.getAttribute('data-ig') : '';
+      if(!yt && !ig) return '';
+
+      var bwClass = frame && frame.classList.contains('bw-mode') ? ' bw-mode' : '';
+      var overlayClass = ig ? ' ig-mode' : '';
+      var linkHref = ig || ('https://youtu.be/' + yt);
+      var frameAttr = ig ? ('data-ig="' + escapeHtml(ig) + '"') : ('data-yt="' + escapeHtml(yt) + '"');
       var src = img ? img.getAttribute('src') : ('https://img.youtube.com/vi/' + yt + '/hqdefault.jpg');
-      var altText = (meta ? meta.textContent.trim() : 'En Chiang 影片作品') + ' En Chiang 拍攝';
       var metaText = meta ? meta.textContent.trim() : '';
+      var altText = (metaText || 'En Chiang 影片作品') + ' En Chiang 拍攝';
+
       return '<div class="video-card" data-cat="' + escapeHtml(card.dataset.cat || '') + '" data-subcat="' + escapeHtml(card.dataset.subcat || '') + '">' +
-        '<a class="video-thumb-frame" data-yt="' + escapeHtml(yt) + '" href="https://youtu.be/' + escapeHtml(yt) + '" target="_blank" rel="noopener" onclick="return playVideoCard(this, event)">' +
+        '<a class="video-thumb-frame' + bwClass + '" ' + frameAttr + ' href="' + escapeHtml(linkHref) + '" target="_blank" rel="noopener" onclick="return playVideoCard(this, event)">' +
         '<img class="video-cover" src="' + escapeHtml(src) + '" alt="' + escapeHtml(altText) + '">' +
-        '<div class="video-play-overlay"></div></a>' +
+        '<div class="video-play-overlay' + overlayClass + '"></div></a>' +
         '<div class="video-card-meta">' + escapeHtml(metaText) + '</div></div>';
     }).join('');
 
