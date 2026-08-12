@@ -704,7 +704,7 @@
   <span class="hint">← 顏色</span>
 </div>
 
-<button class="menu-btn open" id="menuBtn" onclick="toggleMenu()">
+<button class="menu-btn open" id="menuBtn" onclick="toggleMenu()" aria-label="開啟選單">
   <span></span><span></span><span></span>
 </button>
 <nav class="menu-panel open" id="menuPanel">
@@ -799,8 +799,8 @@
       <div class="carousel-slide"><img id="img-node3" src="images/daily-3.jpeg" alt="台中生活細節特寫,黑白攝影"><button class="img-edit-btn" onclick="replaceImage('img-node3')">✎</button><div class="tag editable"><br></div></div>
       <div class="carousel-slide"><img id="img-node4" src="images/daily-4.jpeg" alt="台中街景日常時刻,黑白攝影"><button class="img-edit-btn" onclick="replaceImage('img-node4')">✎</button><div class="tag editable"><br></div></div>
     </div>
-    <button class="carousel-arrow prev" onclick="carouselNav(-1)">‹</button>
-    <button class="carousel-arrow next" onclick="carouselNav(1)">›</button>
+    <button class="carousel-arrow prev" onclick="carouselNav(-1)" aria-label="上一張">‹</button>
+    <button class="carousel-arrow next" onclick="carouselNav(1)" aria-label="下一張">›</button>
     <div class="carousel-dots" id="carouselDots">
       <div class="carousel-dot"></div>
       <div class="carousel-dot"></div>
