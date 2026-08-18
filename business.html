@@ -50,6 +50,38 @@
     }
   ]
 }</script>
+<style>
+  .edit-toggle{
+    position:fixed; bottom:22px; left:22px; z-index:300;
+    background:#211f1b; color:#e9e5dd; border:none; padding:14px 20px;
+    font-size:12px; letter-spacing:0.14em; cursor:pointer; text-transform:uppercase;
+    display:none;
+  }
+  body.edit-access .edit-toggle{ display:block; }
+  .edit-export{
+    position:fixed; bottom:22px; left:150px; z-index:300;
+    background:#3a6b4a; color:#fff; border:none; padding:14px 20px;
+    font-size:12px; letter-spacing:0.14em; cursor:pointer; text-transform:uppercase;
+    display:none;
+  }
+  body.edit-access.edit-mode .edit-export{ display:inline-block; }
+  body.edit-mode [contenteditable="true"]{
+    outline:1px dashed #a3402f; outline-offset:4px; cursor:text; background:rgba(163,64,47,0.04);
+  }
+  body.edit-mode{ padding-bottom:90px; }
+  .faq-del-btn{
+    display:none; margin-top:10px; background:none; border:1px solid #a8977a; color:#a8977a;
+    font-size:11px; letter-spacing:.08em; padding:6px 12px; cursor:pointer;
+  }
+  body.edit-mode .faq-del-btn{ display:inline-block; }
+  .faq-add-btn, .hub-edit-hint{
+    display:none; margin-top:18px; background:none; border:1px solid #a8977a; color:#a8977a;
+    font-size:11.5px; letter-spacing:.1em; padding:8px 16px; cursor:pointer; text-transform:uppercase;
+  }
+  body.edit-mode .faq-add-btn{ display:inline-block; }
+  body.edit-mode .biz-hub-card{ pointer-events:none; }
+  body.edit-mode .biz-hub-card [contenteditable="true"]{ pointer-events:auto; }
+</style>
 </head>
 <body>
 
@@ -59,47 +91,53 @@
 </div>
 
 <section class="archive-hero">
-  <span class="label">About Business · 商業合作</span>
-  <h1>關於商業</h1>
+  <span class="label editable">About Business · 商業合作</span>
+  <h1 class="editable">關於商業</h1>
 </section>
 
 <div class="service-body">
-  <p>除了記錄生活的日常拍攝，我也接受人像寫真預約、品牌形象合作與短片拍攝委託。以下分成三個部分，點進去可以看到各自的拍攝說明與作品。</p>
+  <p class="editable">除了記錄生活的日常拍攝，我也接受人像寫真預約、品牌形象合作與短片拍攝委託。以下分成三個部分，點進去可以看到各自的拍攝說明與作品。</p>
 </div>
 
 <div class="biz-hub-grid">
   <a class="biz-hub-card" href="business-portrait.html">
-    <div class="biz-hub-title">人像</div>
-    <div class="biz-hub-desc">台中人像寫真拍攝預約，個人形象照、情侶寫真，自然對談、不制式擺拍。</div>
+    <div class="biz-hub-title editable">人像</div>
+    <div class="biz-hub-desc editable">台中人像寫真拍攝預約，個人形象照、情侶寫真，自然對談、不制式擺拍。</div>
   </a>
   <a class="biz-hub-card" href="business-brand.html">
-    <div class="biz-hub-title">品牌</div>
-    <div class="biz-hub-desc">品牌形象合作、商品情境拍攝，將品牌調性轉化成有溫度的畫面。</div>
+    <div class="biz-hub-title editable">品牌</div>
+    <div class="biz-hub-desc editable">品牌形象合作、商品情境拍攝，將品牌調性轉化成有溫度的畫面。</div>
   </a>
   <a class="biz-hub-card" href="business-video.html">
-    <div class="biz-hub-title">影片</div>
-    <div class="biz-hub-desc">展演空間紀錄、品牌合作短片、生活日常影像，直式雙欄作品瀏覽。</div>
+    <div class="biz-hub-title editable">影片</div>
+    <div class="biz-hub-desc editable">展演空間紀錄、品牌合作短片、生活日常影像，直式雙欄作品瀏覽。</div>
   </a>
 </div>
 
 <div class="biz-faq">
-  <div class="label" style="margin-bottom:18px; display:block;">常見問題</div>
-  <div class="biz-faq-item">
-    <div class="biz-faq-q">拍攝服務範圍在哪裡？</div>
-    <div class="biz-faq-a">主要服務台中地區，人像寫真與品牌合作可於台中約拍，寵物到府攝影提供到府服務。</div>
+  <div class="label editable" style="margin-bottom:18px; display:block;">常見問題</div>
+  <div id="faqList">
+    <div class="biz-faq-item">
+      <div class="biz-faq-q editable">拍攝服務範圍在哪裡？</div>
+      <div class="biz-faq-a editable">主要服務台中地區，人像寫真與品牌合作可於台中約拍，寵物到府攝影提供到府服務。</div>
+      <button class="faq-del-btn" onclick="deleteFaqItem(event)">刪除這則問答</button>
+    </div>
+    <div class="biz-faq-item">
+      <div class="biz-faq-q editable">商業合作怎麼洽談？</div>
+      <div class="biz-faq-a editable">歡迎透過 Instagram <a href="https://www.instagram.com/enchiang_" target="_blank" rel="noopener" style="border-bottom:1px solid var(--ink);">@enchiang_</a> 私訊，或寄信到 en.hi.light@gmail.com，說明拍攝需求、場地與希望的檔期，會依內容討論拍攝方式與報價。</div>
+      <button class="faq-del-btn" onclick="deleteFaqItem(event)">刪除這則問答</button>
+    </div>
+    <div class="biz-faq-item">
+      <div class="biz-faq-q editable">人像寫真是擺拍還是紀實風格？</div>
+      <div class="biz-faq-a editable">不走制式擺拍，偏好自然對談與真實情境下捕捉的樣子，作品多為黑白顆粒質感，也可依需求保留彩色版本。</div>
+      <button class="faq-del-btn" onclick="deleteFaqItem(event)">刪除這則問答</button>
+    </div>
   </div>
-  <div class="biz-faq-item">
-    <div class="biz-faq-q">商業合作怎麼洽談？</div>
-    <div class="biz-faq-a">歡迎透過 Instagram <a href="https://www.instagram.com/enchiang_" target="_blank" rel="noopener" style="border-bottom:1px solid var(--ink);">@enchiang_</a> 私訊，或寄信到 en.hi.light@gmail.com，說明拍攝需求、場地與希望的檔期，會依內容討論拍攝方式與報價。</div>
-  </div>
-  <div class="biz-faq-item">
-    <div class="biz-faq-q">人像寫真是擺拍還是紀實風格？</div>
-    <div class="biz-faq-a">不走制式擺拍，偏好自然對談與真實情境下捕捉的樣子，作品多為黑白顆粒質感，也可依需求保留彩色版本。</div>
-  </div>
+  <button type="button" class="faq-add-btn" onclick="addFaqItem()">＋ 新增問答</button>
 </div>
 
 <div class="service-related">
-  <span class="label">其他分類</span>
+  <span class="label editable">其他分類</span>
   <div class="related-links">
     <a href="portrait.html">關於EN</a>
     <a href="band.html">關於日常</a>
@@ -109,8 +147,99 @@
 </div>
 
 <footer class="service-footer">
-  <div class="serif">EN CHIANG</div>
-  <div class="foot-meta">台中 | 自然 人像 寵物 側拍花絮攝影　·　en.hi.light@gmail.com</div>
+  <div class="serif editable">EN CHIANG</div>
+  <div class="foot-meta editable">台中 | 自然 人像 寵物 側拍花絮攝影　·　en.hi.light@gmail.com</div>
 </footer>
+
+<button class="edit-toggle" id="editToggle" onclick="toggleEditMode()">✎ 編輯</button>
+<button class="edit-export" id="editExport" onclick="exportSite()">匯出 business.html</button>
+
+<script>
+  (function(){
+    var params = new URLSearchParams(location.search);
+    if(params.get('edit') === '1'){
+      document.body.classList.add('edit-access');
+    }
+  })();
+
+  let editMode = false;
+  let hasUnsavedChanges = false;
+  function markDirty(){ hasUnsavedChanges = true; }
+
+  function toggleEditMode(){
+    if(editMode && hasUnsavedChanges){
+      const proceed = confirm('提醒：你剛剛的修改「還沒有」保存！\n\n點「確定」離開編輯模式前，記得之後要按綠色「匯出 business.html」下載新檔案並上傳，不然修改會消失。\n\n點「取消」可以留在編輯模式，先去按匯出。');
+      if(!proceed) return;
+    }
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    document.querySelectorAll('.editable').forEach(el => { el.contentEditable = editMode; });
+    document.getElementById('editToggle').textContent = editMode ? '✓ 完成編輯' : '✎ 編輯';
+    if(editMode){
+      hasUnsavedChanges = false;
+      document.querySelectorAll('.editable').forEach(el => {
+        el.addEventListener('input', markDirty);
+      });
+      alert('編輯模式已開啟：\n\n· 點文字可以直接修改內容\n· 「常見問題」可以新增／刪除整則問答\n\n⚠️ 改完之後一定要按左下角綠色「匯出 business.html」下載新檔案，再上傳到 GitHub 蓋掉舊的 business.html，修改才會真正生效！');
+    }
+  }
+
+  function escapeHtml(s){
+    return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function addFaqItem(){
+    const q = prompt('問題：', '');
+    if(!q) return;
+    const a = prompt('答案：', '') || '';
+    const list = document.getElementById('faqList');
+    const item = document.createElement('div');
+    item.className = 'biz-faq-item';
+    item.innerHTML = `
+      <div class="biz-faq-q editable">${escapeHtml(q)}</div>
+      <div class="biz-faq-a editable">${escapeHtml(a)}</div>
+      <button class="faq-del-btn" onclick="deleteFaqItem(event)">刪除這則問答</button>
+    `;
+    list.appendChild(item);
+    markDirty();
+    if(editMode){
+      item.querySelectorAll('.editable').forEach(el => {
+        el.contentEditable = true;
+        el.addEventListener('input', markDirty);
+      });
+    }
+  }
+
+  function deleteFaqItem(e){
+    e.preventDefault();
+    if(confirm('確定要刪除這則問答嗎？')){
+      e.target.closest('.biz-faq-item').remove();
+      markDirty();
+    }
+  }
+
+  function exportSite(){
+    if(editMode){
+      editMode = false;
+      document.body.classList.remove('edit-mode');
+      document.querySelectorAll('.editable').forEach(el => { el.contentEditable = false; });
+      document.getElementById('editToggle').textContent = '✎ 編輯';
+    }
+    document.body.classList.remove('edit-access');
+    document.querySelectorAll('.editable').forEach(el => el.removeAttribute('contenteditable'));
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'business.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    hasUnsavedChanges = false;
+    alert('已經開始下載 business.html！\n\n請到手機的「檔案」App確認下載完成，再上傳到 GitHub 蓋掉舊的 business.html。');
+    setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
+  }
+</script>
 
 </body></html>
