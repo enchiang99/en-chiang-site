@@ -43,6 +43,14 @@
   },
   "url": "https://enchiang.com/portrait.html"
 }</script>
+<style>
+  .service-gallery.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
+  .service-gallery.two-col img{ width:100%; aspect-ratio:4/5; object-fit:cover; cursor:zoom-in; display:block; }
+  .service-gallery.two-col img.bw-mode{ filter:grayscale(1) contrast(1.05); }
+  .biz-album-static{ margin-bottom:40px; }
+  .biz-album-static .album-date{ font-family:'Noto Serif TC',serif; font-size:12.5px; letter-spacing:0.08em; color:#a8977a; }
+  .biz-album-static .album-title{ font-family:'Noto Serif TC',serif; font-size:19px; font-weight:500; margin:6px 0 4px; }
+</style>
 </head>
 <body>
 
@@ -70,6 +78,15 @@
   </div>
 </div>
 
+<div id="enAlbums" class="biz-albums-static">
+  <p class="biz-empty-hint">相簿陸續整理上架中。</p>
+</div>
+
+<div class="photo-lightbox-overlay" id="photoLightbox" onclick="if(event.target===this) closePhotoLightbox();">
+  <button type="button" class="photo-lightbox-close" onclick="closePhotoLightbox()">✕</button>
+  <img id="photoLightboxImg" src="" alt="">
+</div>
+
 <script>
   function toggleTextSize(){
     var on = document.body.classList.toggle('text-large');
@@ -84,6 +101,25 @@
     var btn = document.querySelector('.float-textsize');
     if(btn && localStorage.getItem('enchiang-text-large') === '1') btn.classList.add('active');
   });
+
+  function escapeHtml(s){
+    return String(s || '').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function openPhotoLightbox(src){
+    if(!src) return;
+    document.getElementById('photoLightboxImg').setAttribute('src', src);
+    document.getElementById('photoLightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePhotoLightbox(){
+    document.getElementById('photoLightbox').classList.remove('open');
+    document.getElementById('photoLightboxImg').setAttribute('src', '');
+    document.body.style.overflow = '';
+  }
 
   function renderCategoryList(html, groupName, listElId){
     var doc = new DOMParser().parseFromString(html, 'text/html');
@@ -102,15 +138,58 @@
     }).join('');
   }
 
+  /* 相簿：固定兩欄網格顯示所有照片，點擊可放大 */
+  function renderAlbumsGrid(html, containerId, targetElId){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var container = doc.getElementById(containerId);
+    var target = document.getElementById(targetElId);
+    if(!target) return;
+    var albums = container ? Array.from(container.querySelectorAll('.biz-album')) : [];
+    if(!albums.length) return; /* 保留頁面原本就有的靜態提示文字 */
+
+    var out = albums.map(function(album){
+      var titleEl = album.querySelector('.album-title');
+      var dateEl = album.querySelector('.album-date');
+      var title = titleEl ? titleEl.textContent.trim() : '';
+      var date = dateEl ? dateEl.textContent.trim() : '';
+      var rawImgs = Array.from(album.querySelectorAll('.biz-filmstrip img, .biz-carousel-frame img'));
+      var seen = {};
+      var photos = rawImgs.filter(function(img){
+        var src = img.getAttribute('src');
+        if(!src || seen[src]) return false;
+        seen[src] = true;
+        return true;
+      });
+      if(!photos.length) return '';
+
+      var gallery = photos.map(function(img){
+        var alt = img.getAttribute('alt') || title;
+        var bwClass = img.classList.contains('bw-mode') ? ' bw-mode' : '';
+        return '<img src="' + img.getAttribute('src') + '" alt="' + escapeHtml(alt) + '" class="' + bwClass.trim() + '" loading="lazy" onclick="openPhotoLightbox(this.src)">';
+      }).join('');
+      var body = '<div class="service-gallery two-col">' + gallery + '</div>';
+
+      return '<div class="biz-album-static">' +
+        '<div class="album-meta"><span class="album-date">' + escapeHtml(date) + '</span></div>' +
+        '<div class="album-title">' + escapeHtml(title) + '</div>' +
+        body +
+        '</div>';
+    }).join('');
+
+    if(out.trim()) target.innerHTML = out;
+  }
+
   var cached = sessionStorage.getItem('enchiang-index-cache');
   if(cached){
     renderCategoryList(cached, 'about-en', 'articleList');
+    renderAlbumsGrid(cached, 'albums-post-3a5249b8283381989dcfeb503e82db5f', 'enAlbums');
   } else {
     fetch('index.html')
       .then(function(r){ return r.text(); })
       .then(function(html){
         sessionStorage.setItem('enchiang-index-cache', html);
         renderCategoryList(html, 'about-en', 'articleList');
+        renderAlbumsGrid(html, 'albums-post-3a5249b8283381989dcfeb503e82db5f', 'enAlbums');
       })
       .catch(function(){
         /* 保留頁面原本就有的靜態內容，抓取失敗時不覆蓋 */
