@@ -295,6 +295,71 @@ function extractPreservedExtras(oldHtml, postId) {
   return articleHtml.slice(pbEnd); // post-body 結束後、</article> 前的所有內容
 }
 
+// 掃描舊版 index.html 的 #articleStore，找出「所有」文章區塊，
+// 回傳 { id -> 完整 <article>...</article> HTML } 的對照表。
+// 用途：找出哪些文章不是這次從 Notion 抓回來的（=手動在網站上新增、
+// 從未寫進 Notion 的文章），這些要原封不動保留，否則會被同步直接砍掉。
+function collectAllOldArticles(oldHtml) {
+  const map = {};
+  const storeNeedle = '<div id="articleStore"';
+  const storeStart = oldHtml.indexOf(storeNeedle);
+  if (storeStart === -1) return map;
+  let range;
+  try {
+    range = findMatchingDivRangeAt(oldHtml, storeStart);
+  } catch (err) {
+    return map;
+  }
+  const [s, e] = range;
+  const storeHtml = oldHtml.slice(s, e);
+
+  const articleOpenRe = /<article class="post" id="([^"]+)">/g;
+  let m;
+  while ((m = articleOpenRe.exec(storeHtml))) {
+    const id = m[1];
+    const openStart = m.index;
+    const closeIdx = storeHtml.indexOf('</article>', openStart);
+    if (closeIdx === -1) continue;
+    const fullHtml = storeHtml.slice(openStart, closeIdx + '</article>'.length);
+    map[id] = fullHtml;
+  }
+  return map;
+}
+
+// 掃描舊版 index.html 裡指定分類(group)選單裡的所有連結，
+// 回傳 [{ id, html }]，用來找出「手動加的、不是 Notion 文章」的選單連結，
+// 這些也要原封不動保留，否則同步後選單裡會直接不見。
+function collectOldSublistLinks(oldHtml, group) {
+  const groupNeedle = `data-group="${group}"`;
+  const groupPos = oldHtml.indexOf(groupNeedle);
+  if (groupPos === -1) return [];
+  const sublistNeedle = 'class="menu-sublist';
+  const sublistPos = oldHtml.indexOf(sublistNeedle, groupPos);
+  const sublistTagStart = oldHtml.lastIndexOf('<div', sublistPos);
+  if (sublistTagStart === -1) return [];
+  let range;
+  try {
+    range = findMatchingDivRangeAt(oldHtml, sublistTagStart);
+  } catch (err) {
+    return [];
+  }
+  const [s, e] = range;
+  const openTagEnd = oldHtml.indexOf('>', sublistTagStart) + 1;
+  const inner = oldHtml.slice(openTagEnd, e - '</div>'.length);
+
+  const anchorRe = /<a\b[^>]*>[\s\S]*?<\/a>/g;
+  const results = [];
+  let m;
+  while ((m = anchorRe.exec(inner))) {
+    const anchorHtml = m[0];
+    const onclickMatch = anchorHtml.match(/showArticle\('(post-[^']+)'\)/);
+    const hrefMatch = anchorHtml.match(/href="#(post-[^"]+)"/);
+    const id = (onclickMatch && onclickMatch[1]) || (hrefMatch && hrefMatch[1]);
+    if (id) results.push({ id, html: anchorHtml });
+  }
+  return results;
+}
+
 async function main() {
   console.log('讀取 Notion 文章清單...');
   const pages = await queryPublishedArticles();
@@ -328,15 +393,31 @@ async function main() {
   articles.sort((a, b) => new Date(a.date) - new Date(b.date));
 
   let html = fs.readFileSync(INDEX_PATH, 'utf-8');
-  const oldHtml = html; // 同步前的舊內容，用來找回手動加的相簿區塊
+  const oldHtml = html; // 同步前的舊內容，用來找回手動加的相簿區塊、以及手動新增的文章
 
-  // 1) 重建 #articleStore（每篇文章的相簿區塊會從舊版 index.html 裡原封不動接回來）
-  const articleStoreHtml = articles
+  const syncedIds = new Set(articles.map((a) => a.id));
+
+  // 1) 重建 #articleStore
+  //    - Notion 抓回來的文章：相簿區塊從舊版 index.html 裡原封不動接回來
+  //    - 舊版裡「不屬於這次 Notion 同步範圍」的文章（=手動用「＋新增子項目」建立、
+  //      從未寫進 Notion 的文章）：整篇原封不動保留，不會被砍掉
+  const notionArticlesHtml = articles
     .map((a) => {
       const preservedExtras = extractPreservedExtras(oldHtml, a.id);
       return `<article class="post" id="${a.id}"><h2 class="post-title editable">${escapeHtml(a.title)}</h2><div class="post-date editable">${escapeHtml(a.dateLabel)}</div><div class="post-body editable">${a.bodyHtml}</div>${preservedExtras}</article>`;
     })
     .join('');
+
+  const allOldArticles = collectAllOldArticles(oldHtml);
+  const manualArticlesHtml = Object.keys(allOldArticles)
+    .filter((id) => !syncedIds.has(id))
+    .map((id) => {
+      console.log(`  保留手動新增的文章（不在 Notion 裡）: ${id}`);
+      return allOldArticles[id];
+    })
+    .join('');
+
+  const articleStoreHtml = notionArticlesHtml + manualArticlesHtml;
   {
     const [s, e] = findMatchingDivRange(html, '<div id="articleStore"');
     const openTagEnd = html.indexOf('>', html.indexOf('<div id="articleStore"')) + 1;
@@ -344,14 +425,26 @@ async function main() {
   }
 
   // 2) 重建每個分類選單(menu-sublist)裡的文章連結
+  //    - Notion 抓回來的文章：正常重新產生連結
+  //    - 舊版選單裡「不屬於這次 Notion 同步範圍」的連結（=手動新增文章的連結）：
+  //      原封不動保留在該分類選單最後面
   for (const group of Object.values(CATEGORY_TO_GROUP)) {
     const groupArticles = articles.filter((a) => a.group === group);
-    const linksHtml = groupArticles
+    const notionLinksHtml = groupArticles
       .map(
         (a) =>
           `<a href="#${a.id}" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('${a.id}'); }"><span class="editable">${escapeHtml(a.title)}</span></a>`
       )
       .join('');
+
+    const oldLinks = collectOldSublistLinks(oldHtml, group);
+    const manualLinksHtml = oldLinks
+      .filter((link) => !syncedIds.has(link.id))
+      .map((link) => link.html)
+      .join('');
+
+    const linksHtml = notionLinksHtml + manualLinksHtml;
+
     const groupNeedle = `data-group="${group}"`;
     const groupPos = html.indexOf(groupNeedle);
     if (groupPos === -1) {
