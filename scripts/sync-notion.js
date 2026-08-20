@@ -9,6 +9,12 @@
  *
  * 使用方式：node scripts/sync-notion.js
  * 執行完會直接覆寫 repo 根目錄的 index.html。
+ *
+ * 重要：這支腳本會保留每篇文章內文下方、由網站編輯模式手動新增的
+ * 「相簿」區塊（class="biz-albums post-albums" 與其後的 biz-album-actions）。
+ * 因為這些相簿不是存在 Notion 裡，而是直接存在 index.html 裡，
+ * 每次同步都要把它們從「舊版 index.html」裡讀出來、原封不動接回新文章後面，
+ * 否則自動同步一跑就會把手動加的相簿洗掉。
  */
 
 const fs = require('fs');
@@ -256,6 +262,39 @@ function findMatchingDivRange(html, startNeedle) {
   return findMatchingDivRangeAt(html, start);
 }
 
+// 從「同步前」的舊版 index.html 裡，把指定文章 post-body 結束後、
+// </article> 之前的內容（也就是手動加的相簿區塊）抓出來保留。
+// 找不到該文章、或該文章本來就沒有相簿區塊時，回傳空字串。
+function extractPreservedExtras(oldHtml, postId) {
+  const articleOpenNeedle = `<article class="post" id="${postId}">`;
+  const articleStart = oldHtml.indexOf(articleOpenNeedle);
+  if (articleStart === -1) return '';
+
+  const articleCloseNeedle = '</article>';
+  const articleEnd = oldHtml.indexOf(articleCloseNeedle, articleStart);
+  if (articleEnd === -1) return '';
+
+  const articleHtml = oldHtml.slice(articleStart, articleEnd);
+
+  const postBodyNeedle = 'class="post-body';
+  const pbNeedlePos = articleHtml.indexOf(postBodyNeedle);
+  if (pbNeedlePos === -1) return '';
+
+  const pbDivStart = articleHtml.lastIndexOf('<div', pbNeedlePos);
+  if (pbDivStart === -1) return '';
+
+  let pbRange;
+  try {
+    pbRange = findMatchingDivRangeAt(articleHtml, pbDivStart);
+  } catch (err) {
+    console.warn(`保留相簿區塊時解析失敗（${postId}）：${err.message}`);
+    return '';
+  }
+
+  const [, pbEnd] = pbRange;
+  return articleHtml.slice(pbEnd); // post-body 結束後、</article> 前的所有內容
+}
+
 async function main() {
   console.log('讀取 Notion 文章清單...');
   const pages = await queryPublishedArticles();
@@ -285,17 +324,18 @@ async function main() {
     });
   }
 
-  // 新文章排前面
-  articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+  // 文章由舊到新排序
+  articles.sort((a, b) => new Date(a.date) - new Date(b.date));
 
   let html = fs.readFileSync(INDEX_PATH, 'utf-8');
+  const oldHtml = html; // 同步前的舊內容，用來找回手動加的相簿區塊
 
-  // 1) 重建 #articleStore
+  // 1) 重建 #articleStore（每篇文章的相簿區塊會從舊版 index.html 裡原封不動接回來）
   const articleStoreHtml = articles
-    .map(
-      (a) =>
-        `<article class="post" id="${a.id}"><h2 class="post-title editable">${escapeHtml(a.title)}</h2><div class="post-date editable">${escapeHtml(a.dateLabel)}</div><div class="post-body editable">${a.bodyHtml}</div></article>`
-    )
+    .map((a) => {
+      const preservedExtras = extractPreservedExtras(oldHtml, a.id);
+      return `<article class="post" id="${a.id}"><h2 class="post-title editable">${escapeHtml(a.title)}</h2><div class="post-date editable">${escapeHtml(a.dateLabel)}</div><div class="post-body editable">${a.bodyHtml}</div>${preservedExtras}</article>`;
+    })
     .join('');
   {
     const [s, e] = findMatchingDivRange(html, '<div id="articleStore"');
@@ -309,7 +349,7 @@ async function main() {
     const linksHtml = groupArticles
       .map(
         (a) =>
-          `<a href="#${a.id}" target="_blank" rel="noopener" class="menu-sub-link"><span class="editable">${escapeHtml(a.title)}</span></a>`
+          `<a href="#${a.id}" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('${a.id}'); }"><span class="editable">${escapeHtml(a.title)}</span></a>`
       )
       .join('');
     const groupNeedle = `data-group="${group}"`;
