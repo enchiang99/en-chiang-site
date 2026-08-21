@@ -757,16 +757,16 @@
   <div class="menu-group" data-group="business">
     <div class="menu-group-head">
       <a href="business.html" class="menu-group-label" onclick="if(document.body.classList.contains('edit-access')){ openBusinessPage(event); }"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於商業</span><span class="flip-back">ABOUT BUSINESS</span></span></span></a>
-      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
+      <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
     </div>
-    <div class="menu-sublist">
+    <div class="menu-sublist open">
       <a href="business-portrait.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-portrait'); }"><span class="editable">人像</span></a>
       <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-portrait-albums')">＋ 新增相簿（人像）</button>
-      <div class="menu-video-item" id="menuBrandToggle" onclick="toggleMenuBrandSub(event)">
+      <div class="menu-video-item open" id="menuBrandToggle" onclick="toggleMenuBrandSub(event)">
         <span class="editable">品牌</span>
         <span class="menu-video-toggle-icon">+</span>
       </div>
-      <div class="menu-video-subpanel" id="menuBrandSubpanel">
+      <div class="menu-video-subpanel open" id="menuBrandSubpanel">
         <div class="menu-video-sub-inner">
           <a href="business.html" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand-design'); }"><span class="cn editable">平面</span><span class="en">DESIGN</span></a>
           <a href="business-brand.html" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand'); }"><span class="cn editable">影像</span><span class="en">PHOTOGRAPHY</span></a>
@@ -774,12 +774,12 @@
         <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-brand-design-albums')">＋ 新增相簿（平面）</button>
         <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-brand-albums')">＋ 新增相簿（影像）</button>
       </div>
-      <div class="menu-video-item" id="menuVideoToggle" onclick="toggleMenuVideoSub(event)">
+      <div class="menu-video-item open" id="menuVideoToggle" onclick="toggleMenuVideoSub(event)">
         <span class="editable">影片</span>
         <span class="menu-video-toggle-icon">+</span>
       </div>
-      <div class="menu-video-subpanel" id="menuVideoSubpanel">
-        <div class="menu-video-sub-inner" id="menuVideoSubInner"></div>
+      <div class="menu-video-subpanel open" id="menuVideoSubpanel">
+        <div class="menu-video-sub-inner" id="menuVideoSubInner"><a href="business-video.html#cat=livehouse" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); openBusinessVideoCat(event,'livehouse'); }"><span class="cn editable">展演空間</span><span class="en">LIVE HOUSE</span></a><a href="business-video.html#cat=brand" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); openBusinessVideoCat(event,'brand'); }"><span class="cn editable">品牌合作</span><span class="en">BRAND</span></a><a href="business-video.html#cat=life" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); openBusinessVideoCat(event,'life'); }"><span class="cn editable">生活日常</span><span class="en">LIFE</span></a></div>
       </div>
     </div>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbumSection(this)">＋ 新增子項目</button>
@@ -1049,24 +1049,24 @@
         </div>
       </div>
       <div class="biz-section" id="biz-brand-design">
-        <h2 class="editable">品牌｜平面 Design</h2>
+        <h2 class="editable">品牌｜創意平面 Creative Graphics</h2>
         <div class="video-subtags visible" data-owner="biz-brand-design-albums">
-          <button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-design-albums')">全部</button>
-          <button class="video-subtag" data-subcat="sub-1787241879912" onclick="selectAlbumSubCat(this,'biz-brand-design-albums')">美髮 ｜ Salon<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-design-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-design-albums')">＋ 新增子分類</button>
+          <button class="video-subtag" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-design-albums')">全部</button>
+          <button class="video-subtag active" data-subcat="sub-1787241879912" onclick="selectAlbumSubCat(this,'biz-brand-design-albums')">美髮 ｜ Salon<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-design-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-design-albums')">＋ 新增子分類</button>
         </div>
-        <div class="biz-albums" id="biz-brand-design-albums"><div class="biz-album" id="album-1787238527199-1" data-subcat="all">
+        <div class="biz-albums" id="biz-brand-design-albums"><div class="biz-album" id="album-1787305560196-1" data-subcat="sub-1787241879912">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
       <div class="album-title editable">圈圈 Chuan Chuan Studio</div>
       <div class="album-link-wrap"></div>
-      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">黑白</button>
+      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
       <div class="biz-carousel-frame">
         
-      <img class="cimg active" src="https://enchiang.com/images/IMG_9491.png" alt="" data-i="0"><button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg" src="https://enchiang.com/images/IMG_9490.png" alt="" data-i="1"></div>
+      <button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg active" src="https://enchiang.com/images/IMG_9491.png" alt="" data-i="0"><img class="cimg" src="https://enchiang.com/images/IMG_9490.png" alt="" data-i="1"></div>
       <div class="biz-captions"><div class="biz-caption editable active" data-i="0"></div><div class="biz-caption editable" data-i="1"></div></div>
       <div class="biz-carousel-foot" style="display: flex;">
-        <div class="biz-dots"><span class="biz-dot active"></span><span class="biz-dot"></span></div>
+        <div class="biz-dots"><span class="biz-dot active"></span><span class="biz-dot"></span><span class="biz-dot"></span></div>
         <span class="biz-counter">01 / 02</span>
       </div>
       <div class="biz-filmstrip"><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/IMG_9491.png" class="current" data-i="0"><button type="button" class="biz-thumb-del" data-i="0">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/IMG_9490.png" class="" data-i="1"><button type="button" class="biz-thumb-del" data-i="1">✕</button></div></div>
@@ -3184,6 +3184,7 @@
     refreshMenuVideoSubcats();
   }
 </script>
+
 
 
 
