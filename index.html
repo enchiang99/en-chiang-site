@@ -581,6 +581,9 @@
   .subtag-del-x{ display:none; font-size:10px; margin-left:3px; }
   body.edit-mode .subtag-del-x{ display:inline; }
   .subtag-del-x:hover{ color:#a3402f; }
+  .tab-move-btn{ display:none; font-size:11px; margin-left:2px; cursor:pointer; color:var(--ink-soft); }
+  body.edit-mode .tab-move-btn{ display:inline; }
+  .tab-move-btn:hover{ color:var(--ink); }
   .add-subtag-btn{
     display:none; background:none; border:1px dashed #a8977a; color:#a8977a;
     font-family:'Noto Serif TC',serif; font-style:italic; font-size:12px; padding:5px 12px;
@@ -1080,11 +1083,15 @@
       </div>
       <div class="biz-section jump-highlight" id="biz-brand">
         <h2 class="editable">品牌｜影像 Photography</h2>
-        <div class="video-subtags visible" data-owner="biz-brand-albums">
+        <div class="video-tabs" data-owner="biz-brand-albums">
+          <button class="video-tab active" data-maincat="all" onclick="selectAlbumMainCat(this,'biz-brand-albums')">全部</button>
+          <button type="button" class="add-subtag-btn" onclick="addAlbumMainCategory(this,'biz-brand-albums')">＋ 新增主分類</button>
+        </div>
+        <div class="video-subtags visible" data-owner="biz-brand-albums" data-maincat="all">
           <button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-albums')">全部</button>
           <button class="video-subtag" data-subcat="sub-1787047463899" onclick="selectAlbumSubCat(this,'biz-brand-albums')">醫療 | Clinic<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047483906" onclick="selectAlbumSubCat(this,'biz-brand-albums')">餐廳 | Restaurant<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047526146" onclick="selectAlbumSubCat(this,'biz-brand-albums')">花藝 | Floristry<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-albums')">＋ 新增子分類</button>
         </div>
-        <div class="biz-albums" id="biz-brand-albums"><div class="biz-album" data-subcat="sub-1787047463899" id="album-1786170058698-2" style="">
+        <div class="biz-albums" id="biz-brand-albums"><div class="biz-album" data-maincat="all" data-subcat="sub-1787047463899" id="album-1786170058698-2" style="">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -1106,7 +1113,7 @@
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
         <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
-    </div><div class="biz-album" data-subcat="sub-1787047483906" id="album-1786170221720-3" style="">
+    </div><div class="biz-album" data-maincat="all" data-subcat="sub-1787047483906" id="album-1786170221720-3" style="">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -1128,7 +1135,7 @@
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
         <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
-    </div><div class="biz-album" data-subcat="sub-1787047526146" id="album-1786959523222-2" style="">
+    </div><div class="biz-album" data-maincat="all" data-subcat="sub-1787047526146" id="album-1786959523222-2" style="">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -2291,11 +2298,32 @@
     if(movingToDifferentSection){
       targetContainer.appendChild(album);
       album.dataset.subcat = 'all';
+      album.dataset.maincat = 'all';
       album.style.display = '';
     }
 
-    // 第二步：如果目標版面有子分類，再選要放進哪個子分類
-    const subtagRow = document.querySelector('.video-subtags[data-owner="' + targetContainer.id + '"]');
+    // 第二步：如果目標版面有「主分類」（跟影片一樣的兩層分類），先選主分類
+    const mainTabsRow = document.querySelector('.video-tabs[data-owner="' + targetContainer.id + '"]');
+    let chosenMainCat = 'all';
+    if(mainTabsRow){
+      const mainTabs = Array.from(mainTabsRow.querySelectorAll('.video-tab')).filter(t => t.dataset.maincat !== 'all');
+      if(mainTabs.length){
+        let mainMsg = '這個版面有主分類，要放進哪一個？（輸入 0 表示全部／不指定）\n0. 全部\n';
+        mainTabs.forEach((t, i) => { mainMsg += (i + 1) + '. ' + t.childNodes[0].textContent.trim() + '\n'; });
+        const currentMain = album.dataset.maincat || 'all';
+        const currentMainIdx = mainTabs.findIndex(t => t.dataset.maincat === currentMain);
+        const mainChoice = parseInt(prompt(mainMsg, currentMainIdx >= 0 ? String(currentMainIdx + 1) : '0'), 10);
+        if(!isNaN(mainChoice) && mainChoice > 0 && mainTabs[mainChoice - 1]){
+          chosenMainCat = mainTabs[mainChoice - 1].dataset.maincat;
+        }
+      }
+      album.dataset.maincat = chosenMainCat;
+    }
+
+    // 第三步：再選子分類（若有主分類，找該主分類專屬的子分類列；沒有主分類就用唯一那一列）
+    const subtagRow = mainTabsRow
+      ? document.querySelector('.video-subtags[data-owner="' + targetContainer.id + '"][data-maincat="' + chosenMainCat + '"]')
+      : document.querySelector('.video-subtags[data-owner="' + targetContainer.id + '"]');
     const subTags = subtagRow ? Array.from(subtagRow.querySelectorAll('.video-subtag')).filter(t => t.dataset.subcat !== 'all') : [];
 
     if(subTags.length){
@@ -2311,19 +2339,105 @@
           album.dataset.subcat = subTags[subChoice - 1].dataset.subcat;
         }
       }
-      const activeTag = subtagRow.querySelector('.video-subtag.active');
-      if(activeTag){
-        const activeCat = activeTag.dataset.subcat;
-        album.style.display = (activeCat === 'all' || album.dataset.subcat === activeCat) ? '' : 'none';
-      }
-    } else if(movingToDifferentSection){
+    } else if(movingToDifferentSection || mainTabsRow){
       album.dataset.subcat = 'all';
-      album.style.display = '';
     }
+
+    // 依畫面上目前實際選取的主分類／子分類，決定這本相簿現在該不該顯示
+    const activeMainTab = mainTabsRow ? mainTabsRow.querySelector('.video-tab.active') : null;
+    const activeMainCat = activeMainTab ? activeMainTab.dataset.maincat : 'all';
+    const activeSubRow = document.querySelector('.video-subtags[data-owner="' + targetContainer.id + '"].visible');
+    const activeSubBtn = activeSubRow ? activeSubRow.querySelector('.video-subtag.active') : null;
+    const activeSubCat = activeSubBtn ? activeSubBtn.dataset.subcat : 'all';
+    const matchMain = (activeMainCat === 'all' || (album.dataset.maincat || 'all') === activeMainCat);
+    const matchSub = (activeSubCat === 'all' || album.dataset.subcat === activeSubCat);
+    album.style.display = (matchMain && matchSub) ? '' : 'none';
 
     markDirty();
     if(typeof refreshAllMenuAlbumLists === 'function') refreshAllMenuAlbumLists();
     alert('已經移動完成！記得按「匯出 index.html」保存。');
+  }
+
+  /* ================= 人像 / 品牌：相簿主分類（像影片一樣的兩層分類：篩選 / 新增 / 刪除 / 排序） ================= */
+  function selectAlbumMainCat(tabBtn, containerId){
+    const tabsRow = tabBtn.closest('.video-tabs');
+    tabsRow.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+    tabBtn.classList.add('active');
+    const mainCat = tabBtn.dataset.maincat;
+
+    document.querySelectorAll('.video-subtags[data-owner="' + containerId + '"]').forEach(row => {
+      const isMatch = row.dataset.maincat === mainCat;
+      row.classList.toggle('visible', isMatch);
+      if(isMatch){
+        row.querySelectorAll('.video-subtag').forEach(s => s.classList.remove('active'));
+        const allBtn = row.querySelector('.video-subtag[data-subcat="all"]');
+        if(allBtn) allBtn.classList.add('active');
+      }
+    });
+
+    const container = document.getElementById(containerId);
+    if(container){
+      container.querySelectorAll(':scope > .biz-album').forEach(album => {
+        const albumMain = album.dataset.maincat || 'all';
+        album.style.display = (mainCat === 'all' || albumMain === mainCat) ? '' : 'none';
+      });
+    }
+  }
+
+  function addAlbumMainCategory(btn, containerId){
+    const name = prompt('新主分類名稱：', '');
+    if(!name || !name.trim()) return;
+    const key = 'main-' + Date.now();
+    btn.insertAdjacentHTML('beforebegin',
+      `<button class="video-tab" data-maincat="${key}" onclick="selectAlbumMainCat(this,'${containerId}')">${escapeHtml(name.trim())}<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumMainCategory(this,'${containerId}')"> ✕</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,-1)"> ‹</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,1)"> ›</span></button>`
+    );
+    const anchorRow = document.querySelector('.video-subtags[data-owner="' + containerId + '"]');
+    if(anchorRow && anchorRow.parentElement){
+      const newRow = document.createElement('div');
+      newRow.className = 'video-subtags';
+      newRow.dataset.owner = containerId;
+      newRow.dataset.maincat = key;
+      newRow.innerHTML = `<button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'${containerId}')">全部</button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'${containerId}')">＋ 新增子分類</button>`;
+      anchorRow.parentElement.insertBefore(newRow, anchorRow);
+    }
+    markDirty();
+  }
+
+  function removeAlbumMainCategory(el, containerId){
+    const tab = el.closest('.video-tab');
+    if(!tab) return;
+    if(!confirm('確定要刪除這個主分類嗎？（裡面的相簿不會被刪除，只是暫時歸類回「全部」）')) return;
+    const key = tab.dataset.maincat;
+    const wasActive = tab.classList.contains('active');
+    const tabsRow = tab.closest('.video-tabs');
+    tab.remove();
+    const row = document.querySelector('.video-subtags[data-owner="' + containerId + '"][data-maincat="' + key + '"]');
+    if(row) row.remove();
+    const container = document.getElementById(containerId);
+    if(container){
+      container.querySelectorAll(':scope > .biz-album').forEach(album => {
+        if(album.dataset.maincat === key) album.dataset.maincat = 'all';
+      });
+    }
+    markDirty();
+    if(wasActive){
+      const allTab = tabsRow.querySelector('.video-tab[data-maincat="all"]');
+      if(allTab) selectAlbumMainCat(allTab, containerId);
+    }
+  }
+
+  function moveAlbumMainCat(btn, dir){
+    const tab = btn.closest('.video-tab');
+    if(!tab) return;
+    const row = tab.closest('.video-tabs');
+    const tabs = Array.from(row.querySelectorAll('.video-tab')).filter(t => t.dataset.maincat !== 'all');
+    const idx = tabs.indexOf(tab);
+    if(dir === -1 && idx > 0){
+      row.insertBefore(tab, tabs[idx - 1]);
+    } else if(dir === 1 && idx < tabs.length - 1){
+      row.insertBefore(tabs[idx + 1], tab);
+    }
+    markDirty();
   }
 
   /* ================= 人像 / 品牌：相簿子分類（篩選 / 新增） ================= */
@@ -2332,10 +2446,13 @@
     row.querySelectorAll('.video-subtag').forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
     const cat = btn.dataset.subcat;
+    const rowMainCat = row.dataset.maincat;
     const container = document.getElementById(containerId);
     container.querySelectorAll(':scope > .biz-album').forEach(album => {
-      const match = (cat === 'all' || album.dataset.subcat === cat);
-      album.style.display = match ? '' : 'none';
+      const matchSub = (cat === 'all' || album.dataset.subcat === cat);
+      const matchMain = (!rowMainCat || rowMainCat === 'all' || (album.dataset.maincat || 'all') === rowMainCat);
+      album.style.display = (matchSub && matchMain) ? '' : 'none';
+
     });
   }
 
@@ -2477,8 +2594,24 @@
     const date = prompt('日期（例如 2026 · 07）：', '') || '';
     const container = document.getElementById(containerId);
 
+    let maincat = 'all';
+    const mainTabsRow = document.querySelector('.video-tabs[data-owner="' + containerId + '"]');
+    if(mainTabsRow){
+      const mainTabs = Array.from(mainTabsRow.querySelectorAll('.video-tab')).filter(t => t.dataset.maincat !== 'all');
+      if(mainTabs.length){
+        let mainMsg = '這本相簿要放進哪個主分類？（輸入 0 表示不指定）\n0. 不指定\n';
+        mainTabs.forEach((t, i) => { mainMsg += (i + 1) + '. ' + t.childNodes[0].textContent.trim() + '\n'; });
+        const mainChoiceNum = parseInt(prompt(mainMsg, '0'), 10);
+        if(mainChoiceNum > 0 && mainTabs[mainChoiceNum - 1]){
+          maincat = mainTabs[mainChoiceNum - 1].dataset.maincat;
+        }
+      }
+    }
+
     let subcat = 'all';
-    const subtagRow = document.querySelector('.video-subtags[data-owner="' + containerId + '"]');
+    const subtagRow = mainTabsRow
+      ? document.querySelector('.video-subtags[data-owner="' + containerId + '"][data-maincat="' + maincat + '"]')
+      : document.querySelector('.video-subtags[data-owner="' + containerId + '"]');
     if(subtagRow){
       const subTags = Array.from(subtagRow.querySelectorAll('.video-subtag')).filter(t => t.dataset.subcat !== 'all');
       if(subTags.length){
@@ -2497,6 +2630,7 @@
     album.className = 'biz-album';
     album.id = albumId;
     album.dataset.subcat = subcat;
+    if(mainTabsRow) album.dataset.maincat = maincat;
     album.innerHTML = `
       <div class="album-meta">
         <span class="album-date editable">${escapeHtml(date)}</span>
@@ -2521,12 +2655,26 @@
       </div>
     `;
     container.appendChild(album);
+
+    if(mainTabsRow){
+      const activeMainTab = mainTabsRow.querySelector('.video-tab.active');
+      const activeMainCat = activeMainTab ? activeMainTab.dataset.maincat : 'all';
+      if(activeMainCat !== 'all' && maincat !== activeMainCat) album.style.display = 'none';
+    }
+    const activeSubRow = document.querySelector('.video-subtags[data-owner="' + containerId + '"].visible');
+    if(activeSubRow){
+      const activeSubBtn = activeSubRow.querySelector('.video-subtag.active');
+      const activeSubCat = activeSubBtn ? activeSubBtn.dataset.subcat : 'all';
+      if(activeSubCat !== 'all' && subcat !== activeSubCat) album.style.display = 'none';
+    }
+
     markDirty();
     refreshAllMenuAlbumLists();
     if(editMode){
       album.querySelectorAll('.editable').forEach(el => {
         el.contentEditable = true;
         el.addEventListener('input', markDirty);
+
       });
     }
   }
