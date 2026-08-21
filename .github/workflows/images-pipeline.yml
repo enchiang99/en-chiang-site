@@ -10,15 +10,16 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   process-images:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout（含上一版，才能比對這次變動了哪些檔案）
+      - name: Checkout（抓完整版本歷史，gen-images-readme.js 需要用來查每個檔案真正的上傳日期）
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -40,6 +41,17 @@ jobs:
           echo "$FILES" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
+      - name: 找出「同檔名覆蓋」的圖片（可能是重複上傳）
+        id: duplicates
+        if: github.event_name == 'push'
+        run: |
+          # diff-filter=M：只挑「檔名已存在、這次是被覆蓋內容」的檔案，
+          # 新檔名（狀態 A＝新增）不算重複，不會被列進來。
+          DUPES=$(git diff --name-only --diff-filter=M HEAD^ HEAD -- images -- ':!images/README.md')
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$DUPES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
       - name: 壓縮新上傳／有變動的圖片
         env:
           CHANGED_FILES: ${{ steps.changed.outputs.files }}
@@ -55,3 +67,25 @@ jobs:
           git add images
           git diff --staged --quiet || git commit -m "chore: auto-compress images + update README [skip ci]"
           git push
+
+      - name: 如果有同檔名覆蓋，開一張 Issue 提醒
+        if: github.event_name == 'push' && steps.duplicates.outputs.files != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DUPE_FILES: ${{ steps.duplicates.outputs.files }}
+        run: |
+          if [ -z "$DUPE_FILES" ]; then
+            echo "沒有偵測到重複檔名，略過"
+            exit 0
+          fi
+          BODY="這次上傳裡，以下檔名跟之前已經存在的圖片同名，內容已經被覆蓋掉（舊版本救不回來了）：
+
+          \`\`\`
+          $DUPE_FILES
+          \`\`\`
+
+          如果這不是你故意要覆蓋的照片，麻煩檢查一下網站上有沒有地方還在引用這個檔名的舊圖片。"
+          gh issue create \
+            --title "⚠️ 圖片檔名重複被覆蓋（$(date '+%Y-%m-%d %H:%M')）" \
+            --body "$BODY" \
+            --repo "${{ github.repository }}"
