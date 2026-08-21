@@ -995,7 +995,7 @@
     <div id="bizSections">
       <div class="biz-section jump-highlight" id="biz-portrait">
         <h2 class="editable">人像</h2>
-        <div class="video-subtags visible" data-owner="biz-portrait-albums">
+        <div class="video-subtags" data-owner="biz-portrait-albums">
           <button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-portrait-albums')">全部</button>
           <button class="video-subtag" data-subcat="sub-1787047353660" onclick="selectAlbumSubCat(this,'biz-portrait-albums')">婚禮 | Wedding<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-portrait-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047412596" onclick="selectAlbumSubCat(this,'biz-portrait-albums')">個人形象 | Personal image<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-portrait-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-portrait-albums')">＋ 新增子分類</button>
         </div>
@@ -1050,7 +1050,7 @@
       </div>
       <div class="biz-section" id="biz-brand-design">
         <h2 class="editable">品牌｜創意平面 Creative Graphics</h2>
-        <div class="video-subtags visible" data-owner="biz-brand-design-albums">
+        <div class="video-subtags" data-owner="biz-brand-design-albums">
           <button class="video-subtag" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-design-albums')">全部</button>
           <button class="video-subtag active" data-subcat="sub-1787241879912" onclick="selectAlbumSubCat(this,'biz-brand-design-albums')">美髮 ｜ Salon<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-design-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-design-albums')">＋ 新增子分類</button>
         </div>
@@ -1085,13 +1085,13 @@
         <h2 class="editable">品牌｜影像 Photography</h2>
         <div class="video-tabs" data-owner="biz-brand-albums">
           <button class="video-tab active" data-maincat="all" onclick="selectAlbumMainCat(this,'biz-brand-albums')">全部</button>
-          <button type="button" class="add-subtag-btn" onclick="addAlbumMainCategory(this,'biz-brand-albums')">＋ 新增主分類</button>
+          <button class="video-tab" data-maincat="main-1787306460605" onclick="selectAlbumMainCat(this,'biz-brand-albums')">花藝 | Floristry<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumMainCategory(this,'biz-brand-albums')"> ✕</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,-1)"> ‹</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,1)"> ›</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumMainCategory(this,'biz-brand-albums')">＋ 新增主分類</button>
         </div>
-        <div class="video-subtags visible" data-owner="biz-brand-albums" data-maincat="all">
-          <button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-albums')">全部</button>
-          <button class="video-subtag" data-subcat="sub-1787047463899" onclick="selectAlbumSubCat(this,'biz-brand-albums')">醫療 | Clinic<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047483906" onclick="selectAlbumSubCat(this,'biz-brand-albums')">餐廳 | Restaurant<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047526146" onclick="selectAlbumSubCat(this,'biz-brand-albums')">花藝 | Floristry<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-albums')">＋ 新增子分類</button>
+        <div class="video-subtags" data-owner="biz-brand-albums" data-maincat="main-1787306460605"><button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-albums')">全部</button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-albums')">＋ 新增子分類</button></div><div class="video-subtags" data-owner="biz-brand-albums" data-maincat="all">
+          <button class="video-subtag" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-albums')">全部</button>
+          <button class="video-subtag" data-subcat="sub-1787047463899" onclick="selectAlbumSubCat(this,'biz-brand-albums')">醫療 | Clinic<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047483906" onclick="selectAlbumSubCat(this,'biz-brand-albums')">餐廳 | Restaurant<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag active" data-subcat="sub-1787047526146" onclick="selectAlbumSubCat(this,'biz-brand-albums')">花藝 | Floristry<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-albums')">＋ 新增子分類</button>
         </div>
-        <div class="biz-albums" id="biz-brand-albums"><div class="biz-album" data-maincat="all" data-subcat="sub-1787047463899" id="album-1786170058698-2" style="">
+        <div class="biz-albums" id="biz-brand-albums"><div class="biz-album" data-maincat="all" data-subcat="sub-1787047463899" id="album-1786170058698-2" style="display: none;">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -1113,7 +1113,7 @@
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
         <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
-    </div><div class="biz-album" data-maincat="all" data-subcat="sub-1787047483906" id="album-1786170221720-3" style="">
+    </div><div class="biz-album" data-maincat="all" data-subcat="sub-1787047483906" id="album-1786170221720-3" style="display: none;">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -1135,11 +1135,11 @@
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
         <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
-    </div><div class="biz-album" data-maincat="all" data-subcat="sub-1787047526146" id="album-1786959523222-2" style="">
+    </div><div class="biz-album" data-maincat="main-1787306460605" data-subcat="all" id="album-1786959523222-2" style="">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
-      <div class="album-title editable">花藝</div>
+      <div class="album-title editable">Miss Florrie floral studio</div>
       <div class="album-link-wrap"></div>
       <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
       <div class="biz-carousel-frame">
@@ -1176,7 +1176,7 @@
         </div>
         <div class="video-subtags" data-owner="brand">
           <button class="video-subtag" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button class="video-subtag active" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667896912" onclick="selectSubCat(this)">手創<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+          <button class="video-subtag" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag active" data-subcat="sub-1785667896912" onclick="selectSubCat(this)">手創<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
         <div class="video-subtags" data-owner="life">
           <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
