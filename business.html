@@ -10,77 +10,68 @@
   gtag('js', new Date());
   gtag('config', 'G-6NLCEX26ZX');
 </script>
-<title>關於商業｜En Chiang・台中人像寫真・品牌合作・影片拍攝</title>
-<meta name="description" content="En Chiang 商業合作總覽——台中人像寫真拍攝、品牌形象合作、短片拍攝。不擺拍、不制式，把故事拍成想珍藏的樣子。">
-<meta name="keywords" content="台中攝影師合作,台中品牌攝影,台中商業攝影,台中人像寫真預約">
+<title>關於商業 | En Chiang・創意平面・影像・影音</title>
+<meta name="description" content="En Chiang 商業合作項目——創意平面設計、品牌影像拍攝、影音製作。">
 <link rel="canonical" href="https://enchiang.com/business.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="En Chiang">
-<meta property="og:title" content="關於商業｜En Chiang・台中人像寫真・品牌合作・影片拍攝">
-<meta property="og:description" content="En Chiang 商業合作總覽——台中人像寫真拍攝、品牌形象合作、短片拍攝。">
+<meta property="og:title" content="關於商業 | En Chiang">
+<meta property="og:description" content="En Chiang 商業合作項目——創意平面設計、品牌影像拍攝、影音製作。">
 <meta property="og:url" content="https://enchiang.com/business.html">
 <meta property="og:image" content="https://enchiang.com/images/hero.jpeg">
 <meta property="og:locale" content="zh_TW">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="關於商業｜En Chiang・台中人像寫真・品牌合作・影片拍攝">
-<meta name="twitter:description" content="En Chiang 商業合作總覽——台中人像寫真拍攝、品牌形象合作、短片拍攝。">
-<meta name="twitter:image" content="https://enchiang.com/images/hero.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="services.css">
-<script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "En Chiang 的拍攝服務範圍在哪裡？",
-      "acceptedAnswer": { "@type": "Answer", "text": "主要服務台中地區，包含台中人像寫真、樂團與展演側拍、品牌形象合作，寵物攝影則提供到府拍攝。" }
-    },
-    {
-      "@type": "Question",
-      "name": "商業合作（品牌／影片）怎麼洽談？",
-      "acceptedAnswer": { "@type": "Answer", "text": "可透過 Instagram（@enchiang_）私訊或 email（en.hi.light@gmail.com）說明拍攝需求、場地與檔期，會依內容討論拍攝方式與報價。" }
-    },
-    {
-      "@type": "Question",
-      "name": "人像寫真是擺拍還是紀實風格？",
-      "acceptedAnswer": { "@type": "Answer", "text": "不走制式擺拍，偏好自然對談與真實情境下捕捉的樣子，作品多為黑白顆粒質感，可依需求保留彩色版本。" }
-    }
-  ]
-}</script>
 <style>
-  .edit-toggle{
-    position:fixed; bottom:22px; left:22px; z-index:300;
-    background:#211f1b; color:#e9e5dd; border:none; padding:14px 20px;
-    font-size:12px; letter-spacing:0.14em; cursor:pointer; text-transform:uppercase;
-    display:none;
+  .biz-page-section{ margin-bottom:64px; padding-bottom:48px; border-bottom:1px solid rgba(33,31,27,0.15); }
+  .biz-page-section:last-of-type{ border-bottom:none; }
+  .biz-page-section h2{ font-family:'Noto Serif TC',serif; font-size:clamp(19px,2.4vw,26px); font-weight:500; margin:0 0 20px; }
+  .biz-tabs{ display:flex; gap:18px; margin:0 0 8px; border-bottom:1px solid rgba(33,31,27,0.15); flex-wrap:wrap; }
+  .biz-tab{
+    background:none; border:none; font-family:'Noto Serif TC',serif; font-size:13px; letter-spacing:.06em;
+    color:#544e43; padding:0 0 10px; cursor:pointer; position:relative;
   }
-  body.edit-access .edit-toggle{ display:block; }
-  .edit-export{
-    position:fixed; bottom:22px; left:150px; z-index:300;
-    background:#3a6b4a; color:#fff; border:none; padding:14px 20px;
-    font-size:12px; letter-spacing:0.14em; cursor:pointer; text-transform:uppercase;
-    display:none;
+  .biz-tab.active{ color:#211f1b; }
+  .biz-tab.active::after{ content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:#211f1b; }
+  .biz-subtags{ display:none; gap:8px; flex-wrap:wrap; margin:12px 0 4px; }
+  .biz-subtags.visible{ display:flex; }
+  .biz-subtag{
+    background:none; border:1px solid rgba(33,31,27,0.22); color:#544e43;
+    font-family:'Noto Serif TC',serif; font-size:11.5px; padding:4px 11px; border-radius:16px; cursor:pointer;
   }
-  body.edit-access.edit-mode .edit-export{ display:inline-block; }
-  body.edit-mode [contenteditable="true"]{
-    outline:1px dashed #a3402f; outline-offset:4px; cursor:text; background:rgba(163,64,47,0.04);
+  .biz-subtag.active{ border-color:#211f1b; color:#211f1b; }
+  .static-albums-grid{ display:grid; grid-template-columns:1fr 1fr; gap:28px 16px; margin:20px 0 0; }
+  @media (max-width:520px){ .static-albums-grid{ grid-template-columns:1fr; } }
+  .static-album-card .album-date{ font-family:'Noto Serif TC',serif; font-size:12px; letter-spacing:.08em; color:#a8977a; }
+  .static-album-card .album-title{ font-family:'Noto Serif TC',serif; font-size:16px; font-weight:500; margin:4px 0 10px; }
+  .static-carousel-frame{ position:relative; width:100%; aspect-ratio:5/4; overflow:hidden; background:#ddd7cb; }
+  #bizPagePhotography .static-carousel-frame{ aspect-ratio:4/5; }
+  .static-carousel-frame img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; cursor:zoom-in; }
+  .static-carousel-frame img.active{ display:block; }
+  .static-carousel-frame .carousel-arrow{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+    background:rgba(20,18,15,.55); color:#e9e5dd; border:none; width:28px; height:28px; cursor:pointer; font-size:14px;
   }
-  body.edit-mode{ padding-bottom:90px; }
-  .faq-del-btn{
-    display:none; margin-top:10px; background:none; border:1px solid #a8977a; color:#a8977a;
-    font-size:11px; letter-spacing:.08em; padding:6px 12px; cursor:pointer;
+  .static-carousel-frame .carousel-arrow.prev{ left:6px; }
+  .static-carousel-frame .carousel-arrow.next{ right:6px; }
+  .static-carousel-dots{ display:flex; gap:5px; justify-content:center; margin-top:8px; }
+  .static-carousel-dot{ width:5px; height:5px; border-radius:50%; background:#544e43; opacity:.35; }
+  .static-carousel-dot.active{ opacity:1; }
+  .biz-video-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px 12px; margin-top:20px; }
+  .biz-video-card{ position:relative; }
+  .biz-video-frame{ position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:#ddd7cb; cursor:pointer; }
+  .biz-video-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .biz-video-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .biz-video-play{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:40px; height:40px; border-radius:50%; background:rgba(233,229,221,.9);
+    display:flex; align-items:center; justify-content:center; pointer-events:none;
   }
-  body.edit-mode .faq-del-btn{ display:inline-block; }
-  .faq-add-btn, .hub-edit-hint{
-    display:none; margin-top:18px; background:none; border:1px solid #a8977a; color:#a8977a;
-    font-size:11.5px; letter-spacing:.1em; padding:8px 16px; cursor:pointer; text-transform:uppercase;
-  }
-  body.edit-mode .faq-add-btn{ display:inline-block; }
-  body.edit-mode .biz-hub-card{ pointer-events:none; }
-  body.edit-mode .biz-hub-card [contenteditable="true"]{ pointer-events:auto; }
+  .biz-video-play::after{ content:''; width:0; height:0; border-top:6px solid transparent; border-bottom:6px solid transparent; border-left:10px solid #211f1b; margin-left:3px; }
+  .biz-video-meta{ font-family:'Noto Serif TC',serif; font-size:11px; color:#a8977a; margin-top:6px; }
+  .biz-empty-hint{ color:#544e43; font-size:13px; }
 </style>
 </head>
 <body>
@@ -91,155 +82,333 @@
 </div>
 
 <section class="archive-hero">
-  <span class="label editable">About Business · 商業合作</span>
-  <h1 class="editable">關於商業</h1>
+  <span class="label">Business</span>
+  <h1>關於商業</h1>
 </section>
 
-<div class="service-body">
-  <p class="editable">除了記錄生活的日常拍攝，我也接受人像寫真預約、品牌形象合作與短片拍攝委託。以下分成三個部分，點進去可以看到各自的拍攝說明與作品。</p>
+<div class="float-links">
+  <button type="button" class="float-btn float-textsize" aria-label="放大文字" onclick="toggleTextSize()">
+    <span class="textsize-icon">A<span>+</span></span>
+  </button>
 </div>
 
-<div class="biz-hub-grid">
-  <a class="biz-hub-card" href="business-portrait.html">
-    <div class="biz-hub-title editable">人像</div>
-    <div class="biz-hub-desc editable">台中人像寫真拍攝預約，個人形象照、情侶寫真，自然對談、不制式擺拍。</div>
-  </a>
-  <a class="biz-hub-card" href="business-brand.html">
-    <div class="biz-hub-title editable">品牌</div>
-    <div class="biz-hub-desc editable">品牌形象合作、商品情境拍攝，將品牌調性轉化成有溫度的畫面。</div>
-  </a>
-  <a class="biz-hub-card" href="business-video.html">
-    <div class="biz-hub-title editable">影片</div>
-    <div class="biz-hub-desc editable">展演空間紀錄、品牌合作短片、生活日常影像，直式雙欄作品瀏覽。</div>
-  </a>
+<div class="archive-list" style="padding:0 8vw;">
+  <div id="bizPageDesign" class="biz-page-section"><p class="biz-empty-hint">內容載入中……</p></div>
+  <div id="bizPagePhotography" class="biz-page-section"><p class="biz-empty-hint">內容載入中……</p></div>
+  <div id="bizPageVideo" class="biz-page-section"><p class="biz-empty-hint">內容載入中……</p></div>
 </div>
 
-<div class="biz-faq">
-  <div class="label editable" style="margin-bottom:18px; display:block;">常見問題</div>
-  <div id="faqList">
-    <div class="biz-faq-item">
-      <div class="biz-faq-q editable">拍攝服務範圍在哪裡？</div>
-      <div class="biz-faq-a editable">主要服務台中地區，人像寫真與品牌合作可於台中約拍，寵物到府攝影提供到府服務。</div>
-      <button class="faq-del-btn" onclick="deleteFaqItem(event)">刪除這則問答</button>
-    </div>
-    <div class="biz-faq-item">
-      <div class="biz-faq-q editable">商業合作怎麼洽談？</div>
-      <div class="biz-faq-a editable">歡迎透過 Instagram <a href="https://www.instagram.com/enchiang_" target="_blank" rel="noopener" style="border-bottom:1px solid var(--ink);">@enchiang_</a> 私訊，或寄信到 en.hi.light@gmail.com，說明拍攝需求、場地與希望的檔期，會依內容討論拍攝方式與報價。</div>
-      <button class="faq-del-btn" onclick="deleteFaqItem(event)">刪除這則問答</button>
-    </div>
-    <div class="biz-faq-item">
-      <div class="biz-faq-q editable">人像寫真是擺拍還是紀實風格？</div>
-      <div class="biz-faq-a editable">不走制式擺拍，偏好自然對談與真實情境下捕捉的樣子，作品多為黑白顆粒質感，也可依需求保留彩色版本。</div>
-      <button class="faq-del-btn" onclick="deleteFaqItem(event)">刪除這則問答</button>
-    </div>
-  </div>
-  <button type="button" class="faq-add-btn" onclick="addFaqItem()">＋ 新增問答</button>
+<div class="photo-lightbox-overlay" id="photoLightbox" onclick="if(event.target===this) closePhotoLightbox();">
+  <button type="button" class="photo-lightbox-close" onclick="closePhotoLightbox()">✕</button>
+  <img id="photoLightboxImg" src="" alt="">
 </div>
+
+<script>
+  function toggleTextSize(){
+    var on = document.body.classList.toggle('text-large');
+    localStorage.setItem('enchiang-text-large', on ? '1' : '0');
+    var btn = document.querySelector('.float-textsize');
+    if(btn) btn.classList.toggle('active', on);
+  }
+  if(localStorage.getItem('enchiang-text-large') === '1'){ document.body.classList.add('text-large'); }
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.querySelector('.float-textsize');
+    if(btn && localStorage.getItem('enchiang-text-large') === '1') btn.classList.add('active');
+  });
+
+  function escapeHtml(s){
+    return String(s || '').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function openPhotoLightbox(src){
+    if(!src) return;
+    document.getElementById('photoLightboxImg').setAttribute('src', src);
+    document.getElementById('photoLightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePhotoLightbox(){
+    document.getElementById('photoLightbox').classList.remove('open');
+    document.getElementById('photoLightboxImg').setAttribute('src', '');
+    document.body.style.overflow = '';
+  }
+
+  var albumIdCounter = 0;
+
+  /* 從 index.html 抓出的某個相簿版面(可能有主分類/子分類)，畫成：主分類tab + 子分類pill + 相簿輪播網格 */
+  function renderAlbumSection(doc, sectionId, containerId, targetElId){
+    var section = doc.getElementById(sectionId);
+    var target = document.getElementById(targetElId);
+    if(!target) return;
+    if(!section){ target.innerHTML = '<p class="biz-empty-hint">內容整理中。</p>'; return; }
+    if(section.style && section.getAttribute('style') && section.getAttribute('style').indexOf('display:none') !== -1){
+      target.closest('.biz-page-section').style.display = 'none';
+      return;
+    }
+
+    var h2 = section.querySelector('h2');
+    var title = h2 ? h2.textContent.trim() : '';
+    var mainTabsEl = section.querySelector('.video-tabs');
+    var mainTabs = mainTabsEl ? Array.from(mainTabsEl.querySelectorAll('.video-tab')).map(function(t){
+      return { key: t.dataset.maincat, label: (t.childNodes[0] ? t.childNodes[0].textContent.trim() : t.textContent.trim()) };
+    }) : null;
+
+    var subtagRows = {};
+    section.querySelectorAll('.video-subtags').forEach(function(row){
+      var mc = row.dataset.maincat || 'single';
+      subtagRows[mc] = Array.from(row.querySelectorAll('.video-subtag')).map(function(s){
+        return { key: s.dataset.subcat, label: (s.childNodes[0] ? s.childNodes[0].textContent.trim() : s.textContent.trim()) };
+      });
+    });
+
+    var albumsContainer = document.getElementById ? doc.getElementById(containerId) : null;
+    var albums = albumsContainer ? Array.from(albumsContainer.querySelectorAll(':scope > .biz-album')).map(function(album){
+      var titleEl = album.querySelector('.album-title');
+      var dateEl = album.querySelector('.album-date');
+      var rawImgs = Array.from(album.querySelectorAll('.biz-filmstrip img, .biz-carousel-frame img'));
+      var seen = {};
+      var photos = rawImgs.filter(function(img){
+        var src = img.getAttribute('src');
+        if(!src || seen[src]) return false;
+        seen[src] = true;
+        return true;
+      }).map(function(img){
+        return { src: img.getAttribute('src'), alt: img.getAttribute('alt') || '', bw: img.classList.contains('bw-mode') };
+      });
+      return {
+        title: titleEl ? titleEl.textContent.trim() : '',
+        date: dateEl ? dateEl.textContent.trim() : '',
+        maincat: album.dataset.maincat || 'all',
+        subcat: album.dataset.subcat || 'all',
+        photos: photos
+      };
+    }).filter(function(a){ return a.photos.length; }) : [];
+
+    if(!albums.length){
+      target.innerHTML = '<h2>' + escapeHtml(title) + '</h2><p class="biz-empty-hint">相簿陸續整理上架中。</p>';
+      return;
+    }
+
+    var html = '<h2>' + escapeHtml(title) + '</h2>';
+
+    if(mainTabs && mainTabs.length){
+      html += '<div class="biz-tabs" data-target="' + targetElId + '">';
+      html += '<button type="button" class="biz-tab active" data-maincat="all" onclick="bizSelectMain(this)">全部</button>';
+      mainTabs.filter(function(t){ return t.key !== 'all'; }).forEach(function(t){
+        html += '<button type="button" class="biz-tab" data-maincat="' + t.key + '" onclick="bizSelectMain(this)">' + escapeHtml(t.label) + '</button>';
+      });
+      html += '</div>';
+      Object.keys(subtagRows).forEach(function(mc){
+        var tags = subtagRows[mc].filter(function(s){ return s.key !== 'all'; });
+        if(!tags.length) return;
+        html += '<div class="biz-subtags" data-owner="' + targetElId + '" data-maincat="' + mc + '">';
+        html += '<button type="button" class="biz-subtag active" data-subcat="all" onclick="bizSelectSub(this)">全部</button>';
+        tags.forEach(function(t){
+          html += '<button type="button" class="biz-subtag" data-subcat="' + t.key + '" onclick="bizSelectSub(this)">' + escapeHtml(t.label) + '</button>';
+        });
+        html += '</div>';
+      });
+    } else {
+      var singleTags = (subtagRows['single'] || []).filter(function(s){ return s.key !== 'all'; });
+      if(singleTags.length){
+        html += '<div class="biz-subtags visible" data-owner="' + targetElId + '" data-maincat="all">';
+        html += '<button type="button" class="biz-subtag active" data-subcat="all" onclick="bizSelectSub(this)">全部</button>';
+        singleTags.forEach(function(t){
+          html += '<button type="button" class="biz-subtag" data-subcat="' + t.key + '" onclick="bizSelectSub(this)">' + escapeHtml(t.label) + '</button>';
+        });
+        html += '</div>';
+      }
+    }
+
+    html += '<div class="static-albums-grid">';
+    albums.forEach(function(album){
+      albumIdCounter++;
+      var albumIdx = albumIdCounter;
+      var imgsHtml = album.photos.map(function(p, i){
+        var cls = (i === 0 ? 'active' : '') + (p.bw ? ' bw-mode' : '');
+        return '<img src="' + p.src + '" alt="' + escapeHtml(p.alt) + '" class="' + cls.trim() + '" loading="lazy" onclick="openPhotoLightbox(this.src)">';
+      }).join('');
+      var arrows = album.photos.length > 1
+        ? '<button type="button" class="carousel-arrow prev" onclick="staticCarouselNav(' + albumIdx + ',-1)">‹</button><button type="button" class="carousel-arrow next" onclick="staticCarouselNav(' + albumIdx + ',1)">›</button>'
+        : '';
+      var dots = album.photos.length > 1
+        ? '<div class="static-carousel-dots">' + album.photos.map(function(_, i){ return '<span class="static-carousel-dot' + (i === 0 ? ' active' : '') + '"></span>'; }).join('') + '</div>'
+        : '';
+      html += '<div class="static-album-card" data-album-idx="' + albumIdx + '" data-maincat="' + album.maincat + '" data-subcat="' + album.subcat + '">' +
+        '<div class="album-date">' + escapeHtml(album.date) + '</div>' +
+        '<div class="album-title">' + escapeHtml(album.title) + '</div>' +
+        '<div class="static-carousel-frame">' + imgsHtml + arrows + '</div>' + dots +
+        '</div>';
+    });
+    html += '</div>';
+
+    target.innerHTML = html;
+  }
+
+  function bizAlbumFilter(scope){
+    var wrap = scope.closest('.biz-page-section');
+    var mainBtn = wrap.querySelector('.biz-tab.active');
+    var mainCat = mainBtn ? mainBtn.dataset.maincat : 'all';
+    var subRow = wrap.querySelector('.biz-subtags[data-maincat="' + mainCat + '"].visible') || wrap.querySelector('.biz-subtags.visible');
+    var subBtn = subRow ? subRow.querySelector('.biz-subtag.active') : null;
+    var subCat = subBtn ? subBtn.dataset.subcat : 'all';
+    wrap.querySelectorAll('.static-album-card').forEach(function(card){
+      var matchMain = (mainCat === 'all' || card.dataset.maincat === mainCat);
+      var matchSub = (subCat === 'all' || card.dataset.subcat === subCat);
+      card.style.display = (matchMain && matchSub) ? '' : 'none';
+    });
+  }
+
+  function bizSelectMain(btn){
+    var wrap = btn.closest('.biz-page-section');
+    wrap.querySelectorAll('.biz-tab').forEach(function(t){ t.classList.remove('active'); });
+    btn.classList.add('active');
+    var mainCat = btn.dataset.maincat;
+    wrap.querySelectorAll('.biz-subtags').forEach(function(row){
+      var isOwner = row.dataset.maincat === mainCat;
+      row.classList.toggle('visible', isOwner);
+      if(isOwner){
+        row.querySelectorAll('.biz-subtag').forEach(function(s){ s.classList.remove('active'); });
+        var allBtn = row.querySelector('.biz-subtag[data-subcat="all"]');
+        if(allBtn) allBtn.classList.add('active');
+      }
+    });
+    bizAlbumFilter(btn);
+  }
+
+  function bizSelectSub(btn){
+    var row = btn.closest('.biz-subtags');
+    row.querySelectorAll('.biz-subtag').forEach(function(s){ s.classList.remove('active'); });
+    btn.classList.add('active');
+    bizAlbumFilter(btn);
+  }
+
+  function staticCarouselNav(albumIdx, dir){
+    var card = document.querySelector('.static-album-card[data-album-idx="' + albumIdx + '"]');
+    if(!card) return;
+    var imgs = card.querySelectorAll('.static-carousel-frame img');
+    var dots = card.querySelectorAll('.static-carousel-dot');
+    if(!imgs.length) return;
+    var curIdx = 0;
+    imgs.forEach(function(img, i){ if(img.classList.contains('active')) curIdx = i; });
+    var next = (curIdx + dir + imgs.length) % imgs.length;
+    imgs.forEach(function(img, i){ img.classList.toggle('active', i === next); });
+    dots.forEach(function(d, i){ d.classList.toggle('active', i === next); });
+  }
+
+  /* ---------- 影音區塊 ---------- */
+  function renderVideoSection(doc, sectionId, gridId, targetElId){
+    var section = doc.getElementById(sectionId);
+    var target = document.getElementById(targetElId);
+    if(!target) return;
+    if(!section){ target.innerHTML = '<p class="biz-empty-hint">內容整理中。</p>'; return; }
+    if(section.getAttribute('style') && section.getAttribute('style').indexOf('display:none') !== -1){
+      target.closest('.biz-page-section').style.display = 'none';
+      return;
+    }
+
+    var h2 = section.querySelector('h2');
+    var title = h2 ? h2.textContent.trim() : '';
+    var mainTabsEl = section.querySelector('.video-tabs');
+    var mainTabs = mainTabsEl ? Array.from(mainTabsEl.querySelectorAll('.video-tab')).map(function(t){
+      return { key: t.dataset.cat, label: (t.childNodes[0] ? t.childNodes[0].textContent.trim() : t.textContent.trim()) };
+    }) : [];
+
+    var grid = doc.getElementById(gridId);
+    var cards = grid ? Array.from(grid.querySelectorAll('.video-card')).map(function(c){
+      var frame = c.querySelector('.video-thumb-frame');
+      var img = c.querySelector('.video-cover');
+      var meta = c.querySelector('.video-card-meta');
+      return {
+        cat: c.dataset.cat,
+        yt: frame ? frame.dataset.yt : '',
+        ig: frame ? frame.dataset.ig : '',
+        cover: img ? img.getAttribute('src') : '',
+        meta: meta ? meta.textContent.trim() : ''
+      };
+    }) : [];
+
+    if(!cards.length){
+      target.innerHTML = '<h2>' + escapeHtml(title) + '</h2><p class="biz-empty-hint">影片陸續整理上架中。</p>';
+      return;
+    }
+
+    var html = '<h2>' + escapeHtml(title) + '</h2>';
+    if(mainTabs.length){
+      html += '<div class="biz-tabs">';
+      html += '<button type="button" class="biz-tab active" data-cat="all" onclick="bizSelectVideoMain(this)">全部</button>';
+      mainTabs.filter(function(t){ return t.key !== 'all'; }).forEach(function(t){
+        html += '<button type="button" class="biz-tab" data-cat="' + t.key + '" onclick="bizSelectVideoMain(this)">' + escapeHtml(t.label) + '</button>';
+      });
+      html += '</div>';
+    }
+    html += '<div class="biz-video-grid">';
+    cards.forEach(function(card, i){
+      html += '<div class="biz-video-card" data-cat="' + card.cat + '">' +
+        '<div class="biz-video-frame" data-yt="' + escapeHtml(card.yt || '') + '" data-ig="' + escapeHtml(card.ig || '') + '" onclick="bizPlayVideo(this)">' +
+        '<img src="' + escapeHtml(card.cover) + '" alt="" loading="lazy"><div class="biz-video-play"></div></div>' +
+        '<div class="biz-video-meta">' + escapeHtml(card.meta) + '</div></div>';
+    });
+    html += '</div>';
+    target.innerHTML = html;
+  }
+
+  function bizSelectVideoMain(btn){
+    var wrap = btn.closest('.biz-page-section');
+    wrap.querySelectorAll('.biz-tab').forEach(function(t){ t.classList.remove('active'); });
+    btn.classList.add('active');
+    var cat = btn.dataset.cat;
+    wrap.querySelectorAll('.biz-video-card').forEach(function(card){
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  }
+
+  function bizPlayVideo(frame){
+    if(frame.dataset.ig){ window.open(frame.dataset.ig, '_blank', 'noopener'); return; }
+    var id = frame.dataset.yt;
+    if(!id) return;
+    frame.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+    frame.removeAttribute('onclick');
+  }
+
+  function renderAll(html){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    renderAlbumSection(doc, 'biz-brand-design', 'biz-brand-design-albums', 'bizPageDesign');
+    renderAlbumSection(doc, 'biz-brand', 'biz-brand-albums', 'bizPagePhotography');
+    renderVideoSection(doc, 'biz-video', 'videoGrid', 'bizPageVideo');
+  }
+
+  var cached = sessionStorage.getItem('enchiang-index-cache');
+  if(cached){
+    renderAll(cached);
+  } else {
+    fetch('index.html')
+      .then(function(r){ return r.text(); })
+      .then(function(html){
+        sessionStorage.setItem('enchiang-index-cache', html);
+        renderAll(html);
+      })
+      .catch(function(){
+        document.querySelectorAll('.biz-page-section').forEach(function(el){
+          el.innerHTML = '<p class="biz-empty-hint">內容載入失敗，請稍後再試。</p>';
+        });
+      });
+  }
+</script>
 
 <div class="service-related">
-  <span class="label editable">其他分類</span>
+  <span class="label">其他分類</span>
   <div class="related-links">
-    <a href="portrait.html">關於EN</a>
+    <a href="portrait.html">關於 EN</a>
     <a href="band.html">關於日常</a>
     <a href="pet.html">關於愛</a>
-    <a href="archive.html">所有文章</a>
   </div>
 </div>
 
 <footer class="service-footer">
-  <div class="serif editable">EN CHIANG</div>
-  <div class="foot-meta editable">台中 | 自然 人像 寵物 側拍花絮攝影　·　en.hi.light@gmail.com</div>
+  <div class="serif">EN CHIANG</div>
+  <div class="foot-meta">台中｜自然人像、寵物攝影、ai自動化　·　en.hi.light@gmail.com</div>
 </footer>
-
-<button class="edit-toggle" id="editToggle" onclick="toggleEditMode()">✎ 編輯</button>
-<button class="edit-export" id="editExport" onclick="exportSite()">匯出 business.html</button>
-
-<script>
-  (function(){
-    var params = new URLSearchParams(location.search);
-    if(params.get('edit') === '1'){
-      document.body.classList.add('edit-access');
-    }
-  })();
-
-  let editMode = false;
-  let hasUnsavedChanges = false;
-  function markDirty(){ hasUnsavedChanges = true; }
-
-  function toggleEditMode(){
-    if(editMode && hasUnsavedChanges){
-      const proceed = confirm('提醒：你剛剛的修改「還沒有」保存！\n\n點「確定」離開編輯模式前，記得之後要按綠色「匯出 business.html」下載新檔案並上傳，不然修改會消失。\n\n點「取消」可以留在編輯模式，先去按匯出。');
-      if(!proceed) return;
-    }
-    editMode = !editMode;
-    document.body.classList.toggle('edit-mode', editMode);
-    document.querySelectorAll('.editable').forEach(el => { el.contentEditable = editMode; });
-    document.getElementById('editToggle').textContent = editMode ? '✓ 完成編輯' : '✎ 編輯';
-    if(editMode){
-      hasUnsavedChanges = false;
-      document.querySelectorAll('.editable').forEach(el => {
-        el.addEventListener('input', markDirty);
-      });
-      alert('編輯模式已開啟：\n\n· 點文字可以直接修改內容\n· 「常見問題」可以新增／刪除整則問答\n\n⚠️ 改完之後一定要按左下角綠色「匯出 business.html」下載新檔案，再上傳到 GitHub 蓋掉舊的 business.html，修改才會真正生效！');
-    }
-  }
-
-  function escapeHtml(s){
-    return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-
-  function addFaqItem(){
-    const q = prompt('問題：', '');
-    if(!q) return;
-    const a = prompt('答案：', '') || '';
-    const list = document.getElementById('faqList');
-    const item = document.createElement('div');
-    item.className = 'biz-faq-item';
-    item.innerHTML = `
-      <div class="biz-faq-q editable">${escapeHtml(q)}</div>
-      <div class="biz-faq-a editable">${escapeHtml(a)}</div>
-      <button class="faq-del-btn" onclick="deleteFaqItem(event)">刪除這則問答</button>
-    `;
-    list.appendChild(item);
-    markDirty();
-    if(editMode){
-      item.querySelectorAll('.editable').forEach(el => {
-        el.contentEditable = true;
-        el.addEventListener('input', markDirty);
-      });
-    }
-  }
-
-  function deleteFaqItem(e){
-    e.preventDefault();
-    if(confirm('確定要刪除這則問答嗎？')){
-      e.target.closest('.biz-faq-item').remove();
-      markDirty();
-    }
-  }
-
-  function exportSite(){
-    if(editMode){
-      editMode = false;
-      document.body.classList.remove('edit-mode');
-      document.querySelectorAll('.editable').forEach(el => { el.contentEditable = false; });
-      document.getElementById('editToggle').textContent = '✎ 編輯';
-    }
-    document.body.classList.remove('edit-access');
-    document.querySelectorAll('.editable').forEach(el => el.removeAttribute('contenteditable'));
-    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-    const blob = new Blob([html], {type:'text/html'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'business.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    hasUnsavedChanges = false;
-    alert('已經開始下載 business.html！\n\n請到手機的「檔案」App確認下載完成，再上傳到 GitHub 蓋掉舊的 business.html。');
-    setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
-  }
-</script>
 
 </body></html>
