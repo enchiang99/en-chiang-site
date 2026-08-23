@@ -524,7 +524,7 @@
   }
   body.edit-mode .album-link-del{ display:inline-block; }
 
-  .biz-carousel-frame{ position:relative; width:100%; max-width:360px; aspect-ratio:4/5; overflow:hidden; background:var(--paper-deep); }
+  .biz-carousel-frame{ position:relative; width:100%; max-width:360px; aspect-ratio:5/4; overflow:hidden; background:var(--paper-deep); }
   .biz-carousel-frame .cimg{ display:none; width:100%; height:100%; object-fit:cover; }
   .biz-carousel-frame .cimg.bw-mode{ filter:grayscale(1) contrast(1.05); }
   .biz-carousel-frame .cimg.active{ display:block; }
@@ -548,7 +548,7 @@
   .biz-filmstrip::-webkit-scrollbar{ display:none; }
   .biz-thumb-wrap{ position:relative; flex:0 0 auto; }
   .biz-filmstrip img{
-    width:58px; aspect-ratio:4/5; object-fit:cover;
+    width:58px; aspect-ratio:5/4; object-fit:cover;
     opacity:0.55; cursor:pointer; display:block; transition:opacity .25s ease, outline-color .25s ease;
   }
   .biz-filmstrip img.current{ outline:2px solid var(--ink); outline-offset:-2px; opacity:1; }
@@ -729,7 +729,7 @@
       <a href="portrait.html" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於 EN</span><span class="flip-back">ABOUT EN</span></span></span></a>
       <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
     </div>
-    <div class="menu-sublist"><a href="#post-3a5249b8283381989dcfeb503e82db5f" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3a5249b8283381989dcfeb503e82db5f'); }"><span class="editable">Hi, Nice to meet you.</span></a><a href="#post-3c2249b8283380e5b215d98424d0b032" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3c2249b8283380e5b215d98424d0b032'); }"><span class="editable">向遺憾學習</span></a></div>
+    <div class="menu-sublist"><a href="#post-3a5249b8283381989dcfeb503e82db5f" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3a5249b8283381989dcfeb503e82db5f'); }"><span class="editable">Hi, Nice to meet you.</span></a></div>
     <div class="menu-album-list" id="menuAlbumList-en"><div class="menu-album-item" onclick="showArticle('post-3a5249b8283381989dcfeb503e82db5f')">📷 第三者視角</div></div>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'albums-post-3a5249b8283381989dcfeb503e82db5f')">＋ 新增相簿</button>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
@@ -760,26 +760,16 @@
       <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
     </div>
     <div class="menu-sublist">
-      <a href="business-portrait.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-portrait'); }"><span class="editable">人像</span></a>
-      <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-portrait-albums')">＋ 新增相簿（人像）</button>
-      <div class="menu-video-item" id="menuBrandToggle" onclick="toggleMenuBrandSub(event)">
-        <span class="editable">品牌</span>
-        <span class="menu-video-toggle-icon">+</span>
-      </div>
-      <div class="menu-video-subpanel" id="menuBrandSubpanel">
-        <div class="menu-video-sub-inner">
-          <a href="business.html" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand-design'); }"><span class="cn editable">創意平面</span><span class="en">CREATIVE GRAPHICS</span></a>
-          <a href="business-brand.html" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand'); }"><span class="cn editable">影像</span><span class="en">PHOTOGRAPHY</span></a>
-        </div>
-        <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-brand-design-albums')">＋ 新增相簿（創意平面）</button>
-        <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-brand-albums')">＋ 新增相簿（影像）</button>
-      </div>
+      <a href="business.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand-design'); }"><span class="editable">創意平面</span></a>
+      <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-brand-design-albums')">＋ 新增相簿（創意平面）</button>
+      <a href="business-brand.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand'); }"><span class="editable">影像</span></a>
+      <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-brand-albums')">＋ 新增相簿（影像）</button>
       <div class="menu-video-item" id="menuVideoToggle" onclick="toggleMenuVideoSub(event)">
-        <span class="editable">影片</span>
+        <span class="editable">影音</span>
         <span class="menu-video-toggle-icon">+</span>
       </div>
       <div class="menu-video-subpanel" id="menuVideoSubpanel">
-        <div class="menu-video-sub-inner" id="menuVideoSubInner"><a href="business-video.html#cat=livehouse" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); openBusinessVideoCat(event,'livehouse'); }"><span class="cn editable">展演空間</span><span class="en">LIVE HOUSE</span></a><a href="business-video.html#cat=brand" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); openBusinessVideoCat(event,'brand'); }"><span class="cn editable">品牌合作</span><span class="en">BRAND</span></a><a href="business-video.html#cat=life" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); openBusinessVideoCat(event,'life'); }"><span class="cn editable">生活日常</span><span class="en">LIFE</span></a></div>
+        <div class="menu-video-sub-inner" id="menuVideoSubInner"><a href="business-video.html#cat=brand" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); openBusinessVideoCat(event,'brand'); }"><span class="cn editable">品牌合作</span><span class="en">BRAND</span></a><a href="business-video.html#cat=life" class="menu-video-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); openBusinessVideoCat(event,'life'); }"><span class="cn editable">生活日常</span><span class="en">LIFE</span></a></div>
       </div>
     </div>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbumSection(this)">＋ 新增子項目</button>
@@ -890,13 +880,13 @@
     <a href="https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener" class="ig-handle serif editable ig-handle-text ig-link">@enchiang_</a>
     <button class="btn" id="footerMoreBtn" type="button" onclick="toggleMore('footerMorePanel')">More</button>
     <button class="ig-link-edit-btn" onclick="editIGLink()" aria-label="編輯 Instagram 連結">🔗</button>
-    <div class="more-panel open" id="footerMorePanel">
+    <div class="more-panel" id="footerMorePanel">
       <div class="more-inner editable">Email：en.hi.light@gmail.com</div>
     </div>
   </div>
   <div class="footer-bottom">
     <span class="editable">© 2026 En Chiang&nbsp;</span>
-    <span class="editable">台中 | 自然 人像 寵物 側拍花絮攝影</span>
+    <span class="editable">台中｜自然人像、寵物攝影、ai自動化</span>
   </div>
 </footer>
 
@@ -911,7 +901,84 @@
     <div id="articleWrap"></div>
   </div>
 </section>
-<div id="articleStore" style="display:none"><article class="post" id="post-3a5249b828338107b18eeb8c0f081131"><h2 class="post-title editable">《自然成像》</h2><div class="post-date editable">2025.07</div><div class="post-body editable"><p>關於日常｜ABOUT LIFE</p><p>我是EN,</p><p>關於ai的世代，好似打開了一個新的世界，邊驚嘆邊感慨，但這裡不會有ai文，都會是自己撰寫的。</p><p>在自我介紹的篇章，</p><p>說過我想讓這網站變成無名小站網誌的調性。（如果你不知道無名網站，不要跟我分享這年齡的差距）</p><p>曾經自己想像生活中可以做一個主題</p><p>《自然成像》 但我沒有大力的推廣它，都是靠著緣分走著。</p><p>📸 主軸很簡單：</p><p>我想好好認識世界上更多不同面向的人。</p><p>你選一家你喜歡的店、地方、任何人事物。</p><p>我們一起分享彼此的故事，而在感受一切的時候也許會拿起相機、也許不會，讓一切都呈現最自然的樣子。</p><p>但把握幾個原則：</p><p>· 不拍攝商業、網美照，圖也不會被精修，希望一切都很純粹</p><p>· 若同意拍攝作品，希望你願意讓我分享在網頁或IG</p><p>（相同的我也會把檔案傳給你，但不接受商業行為的使用）</p><p>· 若有餐飲費用相關支出，就是各付各的</p><p>· 如果你很喜歡作品，想給我一些鼓勵，也可以進行打賞</p><p>· 最後也最重要，以禮相待，事前可以先聊聊有沒有共同興趣，分享彼此的界限，來看看有沒有緣份。</p><p>Btw 我有點恐男，但沒有排斥。</p><p>如果你是男生，</p><p>希望你是很活潑會主動開話題的人，</p><p>不然空氣可能會凝結成冰。</p><p>謝謝你們看完。</p><p>Nice to meet you.</p></div><div class="biz-albums post-albums" id="albums-post-3a5249b828338107b18eeb8c0f081131"><div class="biz-album" id="album-1787218140641-2" data-subcat="all">
+<div id="articleStore" style="display:none"><article class="post" id="post-3a5249b828338107b18eeb8c0f081131"><h2 class="post-title editable">《自然成像》</h2><div class="post-date editable">2025.07</div><div class="post-body editable"><p>關於日常｜ABOUT LIFE</p><p>我是EN,</p><p>關於ai的世代，好似打開了一個新的世界，邊驚嘆邊感慨，但這裡不會有ai文，都會是自己撰寫的。</p><p>在自我介紹的篇章，</p><p>說過我想讓這網站變成無名小站網誌的調性。（如果你不知道無名網站，不要跟我分享這年齡的差距）</p><p>曾經自己想像生活中可以做一個主題</p><p>《自然成像》 但我沒有大力的推廣它，都是靠著緣分走著。</p><p>📸 主軸很簡單：</p><p>我想好好認識世界上更多不同面向的人。</p><p>你選一家你喜歡的店、地方、任何人事物。</p><p>我們一起分享彼此的故事，而在感受一切的時候也許會拿起相機、也許不會，讓一切都呈現最自然的樣子。</p><p>但把握幾個原則：</p><p>· 不拍攝商業、網美照，圖也不會被精修，希望一切都很純粹</p><p>· 若同意拍攝作品，希望你願意讓我分享在網頁或IG</p><p>（相同的我也會把檔案傳給你，但不接受商業行為的使用）</p><p>· 若有餐飲費用相關支出，就是各付各的</p><p>· 如果你很喜歡作品，想給我一些鼓勵，也可以進行打賞</p><p>· 最後也最重要，以禮相待，事前可以先聊聊有沒有共同興趣，分享彼此的界限，來看看有沒有緣份。</p><p>Btw 我有點恐男，但沒有排斥。</p><p>如果你是男生，</p><p>希望你是很活潑會主動開話題的人，</p><p>不然空氣可能會凝結成冰。</p><p>謝謝你們看完。</p><p>Nice to meet you.</p><h3 style="font-family:'Noto Serif TC',serif; font-size:17px; font-weight:500; margin:36px 0 4px;">展演 LIVEHOUSE</h3><div class="video-grid"><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+      <div class="video-thumb-frame color-mode" data-yt="1PFzmP_iELI" onclick="playVideoCard(this)">
+        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/1PFzmP_iELI/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>      <div class="video-card-meta editable">椅子樂團｜The Chairs</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+            <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div>
+<div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+      <div class="video-thumb-frame color-mode" data-yt="B0lusEcy1nk" onclick="playVideoCard(this)">
+        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/B0lusEcy1nk/2.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>      <div class="video-card-meta editable">椅子樂團｜The Chairs</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+            <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div>
+<div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+      <div class="video-thumb-frame color-mode" data-yt="NeXWSn-wDR4" onclick="playVideoCard(this)">
+        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/NeXWSn-wDR4/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>      <div class="video-card-meta editable">Deca joins</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+            <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div>
+<div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+      <div class="video-thumb-frame color-mode" data-yt="zqGvkxjDnkU" onclick="playVideoCard(this)">
+        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/zqGvkxjDnkU/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>      <div class="video-card-meta editable">Deca joins</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+            <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div>
+<div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+      <div class="video-thumb-frame color-mode" data-yt="OnU-7IVmp-A" onclick="playVideoCard(this)">
+        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/OnU-7IVmp-A/3.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>      <div class="video-card-meta editable">Orange Ocean</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+            <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div>
+<div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
+      <div class="video-thumb-frame" data-yt="HweyZz9oCxQ" onclick="playVideoCard(this)">
+        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/HweyZz9oCxQ/hqdefault.jpg" alt="">
+        <div class="video-play-overlay"></div>
+      </div>      <div class="video-card-meta editable">Orange ocean</div>
+      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">黑白</button>
+      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
+            <div class="video-reorder">
+        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
+        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
+      </div>
+      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
+    </div></div></div><div class="biz-albums post-albums" id="albums-post-3a5249b828338107b18eeb8c0f081131"><div class="biz-album" id="album-1787218140641-2" data-subcat="all">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -931,9 +998,9 @@
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
-    </div></div><div class="biz-album-actions"><button class="menu-add-btn" onclick="addBizAlbum(this,'albums-post-3a5249b828338107b18eeb8c0f081131')">＋ 新增相簿</button></div></article><article class="post" id="post-3a5249b8283381b78aaff908365cc2bb"><h2 class="post-title editable">《無條件的愛》</h2><div class="post-date editable">2026.07</div><div class="post-body editable"><p>人總說，無條件的愛是給予後無所求，至今我仍在迷茫。</p><p>凡事總有例外，在他身上，我給予無條件的愛— 我的貓咪。</p><p>七年前，在建國市場看到認領的一群貓咪，當時的伴侶說他真的很想養，於是我就選了一隻看起來有緣分的黑咪🐈‍⬛</p><p>當時的自己，只緊張如何照顧好一個手掌大還要餵奶的咪們。</p><p>當要去獸醫院接咪時，突然有隻在同一個外出籠的黑白咪離不開我們認養的，愛媽問我們能不能一起帶回家，很掙扎的我、很不捨得拆散的伴侶，最終還是被說服，兩隻一起帶回家了。</p><p>兩週後，兩隻咪仔都得了貓瘟。</p><p>黑咪沒有撐過關鍵期，只剩下黑白咪留下來。</p><p>邊傷心也邊陪著黑白咪慢慢長大，</p><p><br></p><p>如今他已經七歲了，過著公子般的生活。</p><p>為他從小套房搬到一房一廳一陽台、</p><p>每天吃著兩個罐頭和飼料還很挑食、</p><p>每個月固定回診追蹤肺塌陷的狀況、</p><p>別的貓咪有的玩具，一樣也沒落下、</p><p>你的任性、刁嘴，都是我慣的。</p><p>但我每天都比昨天更愛你。</p><p><br></p><p>黑咪：OPC 🖤</p><p>黑白咪：Omega 6.3k</p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/c2c249b8-2833-81d7-ba8a-0003376661fd/5da263e6-986f-49e3-a821-a1abdadb89b1/IMG_8142.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665EUW27XB%2F20260823%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260823T084100Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAgaCXVzLXdlc3QtMiJGMEQCIAkSZsuresEPAP1H8uCbtMX5u95kobYhnKp4dAKhXoECAiAoGey9P7jIsZWhz0NoKnc2W4TFhhqIShHT4shYxNlcKSqIBAjR%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDYzNzQyMzE4MzgwNSIM%2F0q%2BOaSak3GAwXkzKtwDHygnjcg8Ijj4bnmR%2B1yOyMiIL6ciqnOQHDLjxq7v5YgGt1FnTZ1oXEQMu5pBhvx50l8JerzkFeXGo9N0dOdumtZGqhHxUNfrfwShPAyczAoVS2N6FQMA4K30Gf179ZVx9trXhxLaL4T%2BF9ZTk0ymc7eqNTPt0Cl%2FxJ4Z1cQNJ8icnYQPhqPx4%2FX1EeXvZna54kRDDoj0Gkgao5MYwgkuGVyWKanQ7mJ%2F2SeACFBpYY7pSf5xMulx743Pq6FXqneOzN0jiIHG8geW%2BWJSAjMKLgaT43uvgehsiUIAgN%2FUM5gQ23w%2B5pMHjy3PPk6%2FFUFU0GfQct0BI5SGV6OEL0xi%2FyvZzcSFB3bISiSNA7MsaCjh5mgVWI7k2A%2BbGYjESWWBwPjPh2l0dABNqr8LXjRobFk83Mf%2BIlsMsslmawa4r6hkWUJK6X%2BplGcpIv9vQ3xlIzeTwkoAfjX%2Frk2Olp8N0idcmAdIirpvkf8msAG1YK3tju0X%2Fv00FYkPQgafabS46mjq32WftMs6d7LdGduvH2WEELY9FaKfhCFuTPpuBHYXYlixX6JHO9ItZfDlJI3I3XgfmHWHK4mkuutSmhtCMW5kb%2BA8%2B1gSeDh1lmnGsFgJJR%2FcS%2BNLReu95%2FIwrcKq1AY6pgFLfV128cdjfDZqXN%2FU1uhNc0LNjZ3WwzhkVIJsYby6jo7WKpcVwQ9vFO5uhJz35nTwMEFRR5Zpon3qoo8xZibYjyeh7Pi13TVuMXYLgKwwB0STHExXEb6ChAWNLFig0tIHJLcQMLAAh1b%2FtDOwNe%2F4VFOVSyR%2Fleis9fmdjqD60WANt4EAt5ope4y%2BbhqyTedFs%2FCgiYROunh2cBEgkGGpQoYVw7s1&amp;X-Amz-Signature=ddfe3edc562957861c0898dc2f2a4709ad030b24dc980418f261186b19ee5ff3&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="" loading="lazy"></div><div class="biz-albums post-albums" id="albums-post-3a5249b8283381b78aaff908365cc2bb"><div class="biz-album" id="album-1787218153953-3" data-subcat="all">
+    </div></div><div class="biz-album-actions"><button class="menu-add-btn" onclick="addBizAlbum(this,'albums-post-3a5249b828338107b18eeb8c0f081131')">＋ 新增相簿</button></div></article><article class="post" id="post-3a5249b8283381b78aaff908365cc2bb"><h2 class="post-title editable">《無條件的愛》</h2><div class="post-date editable">2026.07</div><div class="post-body editable"><p>人總說，無條件的愛是給予後無所求，至今我仍在迷茫。</p><p>凡事總有例外，在他身上，我給予無條件的愛— 我的貓咪。</p><p>七年前，在建國市場看到認領的一群貓咪，當時的伴侶說他真的很想養，於是我就選了一隻看起來有緣分的黑咪🐈‍⬛</p><p>當時的自己，只緊張如何照顧好一個手掌大還要餵奶的咪們。</p><p>當要去獸醫院接咪時，突然有隻在同一個外出籠的黑白咪離不開我們認養的，愛媽問我們能不能一起帶回家，很掙扎的我、很不捨得拆散的伴侶，最終還是被說服，兩隻一起帶回家了。</p><p>兩週後，兩隻咪仔都得了貓瘟。</p><p>黑咪沒有撐過關鍵期，只剩下黑白咪留下來。</p><p>邊傷心也邊陪著黑白咪慢慢長大，</p><p><br></p><p>如今他已經七歲了，過著公子般的生活。</p><p>為他從小套房搬到一房一廳一陽台、</p><p>每天吃著兩個罐頭和飼料還很挑食、</p><p>每個月固定回診追蹤肺塌陷的狀況、</p><p>別的貓咪有的玩具，一樣也沒落下、</p><p>你的任性、刁嘴，都是我慣的。</p><p>但我每天都比昨天更愛你。</p><p><br></p><p>黑咪：OPC 🖤</p><p>黑白咪：Omega 6.3k</p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/c2c249b8-2833-81d7-ba8a-0003376661fd/5da263e6-986f-49e3-a821-a1abdadb89b1/IMG_8142.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4664M3UXUPC%2F20260821%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260821T030418Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjENL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQC4%2FuI5C7eVBSf35NxtMpwVSvVzuKF8kXfGFOu48sQIPgIgTvx4GZtIwtSDTgzCEbaxmNAB2QAIJAVUKuPlow1d1e4qiAQIm%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2Mzc0MjMxODM4MDUiDBALtkT%2B10dXGljNIircA6v39jbSkBo0t8Md2Ne1CXTpdE%2FrDCqjMDxFIPbFPm7TWd449UdAUHDNY4WJj9pQtJth5lcN4%2FMSXqUiQc64lWW61zeAM5yqWgrKEZqLccflTF1KxmoLcAAWVKk4Mhr872pLL9An365zZlOSy3CdFsG%2BUtU4yYSzYiYN%2FqkzVCKHqW0yJdDWbNA9De0tjPj%2BGGS9FfyuAy8mxnJ6YX6V7z0IQWjHj0OM2UzlOko0Fl0e5Yu8OrCz2kWRU0y%2BUjMV8bXbif%2B6lg24FAoqJP9Cgb5LdMUNn15JokCKen%2BQXlh6iVB04fuIjdbq1PX6FArxQOzbKZwTi9iBw7dR2yoYy211Smu3CJ4ZdXVbAWBw0yuHx40lvkeuOUqG5VDa52yCSwCJslwD6DhXVbmBSIfgBtqOj0MgyZotwdu5pEkUo1fggWkMOuv7jJ0N8kfuZHjhyjvd9X66Su3KWRL79PQfOIUId3jSi09J9Ky3i4eNChuVTAeZQJd%2FEhQGh56LxWgD2t5cKymhC1G3gEPsuJJ6mDlmWJikab5cHHgW%2Fk8TpizU7%2B6rfkbnaoP6cWDlynvaT9ejVYwErYCPa6BfWxiqFaa%2Bmd0uYSJLLGQA%2BNfsiU2pEWEcvlZeUGRWwv1aMJ%2FZntQGOqUBWdZOMHD%2FBfT9A4Bpq6Kweafqg8AKpdFizW1fKY6aSboKd61z5UoFkNSvVpC4FpycB03vnPm6i8LiD%2B1ppFoVPQYcOnkxT0EV0hCls%2Bzh46eKdPOAOHNjPURySbiR6ks0Nn4%2FlY0QThw8vdWrLN5eWehiRgMUlWOPsiqMVAdi0PtrUoxDK5KLBsttq%2B3hZfoUgJAv8q5Osp2E49p%2F4N%2BVTEQPne%2FX&amp;X-Amz-Signature=7f0d9add58449114e9f23dc0bdf07541656cf0a5c8a7b22c13d18ce1d5838160&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="" loading="lazy"></div><div class="biz-albums post-albums" id="albums-post-3a5249b8283381b78aaff908365cc2bb"><div class="biz-album" id="album-1787218153953-3" data-subcat="all">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -953,7 +1020,7 @@
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
     </div></div><div class="biz-album-actions"><button class="menu-add-btn" onclick="addBizAlbum(this,'albums-post-3a5249b8283381b78aaff908365cc2bb')">＋ 新增相簿</button></div></article><article class="post" id="post-3a5249b8283381989dcfeb503e82db5f"><h2 class="post-title editable">Hi, Nice to meet you.</h2><div class="post-date editable">2026.07</div><div class="post-body editable"><p>我是EN,</p><p>做這個網頁的起心動念，其實是想像以前無名小站的網誌。</p><p>說出一些關於自己的主題，本身是一個喜歡拍攝記錄生活的人，</p><p>但從沒想過要把我的興趣當成工作，放在工作裡很多時候就變得不像自己了。</p><p>一場際遇，認識了一位朋友，透過交流和分享知道有咖啡廳可以投稿參展，</p><p>當時累積了一些作品，但在最後一刻 退縮了。</p><p>退縮不因為什麼，只因自卑感的作祟，還有崇尚完美主義的自我，</p><p>感受當下的作品，有些無法露出，有些累積地不夠好。</p><p>於是在很久以後(彼時)，不然辦個線上展覽好了。</p><p>在社群媒體上，資訊的流動太快，常常想發點什麼但卻寫不出來，已經無法讓人好好停留下來閱讀。</p><p>最後開始慢慢著手這個網站的建構，回到網誌的呢喃，給未來遇見的有緣人。</p><p>Nice to meet you.</p></div><div class="biz-albums post-albums" id="albums-post-3a5249b8283381989dcfeb503e82db5f"><div class="biz-album" id="album-1787218123577-1" data-subcat="all">
       <div class="album-meta">
@@ -975,7 +1042,7 @@
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
     </div></div><div class="biz-album-actions"><button class="menu-add-btn" onclick="addBizAlbum(this,'albums-post-3a5249b8283381989dcfeb503e82db5f')">＋ 新增相簿</button></div></article><article class="post" id="post-3c2249b8283380e5b215d98424d0b032"><h2 class="post-title editable">向遺憾學習</h2><div class="post-date editable">2026.08</div><div class="post-body editable"><p>之所以有這麼多遺憾，來自於個體本身。</p><p>當人物設定，若你有所求、求不得時則變成討好型，關係中心會急速產生變化，對方開始對於初衷的選擇會動搖 ，則會讓人提出分開的想法，此時的個體可能停留在被遺棄、失去、憤怒的陰霾中，想一定要有一個板上釘死的理由，但對方何嘗不是也遍體鱗傷，這是對於關係的環環相扣。</p><p>當人物設定，若對方有所求，而個體本身需要大量的獨處卻不敢表達，所求的對方也用沈默式的等待被發現，雙方沈默換來關係的失衡，各自掉入自己的漩渦，可能又進入了失去、遺棄、憤怒、討好的輪迴模式，最後換得的僅有從此不再相見。</p><p>失去的遺憾，重視的惜緣。
 也許，靠時間與遺憾共處，
@@ -993,64 +1060,9 @@
       <h2 class="editable">關於商業</h2>
     </div>
     <div id="bizSections">
-      <div class="biz-section jump-highlight" id="biz-portrait">
-        <h2 class="editable">人像</h2>
-        <div class="video-subtags" data-owner="biz-portrait-albums">
-          <button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-portrait-albums')">全部</button>
-          <button class="video-subtag" data-subcat="sub-1787047353660" onclick="selectAlbumSubCat(this,'biz-portrait-albums')">婚禮 | Wedding<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-portrait-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047412596" onclick="selectAlbumSubCat(this,'biz-portrait-albums')">個人形象 | Personal image<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-portrait-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-portrait-albums')">＋ 新增子分類</button>
-        </div>
-        <div class="biz-albums" id="biz-portrait-albums"><div class="biz-album" data-subcat="sub-1787047412596" id="album-1786959190644-1" style="">
-      <div class="album-meta">
-        <span class="album-date editable"></span>
-      </div>
-      <div class="album-title editable">個人形象 | Personal Image</div>
-      <div class="album-link-wrap"></div>
-      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
-      <div class="biz-carousel-frame">
-        
-      <button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg active" src="https://enchiang.com/images/R0008965.JPG" alt="" data-i="0"><img class="cimg" src="https://enchiang.com/images/R0008988.JPG" alt="" data-i="1"><img class="cimg" src="https://enchiang.com/images/R0008947.JPG" alt="" data-i="2"><img class="cimg" src="https://enchiang.com/images/R0008972.JPG" alt="" data-i="3"></div>
-      <div class="biz-captions"><div class="biz-caption editable active" data-i="0"><br></div><div class="biz-caption editable" data-i="1"></div><div class="biz-caption editable" data-i="2"></div><div class="biz-caption editable" data-i="3"></div></div>
-      <div class="biz-carousel-foot" style="display: flex;">
-        <div class="biz-dots"><span class="biz-dot active"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span></div>
-        <span class="biz-counter">01 / 04</span>
-      </div>
-      <div class="biz-filmstrip"><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0008965.JPG" class="current" data-i="0"><button type="button" class="biz-thumb-del" data-i="0">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0008988.JPG" class="" data-i="1"><button type="button" class="biz-thumb-del" data-i="1">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0008947.JPG" class="" data-i="2"><button type="button" class="biz-thumb-del" data-i="2">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0008972.JPG" class="" data-i="3"><button type="button" class="biz-thumb-del" data-i="3">✕</button></div></div>
-      <div class="biz-album-actions">
-        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
-        <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
-        <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
-      </div>
-    </div><div class="biz-album" data-subcat="sub-1787047353660" id="album-1786959749109-3" style="">
-      <div class="album-meta">
-        <span class="album-date editable"></span>
-      </div>
-      <div class="album-title editable">婚禮 ｜ Wedding&nbsp;</div>
-      <div class="album-link-wrap"></div>
-      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
-      <div class="biz-carousel-frame">
-        
-      <img class="cimg active" src="https://enchiang.com/images/R0001533.JPG" alt="" data-i="0"><button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg" src="https://enchiang.com/images/R0001588.JPG" alt="" data-i="1"><img class="cimg" src="https://enchiang.com/images/R0001613.JPG" alt="" data-i="2"><img class="cimg" src="https://enchiang.com/images/R0001942.JPG" alt="" data-i="3"><img class="cimg" src="https://enchiang.com/images/R0001808.JPG" alt="" data-i="4"><img class="cimg" src="https://enchiang.com/images/R0001697.JPG" alt="" data-i="5"><img class="cimg" src="https://enchiang.com/images/R0001740.JPG" alt="" data-i="6"><img class="cimg" src="https://enchiang.com/images/R0001595.JPG" alt="" data-i="7"></div>
-      <div class="biz-captions"><div class="biz-caption editable active" data-i="0"><br></div><div class="biz-caption editable" data-i="1"></div><div class="biz-caption editable" data-i="2"></div><div class="biz-caption editable" data-i="3"></div><div class="biz-caption editable" data-i="4"></div><div class="biz-caption editable" data-i="5"></div><div class="biz-caption editable" data-i="6"></div><div class="biz-caption editable" data-i="7"></div></div>
-      <div class="biz-carousel-foot" style="display: flex;">
-        <div class="biz-dots"><span class="biz-dot active"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span></div>
-        <span class="biz-counter">01 / 08</span>
-      </div>
-      <div class="biz-filmstrip"><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001533.JPG" class="current" data-i="0"><button type="button" class="biz-thumb-del" data-i="0">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001588.JPG" class="" data-i="1"><button type="button" class="biz-thumb-del" data-i="1">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001613.JPG" class="" data-i="2"><button type="button" class="biz-thumb-del" data-i="2">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001942.JPG" class="" data-i="3"><button type="button" class="biz-thumb-del" data-i="3">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001808.JPG" class="" data-i="4"><button type="button" class="biz-thumb-del" data-i="4">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001697.JPG" class="" data-i="5"><button type="button" class="biz-thumb-del" data-i="5">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001740.JPG" class="" data-i="6"><button type="button" class="biz-thumb-del" data-i="6">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001595.JPG" class="" data-i="7"><button type="button" class="biz-thumb-del" data-i="7">✕</button></div></div>
-      <div class="biz-album-actions">
-        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
-        <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
-        <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
-      </div>
-    </div></div>
-        <div class="biz-album-actions">
-          <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-portrait-albums')">＋ 新增相簿</button>
-        </div>
-      </div>
       <div class="biz-section" id="biz-brand-design">
-        <h2 class="editable">品牌｜創意平面 Creative Graphics</h2>
-        <div class="video-subtags" data-owner="biz-brand-design-albums">
+        <h2 class="editable">創意平面 Creative Graphics</h2>
+        <div class="video-subtags visible" data-owner="biz-brand-design-albums">
           <button class="video-subtag" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-design-albums')">全部</button>
           <button class="video-subtag active" data-subcat="sub-1787241879912" onclick="selectAlbumSubCat(this,'biz-brand-design-albums')">美髮 ｜ Salon<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-design-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-design-albums')">＋ 新增子分類</button>
         </div>
@@ -1074,7 +1086,7 @@
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
     </div></div>
         <div class="biz-album-actions">
@@ -1082,16 +1094,64 @@
         </div>
       </div>
       <div class="biz-section jump-highlight" id="biz-brand">
-        <h2 class="editable">品牌｜影像 Photography</h2>
+        <h2 class="editable">影像 Photography</h2>
         <div class="video-tabs" data-owner="biz-brand-albums">
           <button class="video-tab active" data-maincat="all" onclick="selectAlbumMainCat(this,'biz-brand-albums')">全部</button>
-          <button class="video-tab" data-maincat="main-1787306460605" onclick="selectAlbumMainCat(this,'biz-brand-albums')">花藝 | Floristry<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumMainCategory(this,'biz-brand-albums')"> ✕</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,-1)"> ‹</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,1)"> ›</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumMainCategory(this,'biz-brand-albums')">＋ 新增主分類</button>
+          <button class="video-tab" data-maincat="main-portrait" onclick="selectAlbumMainCat(this,'biz-brand-albums')">人像<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumMainCategory(this,'biz-brand-albums')"> ✕</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,-1)"> ‹</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,1)"> ›</span></button><button class="video-tab" data-maincat="main-1787306460605" onclick="selectAlbumMainCat(this,'biz-brand-albums')">花藝 | Floristry<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumMainCategory(this,'biz-brand-albums')"> ✕</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,-1)"> ‹</span><span class="tab-move-btn" onclick="event.stopPropagation(); moveAlbumMainCat(this,1)"> ›</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumMainCategory(this,'biz-brand-albums')">＋ 新增主分類</button>
+        </div>
+        <div class="video-subtags" data-owner="biz-brand-albums" data-maincat="main-portrait">
+          <button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-albums')">全部</button>
+          <button class="video-subtag" data-subcat="sub-1787047353660" onclick="selectAlbumSubCat(this,'biz-brand-albums')">婚禮 | Wedding<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047412596" onclick="selectAlbumSubCat(this,'biz-brand-albums')">個人形象 | Personal image<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-albums')">＋ 新增子分類</button>
         </div>
         <div class="video-subtags" data-owner="biz-brand-albums" data-maincat="main-1787306460605"><button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-albums')">全部</button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-albums')">＋ 新增子分類</button></div><div class="video-subtags" data-owner="biz-brand-albums" data-maincat="all">
           <button class="video-subtag" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-brand-albums')">全部</button>
           <button class="video-subtag" data-subcat="sub-1787047463899" onclick="selectAlbumSubCat(this,'biz-brand-albums')">醫療 | Clinic<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag" data-subcat="sub-1787047483906" onclick="selectAlbumSubCat(this,'biz-brand-albums')">餐廳 | Restaurant<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button class="video-subtag active" data-subcat="sub-1787047526146" onclick="selectAlbumSubCat(this,'biz-brand-albums')">花藝 | Floristry<span class="subtag-del-x" onclick="event.stopPropagation(); removeAlbumSubCategory(this,'biz-brand-albums')"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-brand-albums')">＋ 新增子分類</button>
         </div>
-        <div class="biz-albums" id="biz-brand-albums"><div class="biz-album" data-maincat="all" data-subcat="sub-1787047463899" id="album-1786170058698-2" style="display: none;">
+        <div class="biz-albums" id="biz-brand-albums"><div class="biz-album" data-maincat="main-portrait" data-subcat="sub-1787047412596" id="album-1786959190644-1" style="">
+      <div class="album-meta">
+        <span class="album-date editable"></span>
+      </div>
+      <div class="album-title editable">個人形象 | Personal Image</div>
+      <div class="album-link-wrap"></div>
+      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
+      <div class="biz-carousel-frame">
+        
+      <button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg active" src="https://enchiang.com/images/R0008965.JPG" alt="" data-i="0"><img class="cimg" src="https://enchiang.com/images/R0008988.JPG" alt="" data-i="1"><img class="cimg" src="https://enchiang.com/images/R0008947.JPG" alt="" data-i="2"><img class="cimg" src="https://enchiang.com/images/R0008972.JPG" alt="" data-i="3"></div>
+      <div class="biz-captions"><div class="biz-caption editable active" data-i="0"><br></div><div class="biz-caption editable" data-i="1"></div><div class="biz-caption editable" data-i="2"></div><div class="biz-caption editable" data-i="3"></div></div>
+      <div class="biz-carousel-foot" style="display: flex;">
+        <div class="biz-dots"><span class="biz-dot active"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span></div>
+        <span class="biz-counter">01 / 04</span>
+      </div>
+      <div class="biz-filmstrip"><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0008965.JPG" class="current" data-i="0"><button type="button" class="biz-thumb-del" data-i="0">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0008988.JPG" class="" data-i="1"><button type="button" class="biz-thumb-del" data-i="1">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0008947.JPG" class="" data-i="2"><button type="button" class="biz-thumb-del" data-i="2">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0008972.JPG" class="" data-i="3"><button type="button" class="biz-thumb-del" data-i="3">✕</button></div></div>
+      <div class="biz-album-actions">
+        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
+        <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
+        <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+      </div>
+    </div><div class="biz-album" data-maincat="main-portrait" data-subcat="sub-1787047353660" id="album-1786959749109-3" style="">
+      <div class="album-meta">
+        <span class="album-date editable"></span>
+      </div>
+      <div class="album-title editable">婚禮 ｜ Wedding&nbsp;</div>
+      <div class="album-link-wrap"></div>
+      <button type="button" class="bw-toggle-btn" style="margin-bottom:12px;" onclick="toggleAlbumBW(this)">原圖</button>
+      <div class="biz-carousel-frame">
+        
+      <img class="cimg active" src="https://enchiang.com/images/R0001533.JPG" alt="" data-i="0"><button type="button" class="carousel-arrow prev">‹</button><button type="button" class="carousel-arrow next">›</button><img class="cimg" src="https://enchiang.com/images/R0001588.JPG" alt="" data-i="1"><img class="cimg" src="https://enchiang.com/images/R0001613.JPG" alt="" data-i="2"><img class="cimg" src="https://enchiang.com/images/R0001942.JPG" alt="" data-i="3"><img class="cimg" src="https://enchiang.com/images/R0001808.JPG" alt="" data-i="4"><img class="cimg" src="https://enchiang.com/images/R0001697.JPG" alt="" data-i="5"><img class="cimg" src="https://enchiang.com/images/R0001740.JPG" alt="" data-i="6"><img class="cimg" src="https://enchiang.com/images/R0001595.JPG" alt="" data-i="7"></div>
+      <div class="biz-captions"><div class="biz-caption editable active" data-i="0"><br></div><div class="biz-caption editable" data-i="1"></div><div class="biz-caption editable" data-i="2"></div><div class="biz-caption editable" data-i="3"></div><div class="biz-caption editable" data-i="4"></div><div class="biz-caption editable" data-i="5"></div><div class="biz-caption editable" data-i="6"></div><div class="biz-caption editable" data-i="7"></div></div>
+      <div class="biz-carousel-foot" style="display: flex;">
+        <div class="biz-dots"><span class="biz-dot active"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span><span class="biz-dot"></span></div>
+        <span class="biz-counter">01 / 08</span>
+      </div>
+      <div class="biz-filmstrip"><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001533.JPG" class="current" data-i="0"><button type="button" class="biz-thumb-del" data-i="0">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001588.JPG" class="" data-i="1"><button type="button" class="biz-thumb-del" data-i="1">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001613.JPG" class="" data-i="2"><button type="button" class="biz-thumb-del" data-i="2">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001942.JPG" class="" data-i="3"><button type="button" class="biz-thumb-del" data-i="3">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001808.JPG" class="" data-i="4"><button type="button" class="biz-thumb-del" data-i="4">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001697.JPG" class="" data-i="5"><button type="button" class="biz-thumb-del" data-i="5">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001740.JPG" class="" data-i="6"><button type="button" class="biz-thumb-del" data-i="6">✕</button></div><div class="biz-thumb-wrap"><img src="https://enchiang.com/images/R0001595.JPG" class="" data-i="7"><button type="button" class="biz-thumb-del" data-i="7">✕</button></div></div>
+      <div class="biz-album-actions">
+        <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
+        <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
+        <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+      </div>
+    </div><div class="biz-album" data-maincat="all" data-subcat="sub-1787047463899" id="album-1786170058698-2" style="display: none;">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -1111,7 +1171,7 @@
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
     </div><div class="biz-album" data-maincat="all" data-subcat="sub-1787047483906" id="album-1786170221720-3" style="display: none;">
       <div class="album-meta">
@@ -1133,7 +1193,7 @@
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
     </div><div class="biz-album" data-maincat="main-1787306460605" data-subcat="all" id="album-1786959523222-2" style="">
       <div class="album-meta">
@@ -1155,7 +1215,7 @@
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
     </div></div>
         <div class="biz-album-actions">
@@ -1163,20 +1223,15 @@
         </div>
       </div>
       <div class="biz-section" id="biz-video">
-        <h2 class="editable">影片</h2>
+        <h2 class="editable">影音</h2>
         <div class="video-tabs" id="videoTabs">
-          <button class="video-tab" data-cat="all" onclick="selectMainCat(this)">全部</button>
-          <button class="video-tab active" data-cat="livehouse" onclick="selectMainCat(this)">展演空間</button>
+          <button class="video-tab active" data-cat="all" onclick="selectMainCat(this)">全部</button>
           <button class="video-tab" data-cat="brand" onclick="selectMainCat(this)">品牌合作</button>
           <button class="video-tab" data-cat="life" onclick="selectMainCat(this)">生活日常</button>
         </div>
-        <div class="video-subtags visible" data-owner="livehouse">
-          <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button class="video-subtag" data-subcat="sub-1785666898557" onclick="selectSubCat(this)">LIVE HOUSE<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
-        </div>
         <div class="video-subtags" data-owner="brand">
           <button class="video-subtag" data-subcat="all" onclick="selectSubCat(this)">全部</button>
-          <button class="video-subtag" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag active" data-subcat="sub-1785667896912" onclick="selectSubCat(this)">手創<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
+          <button class="video-subtag active" data-subcat="sub-1785257430478" onclick="selectSubCat(this)">餐飲<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667128526" onclick="selectSubCat(this)">醫療<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button class="video-subtag" data-subcat="sub-1785667896912" onclick="selectSubCat(this)">手創<span class="subtag-del-x" onclick="event.stopPropagation(); removeVideoSubCategory(this)"> ✕</span></button><button type="button" class="add-subtag-btn" onclick="addVideoSubCategory(this)">＋ 新增子分類</button>
         </div>
         <div class="video-subtags" data-owner="life">
           <button class="video-subtag active" data-subcat="all" onclick="selectSubCat(this)">全部</button>
@@ -1238,91 +1293,8 @@
         <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
       </div>
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
-      <div class="video-thumb-frame color-mode" data-yt="1PFzmP_iELI" onclick="playVideoCard(this)">
-        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/1PFzmP_iELI/hqdefault.jpg" alt="">
-        <div class="video-play-overlay"></div>
-      </div>
-      <div class="video-card-meta editable">椅子樂團｜The Chairs · 展演空間 · LIVE HOUSE</div>
-      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
-      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
-      <button type="button" class="video-cover-btn" onclick="moveVideoToCategory(this)">📂 移動到分類</button>
-      <div class="video-reorder">
-        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
-        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
-      </div>
-      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
-      <div class="video-thumb-frame color-mode" data-yt="B0lusEcy1nk" onclick="playVideoCard(this)">
-        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/B0lusEcy1nk/2.jpg" alt="">
-        <div class="video-play-overlay"></div>
-      </div>
-      <div class="video-card-meta editable">椅子樂團｜The Chairs · 展演空間 · LIVE HOUSE</div>
-      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
-      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
-      <button type="button" class="video-cover-btn" onclick="moveVideoToCategory(this)">📂 移動到分類</button>
-      <div class="video-reorder">
-        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
-        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
-      </div>
-      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
-      <div class="video-thumb-frame color-mode" data-yt="NeXWSn-wDR4" onclick="playVideoCard(this)">
-        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/NeXWSn-wDR4/hqdefault.jpg" alt="">
-        <div class="video-play-overlay"></div>
-      </div>
-      <div class="video-card-meta editable">Deca joins · 展演空間 · LIVE HOUSE</div>
-      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
-      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
-      <button type="button" class="video-cover-btn" onclick="moveVideoToCategory(this)">📂 移動到分類</button>
-      <div class="video-reorder">
-        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
-        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
-      </div>
-      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
-      <div class="video-thumb-frame color-mode" data-yt="zqGvkxjDnkU" onclick="playVideoCard(this)">
-        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/zqGvkxjDnkU/hqdefault.jpg" alt="">
-        <div class="video-play-overlay"></div>
-      </div>
-      <div class="video-card-meta editable">Deca joins · 展演空間 · LIVE HOUSE</div>
-      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
-      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
-      <button type="button" class="video-cover-btn" onclick="moveVideoToCategory(this)">📂 移動到分類</button>
-      <div class="video-reorder">
-        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
-        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
-      </div>
-      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
-      <div class="video-thumb-frame color-mode" data-yt="OnU-7IVmp-A" onclick="playVideoCard(this)">
-        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/OnU-7IVmp-A/3.jpg" alt="">
-        <div class="video-play-overlay"></div>
-      </div>
-      <div class="video-card-meta editable">Orange Ocean · 展演空間 · LIVE HOUSE</div>
-      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">原圖</button>
-      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
-      <button type="button" class="video-cover-btn" onclick="moveVideoToCategory(this)">📂 移動到分類</button>
-      <div class="video-reorder">
-        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
-        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
-      </div>
-      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="livehouse" data-subcat="sub-1785666898557" style="">
-      <div class="video-thumb-frame" data-yt="HweyZz9oCxQ" onclick="playVideoCard(this)">
-        <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/HweyZz9oCxQ/hqdefault.jpg" alt="">
-        <div class="video-play-overlay"></div>
-      </div>
-      <div class="video-card-meta editable">Orange ocean · 展演空間 · LIVE HOUSE</div>
-      <button type="button" class="bw-toggle-btn" style="margin-top:6px;" onclick="toggleVideoBW(this)">黑白</button>
-      <button type="button" class="video-cover-btn" onclick="changeVideoCover(this)">換封面圖片</button>
-      <button type="button" class="video-cover-btn" onclick="moveVideoToCategory(this)">📂 移動到分類</button>
-      <div class="video-reorder">
-        <button type="button" onclick="moveVideoCard(this,-1)">↑ 上移</button>
-        <button type="button" onclick="moveVideoCard(this,1)">↓ 下移</button>
-      </div>
-      <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
-    </div><div class="video-card" data-cat="brand" data-subcat="sub-1785667128526" style="display: none;">
+    </div>
+<div class="video-card" data-cat="brand" data-subcat="sub-1785667128526" style="display: none;">
       <div class="video-thumb-frame color-mode" data-yt="AOEGVhJfdY8" onclick="playVideoCard(this)">
         <img loading="lazy" class="video-cover" src="https://img.youtube.com/vi/AOEGVhJfdY8/hqdefault.jpg" alt="">
         <div class="video-play-overlay"></div>
@@ -1422,6 +1394,13 @@
       <button class="biz-img-del" onclick="this.closest('.video-card').remove(); markDirty();">✕ 移除</button>
     </div></div>
         <button class="menu-add-btn" style="margin-top:20px;" onclick="addBizVideo(this)">🎬 新增影片(貼YouTube或Instagram連結)</button>
+      </div>
+      <div class="biz-section" id="biz-ai" style="display:none;" data-hidden-section="1">
+        <h2 class="editable">AI協作</h2>
+        <div class="biz-albums" id="biz-ai-albums"></div>
+        <div class="biz-album-actions">
+          <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-ai-albums')">＋ 新增相簿</button>
+        </div>
       </div>
     </div>
     <p style="text-align:center; padding:0;">
@@ -1989,7 +1968,10 @@
     a.className = 'menu-sub-link';
     a.setAttribute('onclick', "if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('" + id + "'); }");
     a.innerHTML = `<span class="editable">${escapeHtml(title)}</span>`;
-    sublist.appendChild(a);
+    const alreadyHasArticleLink = !!sublist.querySelector('.menu-sub-link');
+    if(!alreadyHasArticleLink){
+      sublist.appendChild(a);
+    }
     sublist.classList.add('open');
     const chevron = group.querySelector('.menu-expand-btn');
     if(chevron) chevron.classList.add('open');
@@ -2277,7 +2259,7 @@
     const currentContainer = album.closest('.biz-albums');
     if(!currentContainer){ alert('找不到這本相簿所屬的區塊。'); return; }
 
-    // 第一步：先選要搬到哪個版面（人像／品牌｜創意平面／品牌｜影像／未來新增的版面都會列出來）
+    // 第一步：先選要搬到哪個版面（創意平面／影像／未來新增的版面都會列出來）
     const allContainers = Array.from(document.querySelectorAll('.biz-albums[id]'));
     if(!allContainers.length){ alert('找不到任何相簿版面。'); return; }
 
@@ -2485,7 +2467,7 @@
 
   /* ================= 關於商業：新增子項目（新版面） ================= */
   function addBizAlbumSection(btn){
-    const name = prompt('新版面名稱（例如「品牌｜創意平面 Creative Graphics」）：', '');
+    const name = prompt('新版面名稱（例如「AI協作」）：', '');
     if(!name || !name.trim()) return;
     const trimmedName = name.trim();
     const key = 'biz-sub-' + Date.now();
@@ -2651,7 +2633,7 @@
         <button class="menu-add-btn" onclick="addAlbumPhoto(this)">🖼 新增照片（檔案，會內嵌變大）</button>
         <button class="menu-add-btn" onclick="addAlbumPhotoByUrl(this)">🔗 貼圖片網址（推薦）</button>
         <button class="menu-add-btn" onclick="addAlbumLink(this)">🔗 新增網站連結</button>
-        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
+        <button class="menu-add-btn" onclick="moveAlbumToCategory(this)">📂 移動到分類</button><button class="menu-add-btn" onclick="moveBizAlbum(this,-1)">↑ 相簿上移</button><button class="menu-add-btn" onclick="moveBizAlbum(this,1)">↓ 相簿下移</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,-1)">◀ 目前照片往前</button><button class="menu-add-btn" onclick="movePhotoInAlbum(this,1)">▶ 目前照片往後</button><button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
     `;
     container.appendChild(album);
@@ -2730,6 +2712,60 @@
     const thumb = album.querySelector('.biz-filmstrip img[data-i="' + idx + '"]');
     if(thumb) thumb.classList.toggle('bw-mode', toBW);
     btn.textContent = toBW ? '黑白' : '原圖';
+    markDirty();
+  }
+
+  /* ================= 相簿排序：同一版面內的相簿上移／下移 ================= */
+  function moveBizAlbum(btn, dir){
+    const album = btn.closest('.biz-album');
+    const container = album.closest('.biz-albums');
+    if(!album || !container) return;
+    const siblings = Array.from(container.querySelectorAll(':scope > .biz-album'));
+    const idx = siblings.indexOf(album);
+    if(dir === -1 && idx > 0){
+      container.insertBefore(album, siblings[idx - 1]);
+    } else if(dir === 1 && idx < siblings.length - 1){
+      container.insertBefore(siblings[idx + 1], album);
+    } else {
+      return;
+    }
+    markDirty();
+  }
+
+  /* ================= 照片排序：把目前顯示中的照片跟前／後一張互換位置 ================= */
+  function movePhotoInAlbum(btn, dir){
+    const album = btn.closest('.biz-album');
+    if(!album) return;
+    const activeImg = album.querySelector('.biz-carousel-frame .cimg.active');
+    if(!activeImg){ alert('請先新增照片，再調整順序。'); return; }
+    const idx = parseInt(activeImg.dataset.i, 10);
+    const targetIdx = idx + dir;
+    const imgs = album.querySelectorAll('.cimg');
+    if(targetIdx < 0 || targetIdx >= imgs.length) return;
+
+    const caps = album.querySelectorAll('.biz-caption');
+    const thumbs = album.querySelectorAll('.biz-filmstrip img');
+
+    const imgA = album.querySelector('.cimg[data-i="' + idx + '"]');
+    const imgB = album.querySelector('.cimg[data-i="' + targetIdx + '"]');
+    const capA = album.querySelector('.biz-caption[data-i="' + idx + '"]');
+    const capB = album.querySelector('.biz-caption[data-i="' + targetIdx + '"]');
+    const thumbA = album.querySelectorAll('.biz-filmstrip img')[idx];
+    const thumbB = album.querySelectorAll('.biz-filmstrip img')[targetIdx];
+
+    function swapAttr(a, b, attr){
+      const tmp = a.getAttribute(attr);
+      a.setAttribute(attr, b.getAttribute(attr) || '');
+      b.setAttribute(attr, tmp || '');
+    }
+    if(imgA && imgB){ swapAttr(imgA, imgB, 'src'); swapAttr(imgA, imgB, 'alt'); }
+    if(thumbA && thumbB){ swapAttr(thumbA, thumbB, 'src'); }
+    if(capA && capB){
+      const tmpText = capA.textContent;
+      capA.textContent = capB.textContent;
+      capB.textContent = tmpText;
+    }
+    bizCarouselGoto(album, targetIdx);
     markDirty();
   }
 
