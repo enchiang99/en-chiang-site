@@ -402,7 +402,8 @@
     color:var(--ink-soft); font-family:'Noto Sans TC', sans-serif;
   }
   .menu-sub-link:last-child{ border-bottom:none; }
-  .menu-album-list{ padding:2px 0 4px; }
+  .menu-album-list{ display:none; padding:2px 0 4px; }
+  .menu-album-list.open{ display:block; }
   .menu-album-item{
     font-size:12px; color:var(--ink-soft); padding:6px 0 6px 14px;
     font-family:'Noto Serif TC', serif; cursor:pointer;
@@ -504,9 +505,11 @@
   body.edit-mode .biz-video-wrap .biz-img-del{ display:inline-flex; }
 
   /* ---------- 人像/品牌：相簿式呈現（日記條目 + 輪播 + 逐張敘述） ---------- */
-  .biz-albums{ display:flex; flex-direction:column; }
+  .biz-albums{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
+  @media (max-width:640px){ .biz-albums{ grid-template-columns:1fr; } }
   .biz-album{ padding:36px 0; border-top:1px solid var(--line); position:relative; }
-  .biz-album:first-child{ border-top:1px solid var(--ink); }
+  .biz-albums .biz-album:nth-child(-n+2){ border-top:1px solid var(--ink); }
+  @media (max-width:640px){ .biz-albums .biz-album:nth-child(-n+2){ border-top:1px solid var(--line); } .biz-albums .biz-album:first-child{ border-top:1px solid var(--ink); } }
 
   .album-meta{ display:flex; align-items:baseline; gap:16px; margin-bottom:10px; }
   .album-date{
@@ -525,8 +528,7 @@
   }
   body.edit-mode .album-link-del{ display:inline-block; }
 
-  .biz-carousel-frame{ position:relative; width:100%; max-width:360px; aspect-ratio:5/4; overflow:hidden; background:var(--paper-deep); }
-  #biz-brand .biz-carousel-frame{ aspect-ratio:4/5; }
+  .biz-carousel-frame{ position:relative; width:100%; aspect-ratio:5/4; overflow:hidden; background:var(--paper-deep); }
   .biz-carousel-frame .cimg{ display:none; width:100%; height:100%; object-fit:cover; }
   .biz-carousel-frame .cimg.bw-mode{ filter:grayscale(1) contrast(1.05); }
   .biz-carousel-frame .cimg.active{ display:block; }
@@ -534,18 +536,18 @@
   .biz-carousel-frame .empty-hint{ display:flex; align-items:center; justify-content:center; height:100%; color:var(--ink-soft); font-size:13px; }
   .biz-carousel-frame .carousel-arrow{ font-size:14px; width:30px; height:30px; }
 
-  .biz-captions{ max-width:360px; margin-top:12px; min-height:24px; }
+  .biz-captions{ margin-top:12px; min-height:24px; }
   .biz-caption{ display:none; font-size:14px; line-height:1.8; color:var(--ink-soft); }
   .biz-caption.active{ display:block; }
 
-  .biz-carousel-foot{ display:flex; justify-content:space-between; align-items:center; max-width:360px; margin-top:10px; }
+  .biz-carousel-foot{ display:flex; justify-content:space-between; align-items:center; margin-top:10px; }
   .biz-dots{ display:flex; gap:6px; }
   .biz-dot{ width:6px; height:6px; border-radius:50%; background:var(--line); }
   .biz-dot.active{ background:var(--ink); }
   .biz-counter{ font-family:'Noto Serif TC',serif; font-size:11.5px; color:var(--ink-soft); }
 
   .biz-filmstrip{
-    display:flex; gap:6px; max-width:360px; margin-top:16px; overflow-x:auto; padding-bottom:4px;
+    display:flex; gap:6px; margin-top:16px; overflow-x:auto; padding-bottom:4px;
   }
   .biz-filmstrip::-webkit-scrollbar{ display:none; }
   .biz-thumb-wrap{ position:relative; flex:0 0 auto; }
@@ -553,7 +555,6 @@
     width:58px; aspect-ratio:5/4; object-fit:cover;
     opacity:0.55; cursor:pointer; display:block; transition:opacity .25s ease, outline-color .25s ease;
   }
-  #biz-brand .biz-filmstrip img{ aspect-ratio:4/5; }
   .biz-filmstrip img.current{ outline:2px solid var(--ink); outline-offset:-2px; opacity:1; }
   .biz-thumb-del{
     display:none; position:absolute; top:2px; right:2px; width:16px; height:16px;
@@ -739,7 +740,7 @@
       <a href="portrait.html" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於 EN</span><span class="flip-back">ABOUT EN</span></span></span></a>
       <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
     </div>
-    <div class="menu-sublist"><a href="#post-3a5249b8283381989dcfeb503e82db5f" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3a5249b8283381989dcfeb503e82db5f'); }"><span class="editable">Hi, Nice to meet you.</span></a></div>
+    <div class="menu-sublist"><a href="#post-3a5249b8283381989dcfeb503e82db5f" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3a5249b8283381989dcfeb503e82db5f'); }"><span class="editable">Hi, Nice to meet you.</span></a><a href="#post-3c2249b8283380e5b215d98424d0b032" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('post-3c2249b8283380e5b215d98424d0b032'); }"><span class="editable">向遺憾學習</span></a></div>
     <div class="menu-album-list" id="menuAlbumList-en"><div class="menu-album-item" onclick="showArticle('post-3a5249b8283381989dcfeb503e82db5f')">📷 第三者視角</div></div>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'albums-post-3a5249b8283381989dcfeb503e82db5f')">＋ 新增相簿</button>
     <button class="menu-add-btn menu-add-sub-btn" onclick="addSubArticle(this)">＋ 新增子項目</button>
@@ -1613,6 +1614,20 @@
   }
   document.addEventListener('DOMContentLoaded', syncAllFilterStates);
 
+  /* ---------- 額外保險：頁面載入時強制把選單收合 ----------
+     （就算匯出時不小心又存到展開狀態，重新整理頁面時還是會自動收回去，
+     不用一直靠人工記得先收合再匯出。） */
+  function resetMenuAccordionOnLoad(){
+    document.querySelectorAll('.menu-sublist.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-album-list.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-expand-btn.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-video-item.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-video-subpanel.open').forEach(el => el.classList.remove('open'));
+    const footerMore = document.getElementById('footerMorePanel');
+    if(footerMore) footerMore.classList.remove('open');
+  }
+  document.addEventListener('DOMContentLoaded', resetMenuAccordionOnLoad);
+
   /* ---------- 相簿輪播：用事件委派處理縮圖點擊/刪除/左右箭頭 ----------
      （用 document.createElement 動態產生的按鈕，直接指定 .onclick 屬性
      在「匯出 index.html」存檔後不會被保留下來，重新打開檔案時會失效。
@@ -1924,6 +1939,19 @@
     const menuBtnEl = document.getElementById('menuBtn');
     if(menuBtnEl) menuBtnEl.classList.remove('visible');
     document.querySelectorAll('.editable').forEach(el => el.removeAttribute('contenteditable'));
+
+    // 匯出前強制重置選單展開狀態，避免匯出當下剛好是展開的樣子被烙印進檔案，
+    // 導致下次打開頁面選單一直卡在展開、無法回到預設收合的狀態。
+    document.getElementById('menuBtn').classList.remove('open');
+    document.getElementById('menuPanel').classList.remove('open');
+    document.querySelectorAll('.menu-sublist.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-album-list.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-expand-btn.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-video-item.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-video-subpanel.open').forEach(el => el.classList.remove('open'));
+    const footerMore = document.getElementById('footerMorePanel');
+    if(footerMore) footerMore.classList.remove('open');
+
     const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     const blob = new Blob([html], {type:'text/html'});
     const url = URL.createObjectURL(blob);
@@ -2094,7 +2122,9 @@
   function toggleMenuGroup(btn){
     const group = btn.closest('.menu-group');
     const sublist = group.querySelector('.menu-sublist');
+    const albumList = group.querySelector('.menu-album-list');
     sublist.classList.toggle('open');
+    if(albumList) albumList.classList.toggle('open', sublist.classList.contains('open'));
     btn.classList.toggle('open');
   }
 
@@ -2144,11 +2174,10 @@
     a.className = 'menu-sub-link';
     a.setAttribute('onclick', "if(document.body.classList.contains('edit-access')){ event.preventDefault(); showArticle('" + id + "'); }");
     a.innerHTML = `<span class="editable">${escapeHtml(title)}</span>`;
-    const alreadyHasArticleLink = !!sublist.querySelector('.menu-sub-link');
-    if(!alreadyHasArticleLink){
-      sublist.appendChild(a);
-    }
+    sublist.appendChild(a);
     sublist.classList.add('open');
+    const albumListEl = group.querySelector('.menu-album-list');
+    if(albumListEl) albumListEl.classList.add('open');
     const chevron = group.querySelector('.menu-expand-btn');
     if(chevron) chevron.classList.add('open');
 
