@@ -29,6 +29,12 @@
   .biz-page-section:last-of-type{ border-bottom:none; }
   .biz-page-section h2{ font-family:'Noto Serif TC',serif; font-size:clamp(19px,2.4vw,26px); font-weight:500; margin:0 0 20px; }
   .biz-tabs{ display:flex; gap:18px; margin:0 0 8px; border-bottom:1px solid rgba(33,31,27,0.15); flex-wrap:wrap; }
+  @media (max-width:640px){
+    .biz-tabs{ display:grid; grid-template-columns:1fr 1fr; gap:10px 12px; margin:0 0 14px; border-bottom:none; }
+    .biz-tab{ border:1px solid rgba(33,31,27,0.22); border-radius:20px; padding:8px 10px; text-align:center; }
+    .biz-tab.active{ border-color:#211f1b; background:rgba(43,40,37,0.05); }
+    .biz-tab.active::after{ display:none; }
+  }
   .biz-tab{
     background:none; border:none; font-family:'Noto Serif TC',serif; font-size:13px; letter-spacing:.06em;
     color:#544e43; padding:0 0 10px; cursor:pointer; position:relative;
