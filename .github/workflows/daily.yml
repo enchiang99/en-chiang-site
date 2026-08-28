@@ -1,0 +1,41 @@
+name: Omega Daily Video
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch: {}
+jobs:
+  build-video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write   # 需要寫入權限,才能把待發布狀態提交回repo
+    steps:
+      - name: 取得程式碼
+        uses: actions/checkout@v4
+      - name: 安裝 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: 安裝 ffmpeg 與中文字型
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-wqy-zenhei
+      - name: 安裝 Python 套件
+        run: pip install -r requirements.txt
+      - name: 執行每日剪輯流程
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          GDRIVE_TODAY_FOLDER_ID: ${{ secrets.GDRIVE_TODAY_FOLDER_ID }}
+          GDRIVE_ARCHIVE_FOLDER_ID: ${{ secrets.GDRIVE_ARCHIVE_FOLDER_ID }}
+          GDRIVE_OUTPUT_FOLDER_ID: ${{ secrets.GDRIVE_OUTPUT_FOLDER_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 cloud_run.py
+      - name: 提交待發布狀態
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .pending_publish.json
+          git diff --cached --quiet && echo "沒有變更" || git commit -m "更新待發布影片狀態"
+          git push
