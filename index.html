@@ -752,10 +752,10 @@
   <span class="hint">← 顏色</span>
 </div>
 
-<button class="menu-btn open" id="menuBtn" onclick="toggleMenu()" aria-label="開啟選單">
+<button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-label="開啟選單">
   <span></span><span></span><span></span>
 </button>
-<nav class="menu-panel open" id="menuPanel">
+<nav class="menu-panel" id="menuPanel">
   <div class="menu-group" data-group="about-en">
     <div class="menu-group-head">
       <a href="portrait.html" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於 EN</span><span class="flip-back">ABOUT EN</span></span></span></a>
@@ -789,11 +789,13 @@
   <div class="menu-group" data-group="business">
     <div class="menu-group-head">
       <a href="business.html" class="menu-group-label" onclick="if(document.body.classList.contains('edit-access')){ openBusinessPage(event); }"><span class="flip-label"><span class="flip-inner"><span class="flip-front editable">關於商業</span><span class="flip-back">ABOUT BUSINESS</span></span></span></a>
-      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
+      <button class="menu-expand-btn open" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
     </div>
-    <div class="menu-sublist">
+    <div class="menu-sublist open">
       <a href="business.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand-design'); }"><span class="editable">創意平面 Creative Graphics</span></a>
       <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-brand-design-albums')">＋ 新增相簿（創意平面）</button>
+      <a href="business.html" class="menu-sub-link" data-menu-key="biz-ai-automation" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-ai-automation'); }"><span class="editable">AI自動化｜AI Automation</span></a>
+      <button class="menu-add-btn menu-add-sub-btn" data-menu-key="biz-ai-automation" onclick="addBizAlbum(this,'biz-ai-automation-albums')">＋ 新增相簿（AI自動化）</button>
       <a href="business.html" class="menu-sub-link" onclick="if(document.body.classList.contains('edit-access')){ openBusinessSection(event,'biz-brand'); }"><span class="editable">影像 Photography</span></a>
       <button class="menu-add-btn menu-add-sub-btn" onclick="addBizAlbum(this,'biz-brand-albums')">＋ 新增相簿（影像）</button>
       <div class="menu-video-item" id="menuVideoToggle" onclick="toggleMenuVideoSub(event)">
@@ -1241,6 +1243,21 @@
           <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-brand-design-albums')">＋ 新增相簿</button>
         </div>
       </div>
+      <div class="biz-section" id="biz-ai-automation" data-custom="1" data-menu-key="biz-ai-automation">
+        <h2 class="editable">AI自動化｜AI Automation</h2>
+        <div class="video-reorder" style="max-width:220px;">
+          <button type="button" onclick="moveBizCustomSection(this,-1)">↑ 上移</button>
+          <button type="button" onclick="moveBizCustomSection(this,1)">↓ 下移</button>
+        </div>
+        <div class="video-subtags visible" data-owner="biz-ai-automation-albums">
+          <button class="video-subtag active" data-subcat="all" onclick="selectAlbumSubCat(this,'biz-ai-automation-albums')">全部</button>
+          <button type="button" class="add-subtag-btn" onclick="addAlbumSubCategory(this,'biz-ai-automation-albums')">＋ 新增子分類</button>
+        </div>
+        <div class="biz-albums" id="biz-ai-automation-albums"></div>
+        <div class="biz-album-actions">
+          <button class="menu-add-btn" onclick="addBizAlbum(this,'biz-ai-automation-albums')">＋ 新增相簿</button>
+        </div>
+      </div>
       <div class="biz-section jump-highlight" id="biz-brand">
         <h2 class="editable">影像 Photography</h2>
         <div class="video-tabs" data-owner="biz-brand-albums">
@@ -1582,6 +1599,11 @@
   (function(){
     var menuBtn = document.getElementById('menuBtn');
     if(!menuBtn) return;
+    /* 手機版：一進站就要看到選單按鈕，不用等捲動 */
+    if(window.matchMedia('(max-width:900px)').matches){
+      menuBtn.classList.add('visible');
+      return;
+    }
     function revealMenuBtn(){
       if(window.scrollY > 30){
         menuBtn.classList.add('visible');
@@ -1633,13 +1655,19 @@
   }
   document.addEventListener('DOMContentLoaded', syncAllFilterStates);
 
-  /* ---------- 額外保險：頁面載入時強制把選單收合 ----------
-     （就算匯出時不小心又存到展開狀態，重新整理頁面時還是會自動收回去，
-     不用一直靠人工記得先收合再匯出。） */
+  /* ---------- 額外保險：頁面載入時強制把選單收合／展開成固定的預設狀態 ----------
+     （就算匯出時不小心存到別的展開狀態，重新整理頁面時還是會自動校正回去，
+     不用一直靠人工記得先調整再匯出。
+     預設規則：只有「關於商業」的子項目要直接展開露出，其他三個主項目維持收合。） */
   function resetMenuAccordionOnLoad(){
-    document.querySelectorAll('.menu-sublist.open').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.menu-group').forEach(function(group){
+      var isBusiness = group.getAttribute('data-group') === 'business';
+      var sublist = group.querySelector('.menu-sublist');
+      var expandBtn = group.querySelector('.menu-expand-btn');
+      if(sublist) sublist.classList.toggle('open', isBusiness);
+      if(expandBtn) expandBtn.classList.toggle('open', isBusiness);
+    });
     document.querySelectorAll('.menu-album-list.open').forEach(el => el.classList.remove('open'));
-    document.querySelectorAll('.menu-expand-btn.open').forEach(el => el.classList.remove('open'));
     document.querySelectorAll('.menu-video-item.open').forEach(el => el.classList.remove('open'));
     document.querySelectorAll('.menu-video-subpanel.open').forEach(el => el.classList.remove('open'));
     const footerMore = document.getElementById('footerMorePanel');

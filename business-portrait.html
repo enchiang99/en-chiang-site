@@ -44,12 +44,36 @@
   },
   "url": "https://enchiang.com/business-portrait.html"
 }</script>
+<style>
+  /* ---------- 右下角浮動聯絡按鈕（與首頁一致，讓每個頁面都能直接聯絡） ---------- */
+  .float-links{ position:fixed; right:22px; bottom:26px; z-index:200; display:flex; flex-direction:column; gap:10px; }
+  .float-btn{ width:44px; height:44px; background:#211f1b; color:#e9e5dd; display:flex; align-items:center; justify-content:center; border-radius:50%; transition:transform .25s ease, background .25s ease; text-decoration:none; border:none; cursor:pointer; }
+  .float-btn:hover{ background:#544e43; transform:translateY(-2px); }
+  .float-btn svg{ display:block; }
+  .textsize-icon{ font-family:'Noto Sans TC', sans-serif; font-size:14px; font-weight:500; letter-spacing:0; color:#e9e5dd; }
+  .textsize-icon span{ font-size:10px; vertical-align:super; }
+  body.text-large{ zoom:1.18; }
+  .float-textsize.active{ background:#544e43; }
+  @media (max-width:480px){ .float-links{ right:16px; bottom:18px; } }
+</style>
 </head>
 <body>
 
 <div class="topbar">
   <a href="index.html" class="wordmark">EN CHIANG</a>
   <a href="index.html" class="back-link">← 回首頁</a>
+</div>
+
+<div class="float-links">
+  <button type="button" class="float-btn float-textsize" aria-label="放大文字" onclick="toggleTextSize()">
+    <span class="textsize-icon">A<span>+</span></span>
+  </button>
+  <a href="https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener" class="float-btn" aria-label="Instagram">
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"></circle></svg>
+  </a>
+  <a href="mailto:en.hi.light@gmail.com" class="float-btn" aria-label="Email">
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3.5 6.5L12 13L20.5 6.5"></path></svg>
+  </a>
 </div>
 
 <section class="service-hero">
@@ -83,6 +107,23 @@
     });
   }
 
+  /* ---------- 放大文字（與首頁共用同一組 localStorage 設定） ---------- */
+  function toggleTextSize(){
+    var on = document.body.classList.toggle('text-large');
+    localStorage.setItem('enchiang-text-large', on ? '1' : '0');
+    var btn = document.querySelector('.float-textsize');
+    if(btn) btn.classList.toggle('active', on);
+  }
+  (function(){
+    if(localStorage.getItem('enchiang-text-large') === '1'){
+      document.body.classList.add('text-large');
+      document.addEventListener('DOMContentLoaded', function(){
+        var btn = document.querySelector('.float-textsize');
+        if(btn) btn.classList.add('active');
+      });
+    }
+  })();
+
   function openPhotoLightbox(src){
     if(!src) return;
     document.getElementById('photoLightboxImg').setAttribute('src', src);
@@ -107,12 +148,15 @@
     if(counter) counter.textContent = String(next + 1).padStart(2, '0') + ' / ' + String(imgs.length).padStart(2, '0');
   }
 
-  function renderBizAlbums(html, containerId, targetElId){
+  function renderBizAlbums(html, containerId, targetElId, mainCatFilter){
     var doc = new DOMParser().parseFromString(html, 'text/html');
     var container = doc.getElementById(containerId);
     var target = document.getElementById(targetElId);
     if(!target) return;
     var albums = container ? Array.from(container.querySelectorAll('.biz-album')) : [];
+    if(mainCatFilter){
+      albums = albums.filter(function(a){ return a.getAttribute('data-maincat') === mainCatFilter; });
+    }
     if(!albums.length) return; /* 保留頁面原本就有的靜態提示文字 */
 
     var out = albums.map(function(album){
@@ -164,15 +208,36 @@
     if(out.trim()) target.innerHTML = out;
   }
 
+  /* ---------- 人像頁面：從首頁「影像 Photography」裡的「形象｜Personal Image」主分類抓取個人形象作品 ----------
+     （首頁目前沒有獨立的「人像」版面，語意最接近的是「影像 Photography」底下的「形象」主分類，
+     所以用分類「文字」比對抓取，不寫死分類 ID，之後在首頁改分類名稱、新增照片都會自動同步過來。
+     如果之後在首頁新增了專屬的「人像」版面，把下面的 containerId／關鍵字改掉即可。） */
+  function findMainCatIdByLabel(html, ownerId, labelSubstr){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var tabsRow = doc.querySelector('.video-tabs[data-owner="' + ownerId + '"]');
+    if(!tabsRow) return null;
+    var tabs = Array.from(tabsRow.querySelectorAll('.video-tab'));
+    var match = tabs.find(function(t){
+      var label = (t.childNodes[0] ? t.childNodes[0].textContent : t.textContent) || '';
+      return label.indexOf(labelSubstr) !== -1;
+    });
+    return match ? match.getAttribute('data-maincat') : null;
+  }
+
+  function loadPortraitAlbums(html){
+    var mainCat = findMainCatIdByLabel(html, 'biz-brand-albums', '形象');
+    renderBizAlbums(html, 'biz-brand-albums', 'bizAlbumsPortrait', mainCat);
+  }
+
   var cached = sessionStorage.getItem('enchiang-index-cache');
   if(cached){
-    renderBizAlbums(cached, 'biz-portrait-albums', 'bizAlbumsPortrait');
+    loadPortraitAlbums(cached);
   } else {
     fetch('index.html')
       .then(function(r){ return r.text(); })
       .then(function(html){
         sessionStorage.setItem('enchiang-index-cache', html);
-        renderBizAlbums(html, 'biz-portrait-albums', 'bizAlbumsPortrait');
+        loadPortraitAlbums(html);
       })
       .catch(function(){ /* 保留頁面原本就有的靜態內容，抓取失敗時不覆蓋 */ });
   }
