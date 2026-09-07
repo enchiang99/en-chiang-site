@@ -29,6 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="services.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Service",
@@ -76,22 +77,22 @@
   </a>
 </div>
 
-<section class="service-hero">
+<section class="service-hero" data-aos="fade-up">
   <span class="label">Business · 人像</span>
   <h1>人像</h1>
   <p class="lede">台中人像寫真拍攝。若有幸能遇見，我們交換彼此的故事——自然地對談，當下就是最好的樣子。</p>
 </section>
 
-<div id="bizAlbumsPortrait" class="biz-albums-static">
+<div id="bizAlbumsPortrait" class="biz-albums-static" data-aos="fade-up">
   <p class="biz-empty-hint">作品集陸續整理上架中，歡迎先到 Instagram 看更多拍攝紀錄。</p>
 </div>
 
-<div class="service-body">
+<div class="service-body" data-aos="fade-up">
   <p>拍攝前會先簡單聊聊，了解這次想留下的是什麼樣的心情，而不是先套一套姿勢清單。現場多半是自然對談、走動、生活感的互動，鏡頭只是在旁邊記錄下那個瞬間。作品以原圖顏色呈現，也可以切換上方「黑白瀏覽」看不同的質感。</p>
   <p>拍攝範圍以台中為主，個人形象照、情侶寫真皆可洽詢，實際場地與檔期會依內容另行討論。</p>
 </div>
 
-<div class="service-cta">
+<div class="service-cta" data-aos="fade-up">
   <a class="btn" href="https://www.instagram.com/enchiang_" target="_blank" rel="noopener">私訊 Instagram 洽詢</a>
 </div>
 
@@ -227,6 +228,7 @@
   function loadPortraitAlbums(html){
     var mainCat = findMainCatIdByLabel(html, 'biz-brand-albums', '形象');
     renderBizAlbums(html, 'biz-brand-albums', 'bizAlbumsPortrait', mainCat);
+    if(typeof AOS !== 'undefined'){ try{ AOS.refreshHard(); }catch(e){} }
   }
 
   var cached = sessionStorage.getItem('enchiang-index-cache');
@@ -243,7 +245,7 @@
   }
 </script>
 
-<div class="service-related">
+<div class="service-related" data-aos="fade-up">
   <span class="label">其他分類</span>
   <div class="related-links">
     <a href="business.html">關於商業</a>
@@ -252,9 +254,25 @@
   </div>
 </div>
 
-<footer class="service-footer">
+<footer class="service-footer" data-aos="fade-up">
   <div class="serif">EN CHIANG</div>
   <div class="foot-meta">台中 | 自然 人像 寵物 側拍花絮攝影　·　en.hi.light@gmail.com</div>
 </footer>
+
+<!-- ---------- MOTION：平滑捲動（Lenis）／捲動淡入（AOS） ---------- -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  (function(){
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
+    if(typeof Lenis !== 'undefined'){
+      try{ new Lenis({ duration: 1.05, smoothWheel: true, autoRaf: true }); }catch(e){}
+    }
+    if(typeof AOS !== 'undefined'){
+      try{ AOS.init({ duration: 700, once: true, offset: 60, easing: 'ease-out-cubic' }); }catch(e){}
+    }
+  })();
+</script>
 
 </body></html>

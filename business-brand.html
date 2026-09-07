@@ -29,6 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="services.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Service",
@@ -76,22 +77,22 @@
   </a>
 </div>
 
-<section class="service-hero">
+<section class="service-hero" data-aos="fade-up">
   <span class="label">Business · 品牌</span>
   <h1>品牌</h1>
   <p class="lede">台中品牌形象攝影合作。把品牌想傳達的調性，轉化成能被記住的畫面。</p>
 </section>
 
-<div id="bizAlbumsBrand" class="biz-albums-static">
+<div id="bizAlbumsBrand" class="biz-albums-static" data-aos="fade-up">
   <p class="biz-empty-hint">合作案例陸續整理上架中，歡迎先到「影片」頁面看品牌合作短片。</p>
 </div>
 
-<div class="service-body">
+<div class="service-body" data-aos="fade-up">
   <p>合作前會先了解品牌的定位與這次想呈現的情境，不論是商品情境、空間氛圍或品牌故事，都希望畫面帶著真實的溫度，而不是制式的型錄感。搭配的短片與側拍作品可以參考「影片」頁面。</p>
   <p>拍攝範圍以台中為主，實際場地、檔期與報價會依合作內容另行討論。</p>
 </div>
 
-<div class="service-cta">
+<div class="service-cta" data-aos="fade-up">
   <a class="btn" href="https://www.instagram.com/enchiang_" target="_blank" rel="noopener">私訊 Instagram 洽談合作</a>
 </div>
 
@@ -203,6 +204,7 @@
     }).join('');
 
     if(out.trim()) target.innerHTML = out;
+    if(typeof AOS !== 'undefined'){ try{ AOS.refreshHard(); }catch(e){} }
   }
 
   var cached = sessionStorage.getItem('enchiang-index-cache');
@@ -219,7 +221,7 @@
   }
 </script>
 
-<div class="service-related">
+<div class="service-related" data-aos="fade-up">
   <span class="label">其他分類</span>
   <div class="related-links">
     <a href="business.html">關於商業</a>
@@ -228,9 +230,25 @@
   </div>
 </div>
 
-<footer class="service-footer">
+<footer class="service-footer" data-aos="fade-up">
   <div class="serif">EN CHIANG</div>
   <div class="foot-meta">台中 | 自然 人像 寵物 側拍花絮攝影　·　en.hi.light@gmail.com</div>
 </footer>
+
+<!-- ---------- MOTION：平滑捲動（Lenis）／捲動淡入（AOS） ---------- -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  (function(){
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
+    if(typeof Lenis !== 'undefined'){
+      try{ new Lenis({ duration: 1.05, smoothWheel: true, autoRaf: true }); }catch(e){}
+    }
+    if(typeof AOS !== 'undefined'){
+      try{ AOS.init({ duration: 700, once: true, offset: 60, easing: 'ease-out-cubic' }); }catch(e){}
+    }
+  })();
+</script>
 
 </body></html>

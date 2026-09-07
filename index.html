@@ -32,6 +32,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&amp;family=Noto+Sans+TC:wght@300;400;500&amp;display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&amp;family=Noto+Sans+TC:wght@300;400;500&amp;display=swap" rel="stylesheet" media="all" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&amp;family=Noto+Sans+TC:wght@300;400;500&amp;display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Person",
@@ -724,6 +725,25 @@
   }
   .format-toolbar .hint{ color:rgba(233,229,221,0.5); font-size:11px; flex:0 0 auto; }
 
+  /* ---------- MOTION：捲動淡入 + 首頁進場 ----------
+     以真正的開源函式庫（Lenis 平滑捲動、AOS 捲動淡入）為主，
+     這裡只放外掛沒有內建、跟這個網站樣式綁在一起的部分：
+     首頁 hero 的掀開簾幕，以及標題逐字顯現用的字元樣式。 */
+  .hero-curtain{
+    position:absolute; inset:0; z-index:5; background:var(--paper);
+    transform-origin:top; transform:scaleY(1);
+    transition:transform 0.95s cubic-bezier(.65,0,.2,1);
+    pointer-events:none;
+  }
+  .hero-curtain.is-done{ transform:scaleY(0); }
+  .hero-text h1 .char{ display:inline-block; opacity:0; transform:translateY(0.4em); white-space:pre; }
+  .hero-text h1.split-ready .char{ animation:heroCharIn 0.7s cubic-bezier(.2,.8,.2,1) forwards; }
+  @keyframes heroCharIn{ to{ opacity:1; transform:translateY(0); } }
+  @media (prefers-reduced-motion: reduce){
+    .hero-curtain{ display:none; }
+    .hero-text h1 .char{ opacity:1 !important; transform:none !important; animation:none !important; }
+  }
+
 </style>
 </head>
 <body class="" style="">
@@ -837,8 +857,8 @@
 </section>
 
 <section class="quote-section" id="about-en">
-  <blockquote class="editable">嘿，你相信許願嗎？</blockquote>
-  <div class="desc editable"><div>長大後，才變得像個小孩。</div><div>無數地跌宕起伏，就像海浪。</div><div>有時沉溺、有時站在浪尖，</div><div>不成為勇敢的人，成為設置停損點的人。</div><div>讓經過你的所有事物都是流動的。</div></div>
+  <blockquote class="editable" data-aos="fade-up">嘿，你相信許願嗎？</blockquote>
+  <div class="desc editable" data-aos="fade-up" data-aos-delay="120"><div>長大後，才變得像個小孩。</div><div>無數地跌宕起伏，就像海浪。</div><div>有時沉溺、有時站在浪尖，</div><div>不成為勇敢的人，成為設置停損點的人。</div><div>讓經過你的所有事物都是流動的。</div></div>
 </section>
 
 <section id="about-daily">
@@ -865,19 +885,19 @@
   </div>
 
   <div class="service-grid">
-    <div class="service">
+    <div class="service" data-aos="fade-up">
       <div class="num">01</div>
       <h3 class="editable">Hi, Nice to meet you</h3>
       <div class="tagline editable">我成為我 你成為你</div>
       <div class="desc todo editable">若有幸能遇見，我們交換彼此的故事。<div>自然地對談，當下就是最好的樣子。</div><div>台中｜人像捕捉</div></div>
     </div>
-    <div class="service">
+    <div class="service" data-aos="fade-up" data-aos-delay="120">
       <div class="num">02</div>
       <h3 class="editable">自然成像</h3>
       <div class="tagline editable">無論遺失和美好 都有它的珍貴</div>
       <div class="desc todo editable">若我沒有音樂，靈魂是死的。<div>所有的救贖，都能從音符中找到答案。</div><div>台中｜生活側拍</div></div>
     </div>
-    <div class="service">
+    <div class="service" data-aos="fade-up" data-aos-delay="240">
       <div class="num">03</div>
       <h3 class="editable">無條件地愛</h3>
       <div class="tagline editable">與貓咪一起成長的練習</div>
@@ -892,13 +912,13 @@
     <h2 class="editable">關於所有</h2>
   </div>
   <div class="journal-list" id="journalList">
-    <div class="journal-entry">
+    <div class="journal-entry" data-aos="fade-up">
       <div class="journal-row"><a class="title-link" href="portrait.html"><span class="title todo editable">[About En]</span></a><span class="date todo editable">[talk it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
     </div>
-    <div class="journal-entry">
+    <div class="journal-entry" data-aos="fade-up" data-aos-delay="80">
       <div class="journal-row"><a class="title-link" href="band.html"><span class="title todo editable">[About Life]</span></a><span class="date todo editable">[listen it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
     </div>
-    <div class="journal-entry">
+    <div class="journal-entry" data-aos="fade-up" data-aos-delay="160">
       <div class="journal-row"><a class="title-link" href="pet.html"><span class="title todo editable">[About Love]</span></a><span class="date todo editable">[feel it]</span><button class="journal-link-btn" onclick="linkJournalTitle(event)">🔗 連結文章</button><button class="journal-del-btn" onclick="deleteJournalEntry(event)">刪除</button></div>
     </div>
   </div>
@@ -908,7 +928,7 @@
 </section>
 
 <footer id="contact">
-  <div class="footer-top">
+  <div class="footer-top" data-aos="fade-up">
     <div class="label editable" style="margin-bottom:20px;">Contact Me</div>
     <h2 class="serif editable">聯繫方式</h2>
     <a href="https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener" class="ig-handle serif editable ig-handle-text ig-link">@enchiang_</a>
@@ -918,7 +938,7 @@
       <div class="more-inner editable">Email：en.hi.light@gmail.com</div>
     </div>
   </div>
-  <div class="footer-bottom">
+  <div class="footer-bottom" data-aos="fade-up">
     <span class="editable">© 2026 En Chiang&nbsp;</span>
     <span class="editable">台中｜自然人像、寵物攝影、ai自動化</span>
   </div>
@@ -1048,7 +1068,7 @@
       <div class="biz-album-actions biz-album-actions-danger">
         <button class="journal-del-btn" onclick="deleteBizAlbum(event)">刪除相簿</button>
       </div>
-    </div></div><div class="biz-album-actions"><button class="menu-add-btn" onclick="addBizAlbum(this,'albums-post-3a5249b828338107b18eeb8c0f081131')">＋ 新增相簿</button></div></article><article class="post" id="post-3a5249b8283381b78aaff908365cc2bb"><h2 class="post-title editable">無條件的愛</h2><div class="post-date editable">2026.07</div><div class="post-body editable"><p>人總說，無條件的愛是給予後無所求，至今我仍在迷茫。</p><p>凡事總有例外，在他身上，我給予無條件的愛— 我的貓咪。</p><p>七年前，在建國市場看到認領的一群貓咪，當時的伴侶說他真的很想養，於是我就選了一隻看起來有緣分的黑咪🐈‍⬛</p><p>當時的自己，只緊張如何照顧好一個手掌大還要餵奶的咪們。</p><p>當要去獸醫院接咪時，突然有隻在同一個外出籠的黑白咪離不開我們認養的，愛媽問我們能不能一起帶回家，很掙扎的我、很不捨得拆散的伴侶，最終還是被說服，兩隻一起帶回家了。</p><p>兩週後，兩隻咪仔都得了貓瘟。</p><p>黑咪沒有撐過關鍵期，只剩下黑白咪留下來。</p><p>邊傷心也邊陪著黑白咪慢慢長大，</p><p><br></p><p>如今他已經七歲了，過著公子般的生活。</p><p>為他從小套房搬到一房一廳一陽台、</p><p>每天吃著兩個罐頭和飼料還很挑食、</p><p>每個月固定回診追蹤肺塌陷的狀況、</p><p>別的貓咪有的玩具，一樣也沒落下、</p><p>你的任性、刁嘴，都是我慣的。</p><p>但我每天都比昨天更愛你。</p><p><br></p><p>黑咪：OPC 🖤</p><p>黑白咪：Omega 6.3k</p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/c2c249b8-2833-81d7-ba8a-0003376661fd/5da263e6-986f-49e3-a821-a1abdadb89b1/IMG_8142.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4662C2XSAFH%2F20260907%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260907T054710Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEG4aCXVzLXdlc3QtMiJGMEQCIFUCHkfn%2BcYPp4VAWB1nPg%2BrBBj1HavTccSdYIWN%2BJ%2FYAiAfhdpHKYq0%2Frr%2F6VdZvdNzAzrWEeHpIuXqGcwAXdiGsir%2FAwg3EAAaDDYzNzQyMzE4MzgwNSIMteErm4yEH9YFxT%2FsKtwDIbLPMou4xZiVrQ407YvB6biyq7aiYgy1N23po3ugJ9viPEYZ8HnAG66jEYmyVRTVZe3KqTPePkmdR1WLj%2BEksmDc2WrI0a8RAtmGKD7vkY5stwCN%2F3DqKdGsDbwxsn6OwDN2rlLiBcatGRp%2FLSEpGLp6d%2BZygyDRe4AEryG9nWoYCLpZkua8p5dTJzy%2FoxVOgBEVdH%2BTHBuWMQu%2FNyt84WW6a0XX%2BvVDk0d34gWV%2BGJWsnWK%2F5Hl7FyPlfbKlDoelw7Gpj3PafRW%2BLVZMTUjZr%2FjRASnVGehaIQiMCI1rrPn4oVEmV1wbPxQtDDlh8tJXQMKzE41zQGfz25wwYrk8HKL23NVoFlx6DhVKCVZRlXf2d%2BJQ5%2FAif%2BK4J3LoLNvGUu3Vjw%2BSboaok8%2BQkBNlEdHZteV9ymtz7vM7zBBXXpCBxN0q92l7qt2VWnZsjEs7rIZb4niWTSctPIMA7kDJyRqtEg67C4BYIJO7FXDfh19Yrdx1n%2BasncooO1q7Anee7SjjU9NNZnePSRZOVd%2FGxt9TTkZqNbg2WouSefkMW9OlwmNSMDZexja4XxinCq40KzBaAoKWRx9t%2FJS6uUKO3iUgRIVIzv%2B9I%2FM4cCd5GweEbtdxwnZl1Ph9TgwzJf51AY6pgE%2FUQwfi2%2BN5hn3UGutC2yj5JwD4kGPhKCUS8DfsaZJi8XuM%2B2bdoYAbFYdTZ%2FeARG4huM21kn2yxUfL9eWOwEyGPOWNDNhdclNULNlTv5KfQK08XUPvHdAaTN%2FNmLaFcRKhqrCWCDilyXgNzZGSCtO8wt5NFkEXNNku%2Be9q9VosIXCwIqhcrL5FtwCycstn6l%2FbMlt16A8KivQlINZY9EnsLQMWZBC&amp;X-Amz-Signature=b063fe4c4dd1ae57afa5fbbb551a78dc4d799f7879376ce4d83884b00a9f1982&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="" loading="lazy"></div><div class="biz-albums post-albums" id="albums-post-3a5249b8283381b78aaff908365cc2bb"><div class="biz-album" id="album-1787218153953-3" data-subcat="all">
+    </div></div><div class="biz-album-actions"><button class="menu-add-btn" onclick="addBizAlbum(this,'albums-post-3a5249b828338107b18eeb8c0f081131')">＋ 新增相簿</button></div></article><article class="post" id="post-3a5249b8283381b78aaff908365cc2bb"><h2 class="post-title editable">無條件的愛</h2><div class="post-date editable">2026.07</div><div class="post-body editable"><p>人總說，無條件的愛是給予後無所求，至今我仍在迷茫。</p><p>凡事總有例外，在他身上，我給予無條件的愛— 我的貓咪。</p><p>七年前，在建國市場看到認領的一群貓咪，當時的伴侶說他真的很想養，於是我就選了一隻看起來有緣分的黑咪🐈‍⬛</p><p>當時的自己，只緊張如何照顧好一個手掌大還要餵奶的咪們。</p><p>當要去獸醫院接咪時，突然有隻在同一個外出籠的黑白咪離不開我們認養的，愛媽問我們能不能一起帶回家，很掙扎的我、很不捨得拆散的伴侶，最終還是被說服，兩隻一起帶回家了。</p><p>兩週後，兩隻咪仔都得了貓瘟。</p><p>黑咪沒有撐過關鍵期，只剩下黑白咪留下來。</p><p>邊傷心也邊陪著黑白咪慢慢長大，</p><p><br></p><p>如今他已經七歲了，過著公子般的生活。</p><p>為他從小套房搬到一房一廳一陽台、</p><p>每天吃著兩個罐頭和飼料還很挑食、</p><p>每個月固定回診追蹤肺塌陷的狀況、</p><p>別的貓咪有的玩具，一樣也沒落下、</p><p>你的任性、刁嘴，都是我慣的。</p><p>但我每天都比昨天更愛你。</p><p><br></p><p>黑咪：OPC 🖤</p><p>黑白咪：Omega 6.3k</p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/c2c249b8-2833-81d7-ba8a-0003376661fd/5da263e6-986f-49e3-a821-a1abdadb89b1/IMG_8142.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466XYY5HOPH%2F20260906%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260906T093943Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEFYaCXVzLXdlc3QtMiJGMEQCIAYU6vwWgxnvHanzB6NY%2FyseKLL4vFIl0tmRzoYbrNsEAiBhZZ%2BaUhlEpqXJhet5Mxah59g2d4sKmVgalRXVxzjIxyr%2FAwgfEAAaDDYzNzQyMzE4MzgwNSIMInrQ5TX%2FxIzFCkVBKtwDpiVkI4x5mJ8YW7Ld9gPzNeD0jy57X6JE4GZVcoQRoow%2Bnp2Arcu9WDGNuXgB%2FKWBa6dEbXhpBCJy%2Bmag8IuPZK6RVst9O43jpxSgwlpsgB9FlFNXGXiQ81se%2Bd9S07AfPanf5CiWtWI2MlafhTXIyDPbcjAmvm%2BW9mdBddcwUp3Ai%2F6MF9Mq1UMaGWEdYmYmToDloKAJZ9rOqvkAh%2FdMEGPFRHIsxMCwem%2FYBmICcpX%2FwShNCTFXBNazO7%2BxK4h9kCaWNf7Lj4WV1rUX0qmbnB1nmpelTQzmHg8iHCkVEYyHD1wSWa51ySLTG2hWQzgrwa%2F1cZCjSs%2BKsw7xxUNzz9I9ygzAlhbacoRNLdqx7tDt%2Bb%2BHN2cGYVLDjHtyk0z0dXtSOpVSMto81AGLR7lwTLRcNiQRH%2FOJ1CD8JOGPUenGT0IyAJomCVcrUtj5Fh2Y5sEtkRly898YKi%2BDhI0Fe2bwFuT4g6N%2B81qLStenqzIyrvqvQGVszfv4tgxE8jlJfhek0Em2bcq0Z0V0A%2FfD2RGrHI5G7%2FDX861l4o6dioT60Ulsvkd5SNrE4ymxjtEEDLPMbx0H30GZN8poJqzJMvd3Xx2x3xsqbgu2ql%2FPpQHsp%2FCvk7H3UiRVy5gwhYr01AY6pgF%2BxaYv32p4NXC9CzITEiTIJwJRa5JOxlNnjIdkNJutL%2BuTT%2BTzBpm%2FJpQ0c0nDCHqs2vd9iPiTpLKU%2Bw4KZFDQNW5EKzSpJjzYM3BOsA85pRaDq0NItIJ%2B%2BuZLL%2BOTL52C5JZdUylmOUAVVkUC63tTudXaQQzWkVVbF%2F0%2BjkphqJwVN1NR%2BoLxjoqPbwVqF05GFkAdqS0T20tkZRl6e16VYeUFBJV2&amp;X-Amz-Signature=b096bd59eadd90a7de44d3bffa37dfc5e748364b9037694dde5d1d3c55de0dd7&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="" loading="lazy"></div><div class="biz-albums post-albums" id="albums-post-3a5249b8283381b78aaff908365cc2bb"><div class="biz-album" id="album-1787218153953-3" data-subcat="all">
       <div class="album-meta">
         <span class="album-date editable"></span>
       </div>
@@ -1802,6 +1822,7 @@
     document.querySelectorAll('.editable').forEach(el => { el.contentEditable = editMode; });
     document.getElementById('editToggle').textContent = editMode ? '✓ 完成編輯' : '✎ 編輯';
     if(editMode){
+      if(typeof window.__finishHeroIntro === 'function') window.__finishHeroIntro();
       hasUnsavedChanges = false;
       document.querySelectorAll('.more-panel').forEach(mp => mp.classList.add('open'));
       document.querySelectorAll('.editable').forEach(el => {
@@ -3561,7 +3582,94 @@
   }
 </script>
 
+<!-- ---------- MOTION：平滑捲動（Lenis）／捲動淡入（AOS） ----------
+     兩個都是免費開源函式庫，用 CDN 讀取；萬一網路讀不到，
+     下面的初始化程式碼都有做「有讀到才啟用」的判斷，網站其他功能完全不受影響。 -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  (function(){
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
 
+    // 平滑捲動
+    if(typeof Lenis !== 'undefined'){
+      try{
+        new Lenis({ duration: 1.05, smoothWheel: true, autoRaf: true });
+      }catch(e){}
+    }
+
+    // 捲動淡入（引言、服務三欄、日記、頁尾）
+    if(typeof AOS !== 'undefined'){
+      try{
+        AOS.init({ duration: 700, once: true, offset: 60, easing: 'ease-out-cubic' });
+      }catch(e){}
+    }
+  })();
+
+  /* ---------- 首頁 HERO 進場：掀開簾幕 + 標題逐字顯現 ----------
+     動畫結束後會把標題文字還原成原本單純的文字內容，
+     不影響編輯模式底下的文字編輯，也不影響「匯出 index.html」存出來的檔案。
+     如果在動畫還沒播完之前就點了「編輯」，會立刻強制還原，不會卡在動畫中間的狀態。 */
+  (function(){
+    var hero = document.getElementById('hero');
+    if(!hero) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var curtain = document.createElement('div');
+    curtain.className = 'hero-curtain';
+    hero.appendChild(curtain);
+
+    var h1 = hero.querySelector('.hero-text h1');
+    var originalHTML = h1 ? h1.innerHTML : null;
+    var reverted = false;
+
+    function wrapTextIntoChars(text){
+      var frag = document.createDocumentFragment();
+      Array.from(text).forEach(function(ch){
+        var span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = (ch === ' ') ? ' ' : ch;
+        frag.appendChild(span);
+      });
+      return frag;
+    }
+    function splitChars(el){
+      Array.from(el.childNodes).forEach(function(node){
+        if(node.nodeType === Node.TEXT_NODE && node.textContent.trim()){
+          node.replaceWith(wrapTextIntoChars(node.textContent));
+        } else if(node.nodeType === Node.ELEMENT_NODE){
+          var frag = wrapTextIntoChars(node.textContent);
+          node.textContent = '';
+          node.appendChild(frag);
+        }
+      });
+    }
+
+    function finishIntro(){
+      if(reverted) return;
+      reverted = true;
+      curtain.classList.add('is-done');
+      if(h1 && originalHTML !== null){ h1.innerHTML = originalHTML; }
+      setTimeout(function(){ if(curtain.parentNode) curtain.parentNode.removeChild(curtain); }, 1000);
+    }
+    window.__finishHeroIntro = finishIntro;
+
+    if(reduceMotion || !h1){
+      finishIntro();
+      return;
+    }
+
+    requestAnimationFrame(function(){
+      splitChars(h1);
+      h1.classList.add('split-ready');
+      var chars = h1.querySelectorAll('.char');
+      chars.forEach(function(c, i){ c.style.animationDelay = (i * 22) + 'ms'; });
+      curtain.classList.add('is-done');
+      setTimeout(finishIntro, 900 + chars.length * 22);
+    });
+  })();
+</script>
 
 
 </body></html>
