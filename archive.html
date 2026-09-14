@@ -1,0 +1,78 @@
+---
+layout: default
+title: 所有文章
+description: "En Chiang，台中攝影師作品總覽——把每一次快門，都留在這裡。"
+---
+{% assign en_articles = site.about_en | sort: 'date' | reverse %}
+{% assign daily_articles = site.about_daily | sort: 'date' | reverse %}
+{% assign love_articles = site.about_love | sort: 'date' | reverse %}
+
+<div class="business-inner">
+  <a class="article-back" href="{{ site.baseurl }}/">← 回到首頁</a>
+  <div class="section-head" style="text-align:left; padding-top:0; margin-bottom:10px;">
+    <div class="label">Archive</div>
+    <h2>所有文章</h2>
+    <p style="font-family:'Noto Serif TC',serif; font-style:italic; color:var(--ink-soft); margin-top:8px;">把每一次快門，都留在這裡</p>
+  </div>
+
+  <div class="archive-group" style="margin-top:40px;">
+    <h2>關於 EN</h2>
+    <div class="archive-group-sub"><a href="{{ site.baseurl }}/portrait.html">Hi, Nice to meet you →</a></div>
+    {% if en_articles.size > 0 %}
+    <div class="article-list">
+      {% for a in en_articles %}
+      <div class="article-list-item">
+        <a href="{{ a.url | relative_url }}"><h3>{{ a.title }}</h3></a>
+        <div class="article-list-date">{{ a.date_label | default: a.date }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="archive-empty">相簿陸續整理上架中。</p>
+    {% endif %}
+  </div>
+
+  <div class="archive-group">
+    <h2>關於日常</h2>
+    <div class="archive-group-sub"><a href="{{ site.baseurl }}/band.html">自然成像 →</a></div>
+    {% if daily_articles.size > 0 %}
+    <div class="article-list">
+      {% for a in daily_articles %}
+      <div class="article-list-item">
+        <a href="{{ a.url | relative_url }}"><h3>{{ a.title }}</h3></a>
+        <div class="article-list-date">{{ a.date_label | default: a.date }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="archive-empty">相簿陸續整理上架中。</p>
+    {% endif %}
+  </div>
+
+  <div class="archive-group">
+    <h2>關於愛</h2>
+    <div class="archive-group-sub"><a href="{{ site.baseurl }}/pet.html">無條件的愛 →</a></div>
+    {% if love_articles.size > 0 %}
+    <div class="article-list">
+      {% for a in love_articles %}
+      <div class="article-list-item">
+        <a href="{{ a.url | relative_url }}"><h3>{{ a.title }}</h3></a>
+        <div class="article-list-date">{{ a.date_label | default: a.date }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="archive-empty">相簿陸續整理上架中。</p>
+    {% endif %}
+  </div>
+
+  <div class="archive-group">
+    <h2>關於商業</h2>
+    <div class="archive-group-sub">
+      <a href="{{ site.baseurl }}/business-brand.html">創意平面</a>
+      <a href="{{ site.baseurl }}/business-portrait.html">人像</a>
+      <a href="{{ site.baseurl }}/business-video.html">影片</a>
+      <a href="{{ site.baseurl }}/business.html">整頁查看 →</a>
+    </div>
+  </div>
+</div>

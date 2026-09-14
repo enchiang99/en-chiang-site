@@ -1,0 +1,13 @@
+{% assign f = site.data.site.footer %}
+<footer id="contact">
+  <div class="footer-top">
+    <div class="label" style="margin-bottom:20px;">{{ f.label }}</div>
+    <h2 class="serif">{{ f.heading }}</h2>
+    <a href="{{ f.ig_link }}" target="_blank" rel="noopener" class="ig-handle serif">{{ f.ig_handle }}</a>
+    <div style="margin-top:10px; font-size:13px; color:var(--ink-soft);">Email：{{ f.email }}</div>
+  </div>
+  <div class="footer-bottom">
+    <span>{{ f.copyright }}&nbsp;</span>
+    <span>{{ f.tagline }}</span>
+  </div>
+</footer>

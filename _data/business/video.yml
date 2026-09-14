@@ -1,0 +1,41 @@
+categories:
+  - id: restaurant
+    label: 餐廳｜Restaurant
+  - id: clinic
+    label: 醫療｜Clinic
+  - id: cci
+    label: 文創｜CCI
+videos:
+  - youtube_id: m_wVqrJGq1M
+    caption: 燒肉天皇 ｜ tennoyakiniku · 餐廳｜Restaurant
+    category: restaurant
+  - youtube_id: KFhMifh_CnI
+    caption: 燒肉天皇 | tennoyakiniku · 餐廳｜Restaurant
+    category: restaurant
+  - youtube_id: BgyIOYi1tM8
+    caption: 燒肉天皇 ｜ tennoyakiniku · 餐廳｜Restaurant
+    category: restaurant
+  - youtube_id: N0RnrgDakpk
+    caption: 燒肉天皇 ｜ tennoyakiniku · 餐廳｜Restaurant
+    category: restaurant
+  - youtube_id: AOEGVhJfdY8
+    caption: 昕澄診所 Omni Clinic · 醫療｜Clinic
+    category: clinic
+  - youtube_id: F0DuDXXKgDs
+    caption: 昕澄診所 Omni Clinic · 醫療｜Clinic
+    category: clinic
+  - youtube_id: 4ElWGitH_P8
+    caption: 沐澄診所 LITHE CLINIC · 醫美｜Clinic
+    category: clinic
+  - youtube_id: unUTtDJ-7OM
+    caption: 沐澄診所 LITHE CLINIC · 醫美｜Clinic
+    category: clinic
+  - youtube_id: NJBfao-XAoY
+    caption: 沐澄診所 LITHE CLINIC · 醫美｜Clinic
+    category: clinic
+  - youtube_id: U30UE8s1I18
+    caption: 沐澄診所 LITHE CLINIC · 醫美｜Clinic
+    category: clinic
+  - youtube_id: VGE-mDsUXVk
+    caption: NVB · 文創｜CCI
+    category: cci

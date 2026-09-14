@@ -1,0 +1,98 @@
+---
+layout: default
+title: 創意平面
+permalink: /business-brand.html
+description: "En Chiang，台中品牌創意平面攝影。商品情境、空間氛圍、品牌故事影像。"
+---
+{% assign bd = site.data.business['brand-design'] %}
+
+<div class="business-inner">
+  <a class="article-back" href="{{ site.baseurl }}/business.html">← 回到關於商業</a>
+  <div class="section-head" style="text-align:left; padding-top:0; margin-bottom:10px;">
+    <div class="label">Business</div>
+    <h2>創意平面 Creative Graphics</h2>
+  </div>
+
+  <div class="biz-section" id="biz-brand-design">
+    <div class="video-subtags" data-filter-group="brand-design">
+      <span class="video-subtag active" data-filter-key="all">全部</span>
+      {% for cat in bd.categories %}
+      {% assign key = cat.id | default: cat.label %}
+      <span class="video-subtag" data-filter-key="{{ key }}">{{ cat.label }}</span>
+      {% endfor %}
+    </div>
+    <div class="biz-albums" data-filter-target="brand-design">
+      {% for album in bd.albums %}
+      {% assign album_key = album.category | default: "all" %}
+      <div class="biz-album" data-category="{{ album_key }}">
+        <div class="album-title">{{ album.title }}</div>
+        {% if album.link %}<a class="album-link" href="{{ album.link }}" target="_blank" rel="noopener">立即查看 →</a>{% endif %}
+        <div class="album-carousel">
+          <div class="album-carousel-track">
+            {% for photo in album.photos %}
+            <figure class="album-carousel-slide">
+              {% if forloop.first %}
+              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              {% else %}
+              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              {% endif %}
+              {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+            </figure>
+            {% endfor %}
+          </div>
+          {% if album.photos.size > 1 %}
+          <button class="album-carousel-btn album-carousel-prev" aria-label="上一張" onclick="albumCarouselMove(this, -1)">‹</button>
+          <button class="album-carousel-btn album-carousel-next" aria-label="下一張" onclick="albumCarouselMove(this, 1)">›</button>
+          <div class="album-carousel-dots">
+            {% for photo in album.photos %}
+            <span class="album-carousel-dot{% if forloop.first %} active{% endif %}" onclick="albumCarouselGoTo(this, {{ forloop.index0 }})"></span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="archive-category-nav">
+    <a href="{{ site.baseurl }}/business-portrait.html">人像 →</a>
+    <a href="{{ site.baseurl }}/business-video.html">影片 →</a>
+    <a href="{{ site.baseurl }}/business.html">關於商業整頁 →</a>
+  </div>
+</div>
+
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  document.addEventListener('click', function(e){
+    var tag = e.target.closest('[data-filter-key]');
+    if(!tag) return;
+    var group = tag.closest('[data-filter-group]');
+    if(!group) return;
+    var groupName = group.getAttribute('data-filter-group');
+    var key = tag.getAttribute('data-filter-key');
+    group.querySelectorAll('[data-filter-key]').forEach(function(t){ t.classList.remove('active'); });
+    tag.classList.add('active');
+    var target = document.querySelector('[data-filter-target="' + groupName + '"]');
+    if(!target) return;
+    target.querySelectorAll('[data-category]').forEach(function(item){
+      var show = (key === 'all') || (item.getAttribute('data-category') === key);
+      item.style.display = show ? '' : 'none';
+    });
+  });
+  function openLightbox(src){
+    var overlay = document.getElementById('lightboxOverlay');
+    var img = document.getElementById('lightboxImg');
+    img.src = src;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    var overlay = document.getElementById('lightboxOverlay');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>

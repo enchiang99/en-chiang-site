@@ -1,0 +1,42 @@
+---
+layout: default
+title: 關於愛
+description: "En Chiang，台中寵物到府攝影。與貓咪一起成長的練習，相簿陸續整理上架中。"
+---
+{% assign s = site.data.site %}
+{% assign intro = s.about_daily.services[2] %}
+{% assign articles = site.about_love | sort: 'date' | reverse %}
+
+<div class="business-inner">
+  <a class="article-back" href="{{ site.baseurl }}/">← 回到首頁</a>
+  <div class="section-head" style="text-align:left; padding-top:0; margin-bottom:10px;">
+    <div class="label">About Love</div>
+    <h2>{{ intro.title | default: "關於愛" }}</h2>
+    {% if intro.tagline %}<p style="font-family:'Noto Serif TC',serif; font-style:italic; color:var(--ink-soft); margin-top:8px;">{{ intro.tagline }}</p>{% endif %}
+    {% if intro.desc_text %}
+    <div class="desc" style="margin-top:14px; max-width:560px;">
+      {% assign lines = intro.desc_text | split: "\n" %}
+      {% for line in lines %}{% assign trimmed = line | strip %}{% if trimmed != "" %}<div>{{ trimmed }}</div>{% endif %}{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  {% if articles.size > 0 %}
+  <div class="article-list">
+    {% for a in articles %}
+    <div class="article-list-item">
+      <a href="{{ a.url | relative_url }}"><h3>{{ a.title }}</h3></a>
+      <div class="article-list-date">{{ a.date_label | default: a.date }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="archive-empty">相簿陸續整理上架中。</p>
+  {% endif %}
+
+  <div class="archive-category-nav">
+    <a href="{{ site.baseurl }}/portrait.html">關於 EN →</a>
+    <a href="{{ site.baseurl }}/band.html">關於日常 →</a>
+    <a href="{{ site.baseurl }}/archive.html">所有文章 →</a>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+hero:
+  # ⚠️ 2026-09-12：改成完整網址（不再用站內相對路徑 /images/hero.jpeg）。
+  # 原因：後台的圖片欄位縮圖一直顯示不出來，很可能是這個檔案在「這個 repo」裡實際上不存在，
+  # 但完整網址在正式站可以正常開啟，所以直接用完整網址最保險，後台縮圖跟前台都不會再受 repo 是否有這個檔案影響。
+  # 如果之後後台縮圖還是顯示不出來，代表 images/hero.jpeg 這個檔案本身在這個 repo 裡就是不存在，
+  # 麻煩直接到 GitHub 網頁的 images 資料夾用 Ctrl+F 找一次確認，或乾脆用「Replace with URL」重新指定一次。
+  image: https://enchiang.com/images/hero.jpeg
+  image_alt: 台中樂團演出攝影 En Chiang 拍攝現場
+  label: 生活的模樣
+  title_line1: 讓視角代表生活，
+  title_line2: 讓生活代表我們。
+  cta_text: READ MORE
+  cta_link: /archive.html
+quote:
+  text: 嘿，你相信許願嗎？
+  # 2026-09-12：從「一行一句」的清單，改成一個可以整塊編輯的文字框，後台直接看得到完整內容。
+  desc: |
+    長大後，才變得像個小孩。
+    無數地跌宕起伏，就像海浪。
+    有時沉溺、有時站在浪尖，
+    不成為勇敢的人，成為設置停損點的人。
+    讓經過你的所有事物都是流動的。
+about_daily:
+  label: All of me
+  heading: 關於所有
+  services:
+    - num: "01"
+      category: "[About En]"
+      title: Hi, Nice to meet you
+      link: /about-en/hi-nice-to-meet-you/
+      tagline: 我成為我 你成為你
+      desc_text: |
+        若有幸能遇見，我們交換彼此的故事。
+        自然地對談，當下就是最好的樣子。
+        台中｜人像捕捉
+    - num: "02"
+      category: "[About Life]"
+      title: 自然成像
+      link: /about-daily/natural-image/
+      tagline: 無論遺失和美好 都有它的珍貴
+      desc_text: |
+        若我沒有音樂，靈魂是死的。
+        所有的救贖，都能從音符中找到答案。
+        台中｜生活側拍
+    - num: "03"
+      category: "[About Love]"
+      title: 無條件地愛
+      link: /about-love/unconditional-love/
+      tagline: 與貓咪一起成長的練習
+      desc_text: |
+        你做你自己，而我無條件地愛你。
+        只有增加，不曾減少。
+        台中｜寵物攝影
+footer:
+  label: Contact Me
+  heading: 聯繫方式
+  ig_handle: "@enchiang_"
+  ig_link: https://www.instagram.com/enchiang_?igsh=MWhlNTE3b2FibGY5dQ%3D%3D&utm_source=qr
+  email: en.hi.light@gmail.com
+  copyright: © 2026 En Chiang
+  tagline: 台中｜自然人像、寵物攝影、ai自動化
+recent_shoots:
+  label: Business
+  heading: 關於商業
+  more_text: 查看更多商業作品 →
+  more_link: /business/
+  # 下面 3 張是先放的示範內容，換成你自己想主打的商業作品照片／文字即可，
+  # 想連到哪個作品都可以自己填 link（例如某個分類錨點 /business/#biz-brand）。
+  items:
+    - image: https://enchiang.com/images/R0008965.JPG
+      caption: 個人形象｜Personal Image
+      link: /business/#biz-brand
+    - image: https://enchiang.com/images/R0003321.jpg
+      caption: 燒肉天皇｜Tennoyakiniku
+      link: /business/#biz-brand
+    - image: https://enchiang.com/images/1768026543000_R0010078.jpg
+      caption: 昕澄診所｜Omni Clinic
+      link: /business/#biz-brand

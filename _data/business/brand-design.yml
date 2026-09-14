@@ -1,0 +1,42 @@
+categories:
+- id: sub-1787241879912
+  label: 美髮 ｜ Salon
+- id: sub-1787479289808
+  label: 餐飲 | Restaurant
+albums:
+- title: 圈圈 Chuan Chuan Studio
+  category: sub-1787241879912
+  link: null
+  photos:
+  - src: https://enchiang.com/images/IMG_9491.png
+    caption: null
+  - src: https://enchiang.com/images/IMG_9490.png
+    caption: null
+- title: 阿米秀廚房｜Imissyoukitchen
+  category: sub-1787479289808
+  link: null
+  photos:
+  - src: "https://enchiang.com/images/四款招牌 一起上街.png"
+    caption: null
+  - src: https://enchiang.com/images/1.png
+    caption: null
+  - src: https://enchiang.com/images/2.png
+    caption: null
+  - src: https://enchiang.com/images/3.png
+    caption: null
+  - src: https://enchiang.com/images/4.png
+    caption: null
+- title: 日日敘 Hihijoyakinuku
+  category: sub-1787479289808
+  link: null
+  photos:
+  - src: "https://enchiang.com/images/蔥玉拌飯-10801350.png"
+    caption: null
+  - src: "https://enchiang.com/images/日日敘 5_4 Seamless Carousel｜01.png"
+    caption: null
+  - src: "https://enchiang.com/images/日日敘 5_4 Seamless Carousel｜02.png"
+    caption: null
+  - src: "https://enchiang.com/images/日日敘 5_4 Seamless Carousel｜04.png"
+    caption: null
+  - src: "https://enchiang.com/images/日日敘 5_4 Seamless Carousel｜05.png"
+    caption: null

@@ -1,0 +1,1 @@
+{% assign in_src = include.src %}{% if in_src contains "http" %}{{ in_src }}{% else %}{{ in_src | relative_url }}{% endif %}
