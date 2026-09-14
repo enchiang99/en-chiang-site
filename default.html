@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) — 跟原網站同一組 GA 追蹤 ID，換後台不會中斷數據 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6NLCEX26ZX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6NLCEX26ZX');
+</script>
+{% seo title=false %}
+<title>{% if page.title %}{{ page.title }}｜{% endif %}{{ site.title }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+<link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
+</head>
+<body>
+<div class="grain"></div>
+
+{% include nav.html %}
+{% include floating-buttons.html %}
+
+{{ content }}
+
+{% include footer.html %}
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  /* ---------- 選單開關 ---------- */
+  function toggleMenu(){
+    document.getElementById('menuBtn').classList.toggle('open');
+    document.getElementById('menuPanel').classList.toggle('open');
+  }
+
+  /* ---------- 選單：主項目／子項目手風琴 ----------
+     點「主項目本身」或旁邊的箭頭都可以展開，兩者共用同一個開關，
+     展開後文章清單、相簿清單會一起滑出來（見 CSS .menu-group-body） */
+  function toggleMenuGroup(el){
+    var group = el.closest('.menu-group');
+    if(!group) return;
+    var head = group.querySelector('.menu-group-head');
+    var body = group.querySelector('.menu-group-body');
+    if(!head || !body) return;
+    head.classList.toggle('open');
+    body.classList.toggle('open');
+  }
+
+  /* ---------- 選單：關於商業／影音 的子分類展開 ---------- */
+  function toggleMenuVideoSub(e){
+    e.preventDefault();
+    e.stopPropagation();
+    document.getElementById('menuVideoToggle').classList.toggle('open');
+    document.getElementById('menuVideoSubpanel').classList.toggle('open');
+  }
+
+  /* ---------- 文字放大（跟舊版共用同一組 localStorage key） ---------- */
+  function toggleTextSize(){
+    var on = document.body.classList.toggle('text-large');
+    localStorage.setItem('enchiang-text-large', on ? '1' : '0');
+    var btn = document.querySelector('.float-textsize');
+    if(btn) btn.classList.toggle('active', on);
+  }
+  (function(){
+    if(localStorage.getItem('enchiang-text-large') === '1'){
+      document.body.classList.add('text-large');
+      document.addEventListener('DOMContentLoaded', function(){
+        var btn = document.querySelector('.float-textsize');
+        if(btn) btn.classList.add('active');
+      });
+    }
+  })();
+
+  /* ---------- 選單按鈕：不論手機或電腦，一進站就常駐顯示 ---------- */
+  (function(){
+    var menuBtn = document.getElementById('menuBtn');
+    if(!menuBtn) return;
+    menuBtn.classList.add('visible');
+  })();
+
+  /* ---------- 相簿輪播（共用）：任何頁面只要有 .album-carousel 就會生效 ----------
+     有加 data-autoplay="毫秒數" 屬性才會自動播放（例如文章內頁的相簿）；
+     沒有加這個屬性就是純手動（例如關於商業的創意平面／影像），
+     一律從第一張開始，不會自己跳到別張，只有點左右箭頭／小圓點才會換頁 */
+  (function(){
+    /* 相簿照片：除了第一張以外，其餘照片先用 data-src 存著網址、不會馬上下載，
+       真的滑到那一張才把 data-src 換成 src、瀏覽器才會真的去抓這張圖，
+       這樣一個相簿裡沒被看到的照片就不會白白佔頻寬、拖慢整頁載入速度 */
+    function loadSlideImage(slide){
+      if(!slide) return;
+      var img = slide.querySelector('img[data-src]');
+      if(img){
+        img.src = img.getAttribute('data-src');
+        img.removeAttribute('data-src');
+      }
+    }
+    function setup(carousel){
+      var track = carousel.querySelector('.album-carousel-track');
+      var slides = carousel.querySelectorAll('.album-carousel-slide');
+      var dots = carousel.querySelectorAll('.album-carousel-dot');
+      var index = 0;
+      var hasAutoplay = carousel.hasAttribute('data-autoplay');
+      var delay = hasAutoplay ? (parseInt(carousel.getAttribute('data-autoplay'), 10) || 4500) : 0;
+      var timer = null;
+
+      function render(){
+        track.style.transform = 'translateX(-' + (index * 100) + '%)';
+        dots.forEach(function(d, i){ d.classList.toggle('active', i === index); });
+      }
+      function goTo(i){
+        index = (i + slides.length) % slides.length;
+        loadSlideImage(slides[index]);
+        var nextSlide = slides[(index + 1) % slides.length];
+        if(nextSlide) loadSlideImage(nextSlide); // 預先載入下一張，切換時比較不會有空白
+        render();
+      }
+      function next(){ goTo(index + 1); }
+      function resetTimer(){
+        if(timer) clearInterval(timer);
+        if(delay > 0 && slides.length > 1) timer = setInterval(next, delay);
+      }
+
+      carousel._albumCarousel = { goTo: goTo, next: next, resetTimer: resetTimer };
+      render();
+      resetTimer();
+    }
+    document.querySelectorAll('.album-carousel').forEach(setup);
+  })();
+
+  function albumCarouselMove(btn, dir){
+    var carousel = btn.closest('.album-carousel');
+    if(!carousel || !carousel._albumCarousel) return;
+    var activeDot = carousel.querySelector('.album-carousel-dot.active');
+    var currentIndex = activeDot ? Array.prototype.indexOf.call(carousel.querySelectorAll('.album-carousel-dot'), activeDot) : 0;
+    carousel._albumCarousel.goTo(currentIndex + dir);
+    carousel._albumCarousel.resetTimer();
+  }
+  function albumCarouselGoTo(dot, i){
+    var carousel = dot.closest('.album-carousel');
+    if(!carousel || !carousel._albumCarousel) return;
+    carousel._albumCarousel.goTo(i);
+    carousel._albumCarousel.resetTimer();
+  }
+
+  /* ---------- MOTION：平滑捲動（Lenis）／捲動淡入（AOS） ---------- */
+  (function(){
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
+    if(typeof Lenis !== 'undefined'){
+      try{ new Lenis({ duration: 1.05, smoothWheel: true, autoRaf: true }); }catch(e){}
+    }
+    if(typeof AOS !== 'undefined'){
+      try{ AOS.init({ duration: 700, once: true, offset: 60, easing: 'ease-out-cubic' }); }catch(e){}
+    }
+  })();
+
+  /* ---------- 首頁 HERO 進場：掀開簾幕 + 標題逐字顯現 ---------- */
+  (function(){
+    var hero = document.getElementById('hero');
+    if(!hero) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var curtain = document.createElement('div');
+    curtain.className = 'hero-curtain';
+    hero.appendChild(curtain);
+    var h1 = hero.querySelector('.hero-text h1');
+    var originalHTML = h1 ? h1.innerHTML : null;
+    var reverted = false;
+    function wrapTextIntoChars(text){
+      var frag = document.createDocumentFragment();
+      Array.from(text).forEach(function(ch){
+        var span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = (ch === ' ') ? ' ' : ch;
+        frag.appendChild(span);
+      });
+      return frag;
+    }
+    function splitChars(el){
+      Array.from(el.childNodes).forEach(function(node){
+        if(node.nodeType === Node.TEXT_NODE && node.textContent.trim()){
+          node.replaceWith(wrapTextIntoChars(node.textContent));
+        } else if(node.nodeType === Node.ELEMENT_NODE){
+          var frag = wrapTextIntoChars(node.textContent);
+          node.textContent = '';
+          node.appendChild(frag);
+        }
+      });
+    }
+    function finishIntro(){
+      if(reverted) return;
+      reverted = true;
+      curtain.classList.add('is-done');
+      if(h1 && originalHTML !== null){ h1.innerHTML = originalHTML; }
+      setTimeout(function(){ if(curtain.parentNode) curtain.parentNode.removeChild(curtain); }, 1000);
+    }
+    if(reduceMotion || !h1){ finishIntro(); return; }
+    requestAnimationFrame(function(){
+      splitChars(h1);
+      h1.classList.add('split-ready');
+      var chars = h1.querySelectorAll('.char');
+      chars.forEach(function(c, i){ c.style.animationDelay = (i * 22) + 'ms'; });
+      curtain.classList.add('is-done');
+      setTimeout(finishIntro, 900 + chars.length * 22);
+    });
+  })();
+</script>
+</body>
+</html>
