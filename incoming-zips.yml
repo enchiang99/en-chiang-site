@@ -1,0 +1,61 @@
+name: 整批照片自動解壓縮＋壓縮
+
+# 觸發時機：
+# 1) incoming-zips/ 資料夾有變動（透過 /admin/ 後台上傳了一個新 zip）
+# 2) images/ 資料夾有變動（後台直接上傳單張照片，也會自動壓縮）
+# 也可以到 GitHub 網頁的 Actions 分頁手動點「Run workflow」重新跑一次。
+#
+# 2026-09-12 新增：images/** 也會觸發，且加了 npm install sharp 這個壓縮套件，
+# 讓「後台單張上傳」跟「整批 zip 上傳」的照片都會自動轉 JPEG、限制最長邊 1600px、
+# 統一壓縮品質，不會再發生上傳原始大檔拖慢網頁的狀況。
+#
+# ⚠️ if: github.actor != 'github-actions[bot]' 這一行很重要：
+# 因為這個流程自己也會 commit 回 images/，如果沒有這個判斷，
+# 自己 commit 的結果又會觸發自己一次，變成無限循環。
+on:
+  push:
+    branches: [main]
+    paths:
+      - "incoming-zips/**"
+      - "images/**"
+  workflow_dispatch: {}
+
+# 讓這個流程有權限把處理結果 commit 回 repo
+permissions:
+  contents: write
+
+jobs:
+  process-zips:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions[bot]'
+    steps:
+      - name: 取出 repo 內容
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 設定 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 安裝圖片壓縮套件（sharp）
+        run: npm install sharp@0.33
+
+      - name: 解壓縮 incoming-zips/ 的 zip、壓縮 images/ 裡該處理的照片
+        run: node scripts/process-incoming-zips.js
+
+      - name: 重新產生 images/images-README.md（照片總覽 + 可複製網址）
+        run: node scripts/gen-images-readme.js
+
+      - name: 把結果 commit 回去
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add images/ incoming-zips/
+          if git diff --cached --quiet; then
+            echo "沒有變動，不需要 commit。"
+          else
+            git commit -m "自動處理：解壓縮 incoming-zips/ 的照片並更新總覽"
+            git push
+          fi
