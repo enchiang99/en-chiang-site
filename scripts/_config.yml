@@ -1,0 +1,58 @@
+title: "En Chiang｜台中人像寫真・樂團演出紀錄・寵物到府攝影"
+description: "En Chiang，台中攝影師。拍攝台中人像寫真、樂團演出紀錄、寵物到府攝影。不擺拍、不制式，把故事拍成想珍藏的樣子。"
+url: "https://enchiang.com"
+# baseurl：正式站（有自己網域）留空字串就好。
+# 如果是先放到 https://帳號.github.io/repo名稱/ 這種子路徑測試，
+# 把下面改成 "/repo名稱"（例如 "/enchiang-site-v2"），存檔後全站連結會自動加上這段路徑。
+baseurl: "/en-chiang-site-v2"
+lang: zh-Hant
+# 分享到 FB／LINE／IG 時顯示的預設縮圖，跟原網站一致
+image: /images/hero.jpeg
+twitter:
+  card: summary_large_image
+
+markdown: kramdown
+permalink: /:categories/:title/
+
+collections:
+  about_en:
+    output: true
+    permalink: /about-en/:slug/
+  about_daily:
+    output: true
+    permalink: /about-daily/:slug/
+  about_love:
+    output: true
+    permalink: /about-love/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: about_en
+    values:
+      layout: article
+      menu_group: about-en
+  - scope:
+      path: ""
+      type: about_daily
+    values:
+      layout: article
+      menu_group: about-daily
+  - scope:
+      path: ""
+      type: about_love
+    values:
+      layout: article
+      menu_group: journal
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - incoming-zips
+  - .github
+  - scripts

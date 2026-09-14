@@ -1,0 +1,60 @@
+---
+layout: default
+title: null
+---
+{% assign s = site.data.site %}
+
+<section class="hero" id="hero">
+  <img id="img-hero" src="{{ s.hero.image }}" alt="{{ s.hero.image_alt }}">
+  <div class="hero-lines"><div class="v v1"></div><div class="v v2"></div><div class="h"></div></div>
+  <div class="hero-text">
+    <div class="label">{{ s.hero.label }}</div>
+    <h1>{{ s.hero.title_line1 }}<div>{{ s.hero.title_line2 }}</div></h1>
+    <a href="{{ s.hero.cta_link | relative_url }}" class="btn light">{{ s.hero.cta_text }}</a>
+  </div>
+</section>
+
+<section class="quote-section" id="about-en">
+  <blockquote data-aos="fade-up">{{ s.quote.text }}</blockquote>
+  <div class="desc" data-aos="fade-up" data-aos-delay="120">
+    {% for line in s.quote.lines %}<div>{{ line }}</div>{% endfor %}
+  </div>
+</section>
+
+<section id="about-daily">
+  <div class="section-head">
+    <div class="label">{{ s.about_daily.label }}</div>
+    <h2>{{ s.about_daily.heading }}</h2>
+  </div>
+
+  <div class="service-grid">
+    {% for item in s.about_daily.services %}
+    <div class="service" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 120 }}">
+      <div class="num">{{ item.num }}</div>
+      {% if item.category %}<div class="label">{{ item.category }}</div>{% endif %}
+      {% if item.link %}
+      <a href="{{ item.link | relative_url }}" class="service-title-link"><h3>{{ item.title }}</h3></a>
+      {% else %}
+      <h3>{{ item.title }}</h3>
+      {% endif %}
+      <div class="tagline">{{ item.tagline }}</div>
+      <div class="desc">{% for line in item.desc_lines %}<div>{{ line }}</div>{% endfor %}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="recent-shoots">
+  <div class="section-head">
+    <div class="label">{{ s.recent_shoots.label }}</div>
+    <h2>{{ s.recent_shoots.heading }}</h2>
+  </div>
+  <div class="recent-shoots-grid">
+    {% for item in s.recent_shoots.items %}
+    <figure class="recent-shoots-item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 80 }}">
+      <img src="{{ item.image }}" alt="{{ item.caption }}" loading="lazy">
+      <figcaption>{{ item.caption }}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>

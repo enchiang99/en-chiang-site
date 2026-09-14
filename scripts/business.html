@@ -1,0 +1,198 @@
+---
+layout: default
+title: 關於商業
+permalink: /business/
+---
+{% assign bd = site.data.business['brand-design'] %}
+{% assign ai = site.data.business['ai-automation'] %}
+{% assign brand = site.data.business['brand'] %}
+{% assign video = site.data.business['video'] %}
+
+<div class="business-inner">
+  <a class="article-back" href="{{ site.baseurl }}/">← 回到首頁</a>
+  <div class="section-head" style="text-align:left; padding-top:0; margin-bottom:10px;">
+    <div class="label">Business</div>
+    <h2>關於商業</h2>
+  </div>
+
+  {% comment %} ---------- 創意平面 Creative Graphics ---------- {% endcomment %}
+  <div class="biz-section" id="biz-brand-design">
+    <h2>創意平面 Creative Graphics</h2>
+    <div class="video-subtags" data-filter-group="brand-design">
+      <span class="video-subtag active" data-filter-key="all">全部</span>
+      {% for cat in bd.categories %}
+      {% assign key = cat.id | default: cat.label %}
+      <span class="video-subtag" data-filter-key="{{ key }}">{{ cat.label }}</span>
+      {% endfor %}
+    </div>
+    <div class="biz-albums" data-filter-target="brand-design">
+      {% for album in bd.albums %}
+      {% assign album_key = album.category | default: "all" %}
+      <div class="biz-album" data-category="{{ album_key }}">
+        <div class="album-title">{{ album.title }}</div>
+        {% if album.link %}<a class="album-link" href="{{ album.link }}" target="_blank" rel="noopener">立即查看 →</a>{% endif %}
+        <div class="album-carousel" data-autoplay="4500">
+          <div class="album-carousel-track">
+            {% for photo in album.photos %}
+            <figure class="album-carousel-slide">
+              <img src="{{ photo.src }}" alt="{{ photo.caption | default: album.title }}" loading="lazy" onclick="openLightbox(this.src)">
+              {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+            </figure>
+            {% endfor %}
+          </div>
+          {% if album.photos.size > 1 %}
+          <button class="album-carousel-btn album-carousel-prev" aria-label="上一張" onclick="albumCarouselMove(this, -1)">‹</button>
+          <button class="album-carousel-btn album-carousel-next" aria-label="下一張" onclick="albumCarouselMove(this, 1)">›</button>
+          <div class="album-carousel-dots">
+            {% for photo in album.photos %}
+            <span class="album-carousel-dot{% if forloop.first %} active{% endif %}" onclick="albumCarouselGoTo(this, {{ forloop.index0 }})"></span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} ---------- AI自動化 AI Automation：一張主圖 + 立即查看按鈕，不是整組照片牆 ---------- {% endcomment %}
+  <div class="biz-section" id="biz-ai-automation">
+    <h2>AI自動化｜AI Automation</h2>
+    <div class="video-subtags" data-filter-group="ai-automation">
+      <span class="video-subtag active" data-filter-key="all">全部</span>
+      {% for cat in ai.categories %}
+      {% assign key = cat.id | default: cat.label %}
+      <span class="video-subtag" data-filter-key="{{ key }}">{{ cat.label }}</span>
+      {% endfor %}
+    </div>
+    <div class="biz-albums biz-albums--single-image" data-filter-target="ai-automation">
+      {% for album in ai.albums %}
+      {% assign album_key = album.category | default: "all" %}
+      {% assign main_photo = album.photos | first %}
+      <div class="biz-album biz-album--main-image" data-category="{{ album_key }}">
+        <div class="album-title">{{ album.title }}</div>
+        {% if main_photo %}
+        <figure class="album-photo album-photo--main"><img src="{{ main_photo.src }}" alt="{{ album.title }}" loading="lazy" onclick="openLightbox(this.src)"></figure>
+        {% endif %}
+        {% if album.link %}<a class="album-link album-link--button" href="{{ album.link }}" target="_blank" rel="noopener">立即查看 →</a>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} ---------- 影像 Photography（有主分類 tabs：形象／醫療／餐飲／婚禮／花藝） ---------- {% endcomment %}
+  <div class="biz-section" id="biz-brand">
+    <h2>影像 Photography</h2>
+    <div class="video-tabs" data-filter-group="brand">
+      <span class="video-tab active" data-filter-key="all">全部</span>
+      {% for cat in brand.categories %}
+      {% assign key = cat.id | default: cat.label %}
+      <span class="video-tab" data-filter-key="{{ key }}">{{ cat.label }}</span>
+      {% endfor %}
+    </div>
+    <div class="biz-albums" data-filter-target="brand">
+      {% for album in brand.albums %}
+      {% assign album_key = album.category | default: "all" %}
+      <div class="biz-album" data-category="{{ album_key }}">
+        <div class="album-title">{{ album.title }}</div>
+        {% if album.link %}<a class="album-link" href="{{ album.link }}" target="_blank" rel="noopener">立即查看 →</a>{% endif %}
+        <div class="album-carousel" data-autoplay="4500">
+          <div class="album-carousel-track">
+            {% for photo in album.photos %}
+            <figure class="album-carousel-slide">
+              <img src="{{ photo.src }}" alt="{{ photo.caption | default: album.title }}" loading="lazy" onclick="openLightbox(this.src)">
+              {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+            </figure>
+            {% endfor %}
+          </div>
+          {% if album.photos.size > 1 %}
+          <button class="album-carousel-btn album-carousel-prev" aria-label="上一張" onclick="albumCarouselMove(this, -1)">‹</button>
+          <button class="album-carousel-btn album-carousel-next" aria-label="下一張" onclick="albumCarouselMove(this, 1)">›</button>
+          <div class="album-carousel-dots">
+            {% for photo in album.photos %}
+            <span class="album-carousel-dot{% if forloop.first %} active{% endif %}" onclick="albumCarouselGoTo(this, {{ forloop.index0 }})"></span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} ---------- 影音 Video（餐廳／醫療／文創） ---------- {% endcomment %}
+  <div class="biz-section" id="biz-video">
+    <h2>影音 Video</h2>
+    <div class="video-tabs" data-filter-group="video">
+      <span class="video-tab active" data-filter-key="all">全部</span>
+      {% for cat in video.categories %}
+      {% assign key = cat.id | default: cat.label %}
+      <span class="video-tab" data-filter-key="{{ key }}">{{ cat.label }}</span>
+      {% endfor %}
+    </div>
+    <div class="video-grid" data-filter-target="video">
+      {% for v in video.videos %}
+      {% assign v_key = v.category | default: "all" %}
+      <div class="video-card" data-category="{{ v_key }}">
+        <a class="video-thumb-frame" href="https://www.youtube.com/watch?v={{ v.youtube_id }}" target="_blank" rel="noopener">
+          <img class="video-cover" loading="lazy" src="https://img.youtube.com/vi/{{ v.youtube_id }}/hqdefault.jpg" alt="">
+          <div class="video-play-overlay"></div>
+        </a>
+        <div class="video-card-meta">{{ v.caption }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  /* ---------- 分類篩選：點分類標籤只顯示該分類的相簿／影片 ---------- */
+  document.addEventListener('click', function(e){
+    var tag = e.target.closest('[data-filter-key]');
+    if(!tag) return;
+    var group = tag.closest('[data-filter-group]');
+    if(!group) return;
+    var groupName = group.getAttribute('data-filter-group');
+    var key = tag.getAttribute('data-filter-key');
+    group.querySelectorAll('[data-filter-key]').forEach(function(t){ t.classList.remove('active'); });
+    tag.classList.add('active');
+    var target = document.querySelector('[data-filter-target="' + groupName + '"]');
+    if(!target) return;
+    target.querySelectorAll('[data-category]').forEach(function(item){
+      var show = (key === 'all') || (item.getAttribute('data-category') === key);
+      item.style.display = show ? '' : 'none';
+    });
+  });
+
+  /* ---------- 進站時如果網址帶了篩選參數（例如從選單子分類點過來），自動套用 ---------- */
+  (function(){
+    var hash = window.location.hash;
+    var match = hash.match(/^#([\w-]+)--(.+)$/);
+    if(!match) return;
+    var targetId = match[1];
+    var key = decodeURIComponent(match[2]);
+    var group = document.querySelector('[data-filter-group="' + targetId.replace('biz-', '') + '"]');
+    var tag = group ? group.querySelector('[data-filter-key="' + CSS.escape(key) + '"]') : null;
+    if(tag) tag.click();
+    var el = document.getElementById(targetId);
+    if(el) el.scrollIntoView();
+  })();
+
+  /* ---------- 照片燈箱：點照片看大圖 ---------- */
+  function openLightbox(src){
+    var overlay = document.getElementById('lightboxOverlay');
+    var img = document.getElementById('lightboxImg');
+    img.src = src;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    var overlay = document.getElementById('lightboxOverlay');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>

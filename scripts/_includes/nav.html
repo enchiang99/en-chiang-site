@@ -1,0 +1,75 @@
+<button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-label="選單">
+  <span></span><span></span><span></span>
+</button>
+<nav class="menu-panel" id="menuPanel">
+
+  {% comment %} 關於EN {% endcomment %}
+  <div class="menu-group" data-group="about-en">
+    <div class="menu-group-head">
+      {% assign en_first = site.about_en | first %}
+      <a href="{{ en_first.url | relative_url }}" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front">關於 EN</span><span class="flip-back">ABOUT EN</span></span></span></a>
+      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
+    </div>
+    <div class="menu-sublist">
+      {% for post in site.about_en %}
+      <a href="{{ post.url | relative_url }}" class="menu-sub-link">{{ post.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} 關於日常 {% endcomment %}
+  <div class="menu-group" data-group="about-daily">
+    <div class="menu-group-head">
+      {% assign daily_first = site.about_daily | sort: 'date' | reverse | first %}
+      <a href="{{ daily_first.url | relative_url }}" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front">關於日常</span><span class="flip-back">ABOUT LIFE</span></span></span></a>
+      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
+    </div>
+    <div class="menu-sublist">
+      {% assign daily_posts = site.about_daily | sort: 'date' | reverse %}
+      {% for post in daily_posts %}
+      <a href="{{ post.url | relative_url }}" class="menu-sub-link">{{ post.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} 關於愛（內部代號沿用原網站的 journal） {% endcomment %}
+  <div class="menu-group" data-group="journal">
+    <div class="menu-group-head">
+      {% assign love_first = site.about_love | first %}
+      <a href="{{ love_first.url | relative_url }}" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front">關於愛</span><span class="flip-back">ABOUT LOVE</span></span></span></a>
+      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
+    </div>
+    <div class="menu-sublist">
+      {% for post in site.about_love %}
+      <a href="{{ post.url | relative_url }}" class="menu-sub-link">{{ post.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} 關於商業：創意平面／AI自動化／影像／影音 四個真實分類 {% endcomment %}
+  <div class="menu-group" data-group="business">
+    <div class="menu-group-head">
+      <a href="{{ site.baseurl }}/business/" class="menu-group-label"><span class="flip-label"><span class="flip-inner"><span class="flip-front">關於商業</span><span class="flip-back">ABOUT BUSINESS</span></span></span></a>
+      <button class="menu-expand-btn" onclick="toggleMenuGroup(this)" aria-label="展開或收合子選單">▾</button>
+    </div>
+    <div class="menu-sublist">
+      <a href="{{ site.baseurl }}/business/#biz-brand-design" class="menu-sub-link">創意平面 Creative Graphics</a>
+      <a href="{{ site.baseurl }}/business/#biz-ai-automation" class="menu-sub-link">AI自動化｜AI Automation</a>
+      <a href="{{ site.baseurl }}/business/#biz-brand" class="menu-sub-link">影像 Photography</a>
+      <div class="menu-video-item" id="menuVideoToggle" onclick="toggleMenuVideoSub(event)">
+        <span>影音 Video</span>
+        <span class="menu-video-toggle-icon">+</span>
+      </div>
+      <div class="menu-video-subpanel" id="menuVideoSubpanel">
+        <div class="menu-video-sub-inner">
+          {% for cat in site.data.business.video.categories %}
+          {% assign key = cat.id | default: cat.label %}
+          <a href="{{ site.baseurl }}/business/#biz-video--{{ key | url_encode }}" class="menu-video-sub-link"><span class="cn">{{ cat.label }}</span></a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="{{ site.baseurl }}/#contact" class="menu-flat-link">聯繫方式</a>
+</nav>

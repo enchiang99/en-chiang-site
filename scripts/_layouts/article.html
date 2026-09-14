@@ -1,0 +1,59 @@
+---
+layout: default
+---
+{% case page.menu_group %}
+  {% when "about-en" %}{% assign back_anchor = "#about-en" %}
+  {% when "about-daily" %}{% assign back_anchor = "#about-daily" %}
+  {% when "journal" %}{% assign back_anchor = "#about-daily" %}
+  {% else %}{% assign back_anchor = "" %}
+{% endcase %}
+<div class="article-inner">
+  <a class="article-back" href="{{ site.baseurl }}/{{ back_anchor }}">← 回到首頁</a>
+  <h1>{{ page.title }}</h1>
+  <div class="article-date">{{ page.date_label | default: page.date }}</div>
+  {% if page.cover_image %}<img class="article-cover" src="{{ page.cover_image }}" alt="{{ page.title }}">{% endif %}
+  <div class="article-body">
+    {{ content }}
+  </div>
+
+  {% if page.video_id %}
+  <div class="article-video-wrap">
+    <a href="https://www.youtube.com/watch?v={{ page.video_id }}" target="_blank" rel="noopener" class="video-thumb-frame">
+      <img class="video-cover" loading="lazy" src="https://img.youtube.com/vi/{{ page.video_id }}/hqdefault.jpg" alt="">
+      <div class="video-play-overlay"></div>
+    </a>
+  </div>
+  {% endif %}
+
+  {% if page.albums %}
+  <div class="article-albums-breakout">
+  <div class="article-albums">
+    {% for album in page.albums %}
+    <div class="biz-album">
+      {% if album.title %}<div class="album-title">{{ album.title }}</div>{% endif %}
+      {% if album.link %}<a class="album-link" href="{{ album.link }}" target="_blank" rel="noopener">立即查看 →</a>{% endif %}
+      <div class="album-carousel" data-autoplay="4500">
+        <div class="album-carousel-track">
+          {% for photo in album.photos %}
+          <figure class="album-carousel-slide">
+            <img src="{{ photo.src }}" alt="{{ photo.caption | default: album.title }}" loading="lazy">
+            {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+          </figure>
+          {% endfor %}
+        </div>
+        {% if album.photos.size > 1 %}
+        <button class="album-carousel-btn album-carousel-prev" aria-label="上一張" onclick="albumCarouselMove(this, -1)">‹</button>
+        <button class="album-carousel-btn album-carousel-next" aria-label="下一張" onclick="albumCarouselMove(this, 1)">›</button>
+        <div class="album-carousel-dots">
+          {% for photo in album.photos %}
+          <span class="album-carousel-dot{% if forloop.first %} active{% endif %}" onclick="albumCarouselGoTo(this, {{ forloop.index0 }})"></span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+  {% endif %}
+</div>

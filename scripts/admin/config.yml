@@ -1,0 +1,194 @@
+backend:
+  name: github
+  # ⚠️ 這裡要填「這份檔案實際被放進去的那個 repo」，不是正式站的 repo！
+  # 測試階段請改成你的第二版 repo，例如 enchiang99/en-chiang-site-v2，
+  # 不然後台會誤存回正式站的 en-chiang-site，混淆兩個版本。
+  # 等真的要正式上架、把內容搬進 en-chiang-site 時，再改回 enchiang99/en-chiang-site。
+  repo: enchiang99/en-chiang-site-v2
+  branch: main
+  base_url: https://enchiang-cms-auth-v2.en-hi-light.workers.dev
+
+site_url: https://enchiang.com
+publish_mode: simple
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "site"
+    label: "首頁內容"
+    files:
+      - name: "site"
+        label: "首頁各區塊文字"
+        file: "_data/site.yml"
+        fields:
+          - label: "Hero 大圖"
+            name: "hero"
+            widget: object
+            fields:
+              - { label: "圖片", name: "image", widget: image }
+              - { label: "圖片替代文字（SEO用）", name: "image_alt", widget: string }
+              - { label: "小標籤", name: "label", widget: string }
+              - { label: "標題第一行", name: "title_line1", widget: string }
+              - { label: "標題第二行", name: "title_line2", widget: string }
+              - { label: "按鈕文字", name: "cta_text", widget: string }
+              - { label: "按鈕連結", name: "cta_link", widget: string }
+          - label: "引言（關於EN）"
+            name: "quote"
+            widget: object
+            fields:
+              - { label: "引言主文", name: "text", widget: string }
+              - label: "描述（每行一句）"
+                name: "lines"
+                widget: list
+                field: { label: "這一行", name: "line", widget: string }
+          - label: "關於我（日常區塊）"
+            name: "about_daily"
+            widget: object
+            fields:
+              - { label: "小標籤", name: "label", widget: string }
+              - { label: "標題", name: "heading", widget: string }
+              - label: "三張服務卡"
+                name: "services"
+                widget: list
+                fields:
+                  - { label: "編號", name: "num", widget: string }
+                  - { label: "標題", name: "title", widget: string }
+                  - { label: "副標", name: "tagline", widget: string }
+                  - label: "描述（每行一句）"
+                    name: "desc_lines"
+                    widget: list
+                    field: { label: "這一行", name: "line", widget: string }
+          - label: "首頁「關於所有」跑馬燈（連到三個分類）"
+            name: "journal_teaser"
+            widget: object
+            fields:
+              - { label: "小標籤", name: "label", widget: string }
+              - { label: "標題", name: "heading", widget: string }
+              - label: "三個項目"
+                name: "entries"
+                widget: list
+                fields:
+                  - { label: "標題", name: "title", widget: string }
+                  - { label: "副標／日期文字", name: "date_label", widget: string }
+                  - { label: "連結", name: "link", widget: string }
+          - label: "頁尾聯繫方式"
+            name: "footer"
+            widget: object
+            fields:
+              - { label: "小標籤", name: "label", widget: string }
+              - { label: "標題", name: "heading", widget: string }
+              - { label: "IG 顯示文字", name: "ig_handle", widget: string }
+              - { label: "IG 連結網址", name: "ig_link", widget: string }
+              - { label: "Email", name: "email", widget: string }
+              - { label: "版權文字", name: "copyright", widget: string }
+              - { label: "版權旁邊的標語", name: "tagline", widget: string }
+          - label: "最新拍攝花絮"
+            name: "recent_shoots"
+            widget: object
+            fields:
+              - { label: "小標籤", name: "label", widget: string }
+              - { label: "標題", name: "heading", widget: string }
+              - label: "照片（建議 3～6 張）"
+                name: "items"
+                widget: list
+                fields:
+                  - { label: "照片", name: "image", widget: image }
+                  - { label: "說明文字", name: "caption", widget: string }
+
+  # ---------- 以下三個 collection，就是選單裡「關於EN／關於日常／關於愛」底下的子文章 ----------
+  - name: "about_en"
+    label: "關於 EN（子文章）"
+    folder: "_about_en"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields: &article_fields
+      - { label: "標題", name: "title", widget: string }
+      - { label: "日期", name: "date", widget: datetime }
+      - { label: "日期顯示文字（例如 2026.07）", name: "date_label", widget: string, required: false }
+      - { label: "封面圖（選填）", name: "cover_image", widget: image, required: false }
+      - { label: "YouTube 影片 ID（選填，例如 EhFTsiG-W5g）", name: "video_id", widget: string, required: false }
+      - { label: "內文", name: "body", widget: markdown }
+      - label: "圖片相簿（選填，可以有好幾組）"
+        name: "albums"
+        widget: list
+        required: false
+        fields:
+          - { label: "相簿標題", name: "title", widget: string, required: false }
+          - { label: "外部連結（選填）", name: "link", widget: string, required: false }
+          - label: "照片"
+            name: "photos"
+            widget: list
+            fields:
+              - { label: "照片", name: "src", widget: image }
+              - { label: "說明文字（選填）", name: "caption", widget: string, required: false }
+
+  - name: "about_daily"
+    label: "關於日常（子文章）"
+    folder: "_about_daily"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields: *article_fields
+
+  - name: "about_love"
+    label: "關於愛（子文章）"
+    folder: "_about_love"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields: *article_fields
+
+  # ---------- 關於商業：四個真實分類，各對應一個資料檔，架構完全比照原網站 ----------
+  - name: "business"
+    label: "關於商業"
+    files:
+      - name: "brand-design"
+        label: "① 創意平面 Creative Graphics"
+        file: "_data/business/brand-design.yml"
+        fields: &photo_biz_fields
+          - label: "子分類標籤（例如 美髮／餐飲）"
+            name: "categories"
+            widget: list
+            fields:
+              - { label: "顯示名稱（新增分類只需要填這個）", name: "label", widget: string }
+              - { label: "代碼（舊分類才有，新分類不用填）", name: "id", widget: string, required: false }
+          - label: "相簿"
+            name: "albums"
+            widget: list
+            fields:
+              - { label: "相簿標題", name: "title", widget: string }
+              - { label: "屬於哪個子分類（直接填上面打的「顯示名稱」文字即可，一字不差）", name: "category", widget: string, required: false }
+              - { label: "外部連結（選填，例如 IG）", name: "link", widget: string, required: false }
+              - label: "照片"
+                name: "photos"
+                widget: list
+                fields:
+                  - { label: "照片", name: "src", widget: image }
+                  - { label: "說明文字（選填）", name: "caption", widget: string, required: false }
+
+      - name: "ai-automation"
+        label: "② AI自動化｜AI Automation"
+        file: "_data/business/ai-automation.yml"
+        fields: *photo_biz_fields
+
+      - name: "brand"
+        label: "③ 影像 Photography（形象／醫療／餐飲／婚禮／花藝）"
+        file: "_data/business/brand.yml"
+        fields: *photo_biz_fields
+
+      - name: "video"
+        label: "④ 影音 Video（餐廳／醫療／文創）"
+        file: "_data/business/video.yml"
+        fields:
+          - label: "分類（餐廳／醫療／文創）"
+            name: "categories"
+            widget: list
+            fields:
+              - { label: "顯示名稱（新增分類只需要填這個）", name: "label", widget: string }
+              - { label: "代碼（舊分類才有，新分類不用填）", name: "id", widget: string, required: false }
+          - label: "影片"
+            name: "videos"
+            widget: list
+            fields:
+              - { label: "YouTube 影片 ID（網址 v= 後面那串）", name: "youtube_id", widget: string }
+              - { label: "說明文字", name: "caption", widget: string, required: false }
+              - { label: "屬於哪個分類（直接填分類的「顯示名稱」文字即可，一字不差）", name: "category", widget: string, required: false }
+              - { label: "子分類名稱（選填，直接打文字，不用代碼）", name: "subcategory", widget: string, required: false }
