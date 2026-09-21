@@ -57,8 +57,13 @@
 <script>
   /* ---------- 選單開關 ---------- */
   function toggleMenu(){
-    document.getElementById('menuBtn').classList.toggle('open');
-    document.getElementById('menuPanel').classList.toggle('open');
+    var btn = document.getElementById('menuBtn');
+    var panel = document.getElementById('menuPanel');
+    /* 以 panel 目前狀態為準，兩個元素一起設成同一個目標狀態，
+       避免因為重複觸發等情況讓按鈕圖示跟選單面板的開關狀態兜不起來 */
+    var opening = !panel.classList.contains('open');
+    btn.classList.toggle('open', opening);
+    panel.classList.toggle('open', opening);
   }
 
   /* ---------- 選單：主項目／子項目手風琴 ----------
