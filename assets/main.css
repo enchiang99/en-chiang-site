@@ -315,6 +315,8 @@
   .album-carousel-track{ display:flex; width:100%; transition:transform .5s ease; }
   .album-carousel-slide{ flex:0 0 100%; min-width:0; margin:0; }
   .album-carousel-slide img{ width:100%; aspect-ratio:4/5; object-fit:cover; display:block; }
+.album-video-embed{ position:relative; width:100%; aspect-ratio:16/9; background:#000; }
+.album-video-embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
   .album-carousel-slide figcaption{ font-size:11.5px; color:var(--ink-soft); margin-top:6px; }
   .album-carousel-btn{
     position:absolute; top:40%; transform:translateY(-50%); background:rgba(255,255,255,0.75); border:none;

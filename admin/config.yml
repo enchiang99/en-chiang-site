@@ -188,6 +188,11 @@ collections:
                 fields:
                   - { label: "照片", name: "src", widget: image }
                   - { label: "說明文字（選填）", name: "caption", widget: string, required: false }
+              - label: "相簿裡的作品影片（選填，填 YouTube 影片 ID，會排在照片最後一起輪播）"
+                name: "video_id"
+                widget: string
+                required: false
+                hint: "網址 v= 後面那串英數字，例如 EhFTsiG-W5g。留空的話這相簿維持純照片，不受影響。"
 
       - name: "ai-automation"
         label: "② AI自動化｜AI Automation"
