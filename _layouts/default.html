@@ -70,16 +70,32 @@
     var head = group.querySelector('.menu-group-head');
     var body = group.querySelector('.menu-group-body');
     if(!head || !body) return;
-    head.classList.toggle('open');
-    body.classList.toggle('open');
+    var opening = !head.classList.contains('open');
+    head.classList.toggle('open', opening);
+    body.classList.toggle('open', opening);
+    /* 直接用 JS 算實際內容高度來設定展開高度：
+       有些頁面（相簿、圖片較多）光靠 CSS 的 max-height class 有時不會正確套用，改用這個方式保險 */
+    if(opening){
+      body.style.maxHeight = body.scrollHeight + 'px';
+    } else {
+      body.style.maxHeight = '';
+    }
   }
 
   /* ---------- 選單：關於商業／影音 的子分類展開 ---------- */
   function toggleMenuVideoSub(e){
     e.preventDefault();
     e.stopPropagation();
-    document.getElementById('menuVideoToggle').classList.toggle('open');
-    document.getElementById('menuVideoSubpanel').classList.toggle('open');
+    var toggleEl = document.getElementById('menuVideoToggle');
+    var panelEl = document.getElementById('menuVideoSubpanel');
+    var opening = !toggleEl.classList.contains('open');
+    toggleEl.classList.toggle('open', opening);
+    panelEl.classList.toggle('open', opening);
+    if(opening){
+      panelEl.style.maxHeight = panelEl.scrollHeight + 'px';
+    } else {
+      panelEl.style.maxHeight = '';
+    }
   }
 
   /* ---------- 文字放大（跟舊版共用同一組 localStorage key） ---------- */
