@@ -37,11 +37,12 @@ permalink: /business/
             {% for photo in album.photos %}
             <figure class="album-carousel-slide{% if photo.video_id %} album-carousel-slide--photo-video{% endif %}">
               {% if photo.video_id %}
+              {% assign vid = photo.video_id | split: '?' | first %}
               <div class="album-video-embed album-video-embed--photo">
                 {% if forloop.first %}
-                <iframe src="https://www.youtube.com/embed/{{ photo.video_id }}?autoplay=1&mute=1&loop=1&playlist={{ photo.video_id }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/{{ vid }}?autoplay=1&mute=1&loop=1&playlist={{ vid }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 {% else %}
-                <iframe data-src="https://www.youtube.com/embed/{{ photo.video_id }}?autoplay=1&mute=1&loop=1&playlist={{ photo.video_id }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe data-src="https://www.youtube.com/embed/{{ vid }}?autoplay=1&mute=1&loop=1&playlist={{ vid }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 {% endif %}
               </div>
               {% else %}
@@ -55,9 +56,10 @@ permalink: /business/
             </figure>
             {% endfor %}
             {% if album.video_id %}
+            {% assign avid = album.video_id | split: '?' | first %}
             <figure class="album-carousel-slide album-carousel-slide--video">
               <div class="album-video-embed">
-                <iframe src="https://www.youtube.com/embed/{{ album.video_id }}" title="{{ album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/{{ avid }}" title="{{ album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
             </figure>
             {% endif %}
@@ -145,11 +147,12 @@ permalink: /business/
             {% for photo in album.photos %}
             <figure class="album-carousel-slide{% if photo.video_id %} album-carousel-slide--photo-video{% endif %}">
               {% if photo.video_id %}
+              {% assign vid = photo.video_id | split: '?' | first %}
               <div class="album-video-embed album-video-embed--photo">
                 {% if forloop.first %}
-                <iframe src="https://www.youtube.com/embed/{{ photo.video_id }}?autoplay=1&mute=1&loop=1&playlist={{ photo.video_id }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/{{ vid }}?autoplay=1&mute=1&loop=1&playlist={{ vid }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 {% else %}
-                <iframe data-src="https://www.youtube.com/embed/{{ photo.video_id }}?autoplay=1&mute=1&loop=1&playlist={{ photo.video_id }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe data-src="https://www.youtube.com/embed/{{ vid }}?autoplay=1&mute=1&loop=1&playlist={{ vid }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 {% endif %}
               </div>
               {% else %}
@@ -163,9 +166,10 @@ permalink: /business/
             </figure>
             {% endfor %}
             {% if album.video_id %}
+            {% assign avid = album.video_id | split: '?' | first %}
             <figure class="album-carousel-slide album-carousel-slide--video">
               <div class="album-video-embed">
-                <iframe src="https://www.youtube.com/embed/{{ album.video_id }}" title="{{ album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/{{ avid }}" title="{{ album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
             </figure>
             {% endif %}
