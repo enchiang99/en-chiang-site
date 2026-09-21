@@ -35,11 +35,21 @@ permalink: /business/
         <div class="album-carousel">
           <div class="album-carousel-track">
             {% for photo in album.photos %}
-            <figure class="album-carousel-slide">
+            <figure class="album-carousel-slide{% if photo.video_id %} album-carousel-slide--photo-video{% endif %}">
+              {% if photo.video_id %}
+              <div class="album-video-embed album-video-embed--photo">
+                {% if forloop.first %}
+                <iframe src="https://www.youtube.com/embed/{{ photo.video_id }}?autoplay=1&mute=1&loop=1&playlist={{ photo.video_id }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% else %}
+                <iframe data-src="https://www.youtube.com/embed/{{ photo.video_id }}?autoplay=1&mute=1&loop=1&playlist={{ photo.video_id }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% endif %}
+              </div>
+              {% else %}
               {% if forloop.first %}
               <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
               {% else %}
               <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              {% endif %}
               {% endif %}
               {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
             </figure>
@@ -133,11 +143,21 @@ permalink: /business/
         <div class="album-carousel">
           <div class="album-carousel-track">
             {% for photo in album.photos %}
-            <figure class="album-carousel-slide">
+            <figure class="album-carousel-slide{% if photo.video_id %} album-carousel-slide--photo-video{% endif %}">
+              {% if photo.video_id %}
+              <div class="album-video-embed album-video-embed--photo">
+                {% if forloop.first %}
+                <iframe src="https://www.youtube.com/embed/{{ photo.video_id }}?autoplay=1&mute=1&loop=1&playlist={{ photo.video_id }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% else %}
+                <iframe data-src="https://www.youtube.com/embed/{{ photo.video_id }}?autoplay=1&mute=1&loop=1&playlist={{ photo.video_id }}&controls=0&modestbranding=1&playsinline=1&rel=0" title="{{ photo.caption | default: album.title }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% endif %}
+              </div>
+              {% else %}
               {% if forloop.first %}
               <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
               {% else %}
               <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              {% endif %}
               {% endif %}
               {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
             </figure>
