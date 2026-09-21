@@ -138,7 +138,7 @@ collections:
             summary: "{{fields.caption}}"
             collapsed: true
             fields:
-              - { label: "照片", name: "src", widget: image }
+              - { label: "照片", name: "src", widget: image, required: false }
               - { label: "說明文字（選填）", name: "caption", widget: string, required: false }
 
   - name: "about_daily"
@@ -186,7 +186,7 @@ collections:
                 summary: "{{fields.caption}}"
                 collapsed: true
                 fields:
-                  - { label: "照片", name: "src", widget: image }
+                  - { label: "照片", name: "src", widget: image, required: false }
                   - { label: "說明文字（選填）", name: "caption", widget: string, required: false }
               - label: "相簿裡的作品影片（選填，填 YouTube 影片 ID，會排在照片最後一起輪播）"
                 name: "video_id"
@@ -239,7 +239,7 @@ collections:
                 summary: "{{fields.caption}}"
                 collapsed: true
                 fields:
-                  - { label: "照片", name: "src", widget: image }
+                  - { label: "照片", name: "src", widget: image, required: false }
                   - { label: "說明文字（選填）", name: "caption", widget: string, required: false }
 
       - name: "brand"
