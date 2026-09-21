@@ -18,10 +18,10 @@ albums:
     photos:
       - src: /images/四款招牌 一起上街.jpg
         caption: null
-      - src: ""
+      - src: /images/1.jpg
         caption: null
         video_id: ZFVC9cjDhLg
-      - src: ""
+      - src: /images/93-四-94-五-.png
         caption: null
         video_id: 3dUnXFX8wK0
   - title: 日日敘 Hihijoyakinuku
