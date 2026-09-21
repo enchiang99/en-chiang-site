@@ -67,12 +67,12 @@ recent_shoots:
   # 下面 3 張是先放的示範內容，換成你自己想主打的商業作品照片／文字即可，
   # 想連到哪個作品都可以自己填 link（例如某個分類錨點 /business/#biz-brand）。
   items:
-    - image: https://enchiang.com/images/R0008965.JPG
-      caption: 個人形象｜Personal Image
-      link: /business/#biz-brand
+    - image: https://enchiang.com/images/IMG_9491.png
+      caption: 創意平面｜Creative Graphics，提升品牌辨識度及形象
+      link: /business/#biz-brand-design
     - image: https://enchiang.com/images/R0003321.jpg
-      caption: 燒肉天皇｜Tennoyakiniku
-      link: /business/#biz-brand
-    - image: https://enchiang.com/images/1768026543000_R0010078.jpg
-      caption: 昕澄診所｜Omni Clinic
-      link: /business/#biz-brand
+      caption: 品牌經營｜Branding，從零到一品牌性打造
+      link: /business/#biz-video
+    - image: https://enchiang.com/images/1757425153000_R0009960.JPG
+      caption: 品牌、個人IP打造｜半自動化運營
+      link: /business/#biz-ai-automation
