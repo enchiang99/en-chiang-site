@@ -188,6 +188,11 @@ collections:
                 fields:
                   - { label: "照片", name: "src", widget: image, required: false }
                   - { label: "說明文字（選填）", name: "caption", widget: string, required: false }
+                  - label: "這張照片的動態效果（選填，填 YouTube 影片 ID）"
+                    name: "video_id"
+                    widget: string
+                    required: false
+                    hint: "網址 v= 後面那串英數字，例如 EhFTsiG-W5g。填了之後，輪播到這張照片時會改成播放這支影片（自動靜音、循環播放，看起來像會動的照片），沒填就照常顯示照片。這是這張照片專屬的影片，跟下面「相簿裡的作品影片」是不同、各自獨立的欄位。"
               - label: "相簿裡的作品影片（選填，填 YouTube 影片 ID，會排在照片最後一起輪播）"
                 name: "video_id"
                 widget: string
