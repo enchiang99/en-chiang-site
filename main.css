@@ -198,7 +198,7 @@
   #about-daily{ background:var(--paper-deep); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .section-head{ max-width:600px; margin:0 auto 36px; text-align:center; padding-top:56px; }
   .section-head .label{ margin-bottom:12px; }
-  .section-head h2{ font-size:clamp(24px,3.2vw,36px); margin:0; font-weight:500; }
+  .section-head h1, .section-head h2{ font-size:clamp(24px,3.2vw,36px); margin:0; font-weight:500; }
 
   .service-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; max-width:1100px; margin:56px auto 70px; padding:0 8vw; }
   .service{ padding:0 30px; text-align:center; border-left:1px solid var(--line); }
