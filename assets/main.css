@@ -19,14 +19,14 @@
     position:fixed; inset:0; pointer-events:none; z-index:999; opacity:0.05; mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-  .label{ font-size:11.5px; letter-spacing:0.22em; color:var(--ink-soft); text-transform:uppercase; }
+  .label{ font-size:11.5px; letter-spacing:0.14em; color:var(--ink-soft); text-transform:uppercase; }
 
   /* ---------- TOP-RIGHT MINI MENU ---------- */
   .menu-btn{
     position:fixed; top:22px; right:22px; z-index:210;
     width:46px; height:46px; background:var(--ink); color:var(--paper);
     border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
-    opacity:0; pointer-events:none; transition:opacity .5s ease;
+    transition:transform .1s ease-out;
   }
   .menu-btn.visible{ opacity:1; pointer-events:auto; }
   .menu-btn span{ display:block; width:18px; height:1px; background:var(--paper); transition:transform .3s ease, opacity .3s ease; }
@@ -41,12 +41,12 @@
     position:fixed; top:22px; right:22px; z-index:205;
     background:var(--paper); border:1px solid var(--ink);
     min-width:200px; padding:70px 26px 26px;
-    transform:translateY(-8px) scale(0.97); opacity:0; pointer-events:none;
-    transition:transform .3s cubic-bezier(.2,.8,.2,1), opacity .3s ease;
+    transform:scale(0.96); transform-origin:top right; opacity:0; pointer-events:none;
+    transition:transform .24s cubic-bezier(.2,.8,.2,1), opacity .18s ease-out;
     max-height: calc(100vh - 44px);
     overflow-y: auto;
   }
-  .menu-panel.open{ transform:translateY(0) scale(1); opacity:1; pointer-events:auto; }
+  .menu-panel.open{ transform:scale(1); opacity:1; pointer-events:auto; }
   .menu-panel a{
     display:block; font-family:'Noto Serif TC',serif; font-size:17px; padding:12px 0;
     border-bottom:1px solid var(--line);
@@ -86,8 +86,9 @@
     display:grid; transform-style:preserve-3d; transform-origin:50% 50%;
     transition:transform .3s ease;
   }
-  .menu-group-label:active .flip-inner,
-  .menu-group-label:hover .flip-inner{ transform:rotateX(180deg); }
+  /* 2026-09-26：拿掉滑過中文翻成英文的 3D 翻轉（手機按住時字會翻走，看不到自己點什麼） */
+  .flip-back{ display:none; }
+  .menu-group-label:hover{ opacity:0.6; }
   .flip-front, .flip-back{ grid-area:1 / 1; backface-visibility:hidden; white-space:nowrap; }
   .flip-back{
     transform:rotateX(180deg); font-size:0.86em; letter-spacing:0.14em; color:var(--ink-soft);
@@ -104,7 +105,7 @@
   /* ---------- 選單：分類下方的相簿名稱清單（比文章小一層，跟 V1 的層級一致） ---------- */
   .menu-album-list{ padding-left:22px; padding-bottom:6px; }
   .menu-album-item{
-    display:block; font-size:9px; letter-spacing:0.03em; color:var(--ink-soft); padding:6px 0;
+    display:block; font-size:12px; letter-spacing:0.02em; color:var(--ink-soft); padding:6px 0;
     font-family:'Noto Sans TC', sans-serif; cursor:pointer;
   }
   .menu-album-item:hover{ color:var(--ink); }
@@ -134,10 +135,10 @@
   .float-btn{
     width:44px; height:44px; background:var(--ink); color:var(--paper);
     display:flex; align-items:center; justify-content:center;
-    border-radius:50%; transition:transform .25s ease, background .25s ease;
+    border-radius:50%; transition:transform .1s ease-out, background .2s ease;
     border:none; cursor:pointer;
   }
-  .float-btn:hover{ background:var(--ink-soft); transform:translateY(-2px); }
+  @media (hover:hover){ .float-btn:hover{ background:var(--ink-soft); } }
   .float-btn svg{ display:block; }
   .textsize-icon{ font-family:'Noto Sans TC', sans-serif; font-size:14px; font-weight:500; letter-spacing:0; color:var(--paper); }
   .textsize-icon span{ font-size:10px; vertical-align:super; }
@@ -160,30 +161,21 @@
     content:''; position:absolute; inset:0;
     background:linear-gradient(180deg, rgba(18,16,13,0.1) 0%, rgba(18,16,13,0.72) 100%);
   }
-  .hero-lines{ position:absolute; inset:0; z-index:1; pointer-events:none; }
-  .hero-lines .v{ position:absolute; top:0; bottom:0; width:1px; background:rgba(233,229,221,0.35); }
-  .hero-lines .v1{ left:33%; }
-  .hero-lines .v2{ left:66%; }
-  .hero-lines .h{ position:absolute; left:0; right:0; height:1px; background:rgba(233,229,221,0.35); top:38%; }
   .hero-text{ position:absolute; left:0; right:0; bottom:0; padding:0 8vw 8vh; color:var(--paper); z-index:2; }
   .hero-text .label{ color:rgba(233,229,221,0.75); margin-bottom:16px; }
   .hero-text h1{
-    font-size:clamp(30px,6vw,58px); letter-spacing:0.04em; margin:0 0 26px; font-weight:500; line-height:1.5;
+    font-size:clamp(30px,6vw,58px); letter-spacing:0.01em; margin:0 0 28px; font-weight:500; line-height:1.28;
     max-width:640px;
   }
   .hero-curtain{
     position:absolute; inset:0; z-index:5; background:var(--paper);
     transform-origin:top; transform:scaleY(1);
-    transition:transform 0.95s cubic-bezier(.65,0,.2,1);
+    transition:transform 0.7s cubic-bezier(.65,0,.2,1);
     pointer-events:none;
   }
   .hero-curtain.is-done{ transform:scaleY(0); }
-  .hero-text h1 .char{ display:inline-block; opacity:0; transform:translateY(0.4em); white-space:pre; }
-  .hero-text h1.split-ready .char{ animation:heroCharIn 0.7s cubic-bezier(.2,.8,.2,1) forwards; }
-  @keyframes heroCharIn{ to{ opacity:1; transform:translateY(0); } }
   @media (prefers-reduced-motion: reduce){
     .hero-curtain{ display:none; }
-    .hero-text h1 .char{ opacity:1 !important; transform:none !important; animation:none !important; }
   }
 
   /* ---------- QUOTE / ABOUT EN ---------- */
@@ -198,7 +190,7 @@
   #about-daily{ background:var(--paper-deep); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .section-head{ max-width:600px; margin:0 auto 36px; text-align:center; padding-top:56px; }
   .section-head .label{ margin-bottom:12px; }
-  .section-head h2{ font-size:clamp(24px,3.2vw,36px); margin:0; font-weight:500; }
+  .section-head h2{ font-size:clamp(24px,3.2vw,36px); margin:0; font-weight:500; line-height:1.3; }
 
   .service-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; max-width:1100px; margin:56px auto 70px; padding:0 8vw; }
   .service{ padding:0 30px; text-align:center; border-left:1px solid var(--line); }
@@ -312,7 +304,7 @@
   }
   @media (max-width:700px){ .article-albums{ grid-template-columns:1fr; padding:0 6vw; } }
   .album-carousel{ position:relative; margin-top:14px; overflow:hidden; width:100%; }
-  .album-carousel-track{ display:flex; width:100%; transition:transform .5s ease; }
+  .album-carousel-track{ display:flex; width:100%; transition:transform .4s cubic-bezier(.2,.8,.2,1); }
   .album-carousel-slide{ flex:0 0 100%; min-width:0; margin:0; }
   .album-carousel-slide img{ width:100%; aspect-ratio:4/5; object-fit:cover; display:block; }
 .album-video-embed{ position:relative; width:100%; aspect-ratio:16/9; background:#000; }
@@ -383,3 +375,25 @@
   }
   @media (max-width:480px){ .float-links{ right:16px; bottom:18px; } }
   @media (prefers-reduced-motion:reduce){ *{ transition-duration:.001ms !important; } }
+
+  /* ---------- 2026-09-26：按下去立刻有回饋（Apple：回應要在按下時，不是放開時） ---------- */
+  .btn:active, .float-btn:active, .menu-btn:active, .social-icon-btn:active,
+  .album-carousel-btn:active, .video-subtag:active, .video-tab:active{
+    transform:scale(0.96); transition:transform .1s ease-out;
+  }
+  .album-carousel-btn:active{ transform:translateY(-50%) scale(0.92); }
+  a, button{ -webkit-tap-highlight-color:transparent; }
+
+  /* ---------- 2026-09-26：相簿可以用手指／滑鼠拖曳，照片跟著手走 ---------- */
+  .album-carousel{ touch-action:pan-y; }
+  .album-carousel-track{ will-change:transform; }
+  .album-carousel.is-dragging .album-carousel-track{ transition:none; }
+  .album-carousel.is-dragging{ cursor:grabbing; user-select:none; -webkit-user-select:none; }
+  .album-carousel img{ -webkit-user-drag:none; user-select:none; }
+  @media (hover:none){ .album-carousel-btn{ display:none; } }
+  .album-carousel-dot{ transition:background .2s ease, transform .2s ease; }
+  .album-carousel-dot.active{ transform:scale(1.25); }
+
+  /* ---------- 2026-09-26：燈箱從縮圖的位置放大出來，可往下滑關閉 ---------- */
+  .lightbox-overlay{ touch-action:none; }
+  .lightbox-overlay img{ will-change:transform; }

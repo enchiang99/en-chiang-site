@@ -6,9 +6,8 @@ title: null
 
 <section class="hero" id="hero">
   <img id="img-hero" src="{% include resolve_image.html src=s.hero.image %}" alt="{{ s.hero.image_alt }}">
-  <div class="hero-lines"><div class="v v1"></div><div class="v v2"></div><div class="h"></div></div>
   <div class="hero-text">
-    <div class="label">{{ s.hero.label }}</div>
+    {% if s.hero.label and s.hero.label != "" %}<div class="label">{{ s.hero.label }}</div>{% endif %}
     <h1>{{ s.hero.title_line1 }}<div>{{ s.hero.title_line2 }}</div></h1>
     <a href="{{ s.hero.cta_link | relative_url }}" class="btn light">{{ s.hero.cta_text }}</a>
   </div>
@@ -16,7 +15,7 @@ title: null
 
 <section class="quote-section" id="about-en">
   <blockquote data-aos="fade-up">{{ s.quote.text }}</blockquote>
-  <div class="desc" data-aos="fade-up" data-aos-delay="120">
+  <div class="desc">
     {% assign quote_lines = s.quote.desc | split: "\n" %}
     {% for line in quote_lines %}{% assign trimmed_line = line | strip %}{% if trimmed_line != "" %}<div>{{ trimmed_line }}</div>{% endif %}{% endfor %}
   </div>
@@ -24,13 +23,13 @@ title: null
 
 <section id="about-daily">
   <div class="section-head">
-    <div class="label">{{ s.about_daily.label }}</div>
+    {% if s.about_daily.label and s.about_daily.label != "" %}<div class="label">{{ s.about_daily.label }}</div>{% endif %}
     <h2>{{ s.about_daily.heading }}</h2>
   </div>
 
   <div class="service-grid">
     {% for item in s.about_daily.services %}
-    <div class="service" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 120 }}">
+    <div class="service">
       <div class="num">{{ item.num }}</div>
       {% if item.category %}<div class="label">{{ item.category }}</div>{% endif %}
       {% if item.link %}
@@ -48,13 +47,13 @@ title: null
 
 <section id="recent-shoots">
   <div class="section-head">
-    <div class="label">{{ s.recent_shoots.label }}</div>
+    {% if s.recent_shoots.label and s.recent_shoots.label != "" %}<div class="label">{{ s.recent_shoots.label }}</div>{% endif %}
     <h2>{{ s.recent_shoots.heading }}</h2>
   </div>
   <div class="recent-shoots-grid">
     {% for item in s.recent_shoots.items %}
     {% capture shoot_img %}<img src="{% include resolve_image.html src=item.image %}" alt="{{ item.caption }}" loading="lazy">{% endcapture %}
-    <figure class="recent-shoots-item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 80 }}">
+    <figure class="recent-shoots-item">
       {% if item.link %}<a href="{{ item.link | relative_url }}">{{ shoot_img }}</a>{% else %}{{ shoot_img }}{% endif %}
       <figcaption>{{ item.caption }}</figcaption>
     </figure>

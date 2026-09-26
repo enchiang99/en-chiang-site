@@ -47,9 +47,9 @@ permalink: /business/
               </div>
               {% else %}
               {% if forloop.first %}
-              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src, this)">
               {% else %}
-              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src, this)">
               {% endif %}
               {% endif %}
               {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
@@ -99,7 +99,7 @@ permalink: /business/
       <div class="biz-album biz-album--main-image" data-category="{{ album_key }}">
         <div class="album-title">{{ album.title }}</div>
         {% if main_photo %}
-        <figure class="album-photo album-photo--main"><img src="{% include resolve_image.html src=main_photo.src %}" alt="{{ album.title }}" loading="lazy" onclick="openLightbox(this.src)"></figure>
+        <figure class="album-photo album-photo--main"><img src="{% include resolve_image.html src=main_photo.src %}" alt="{{ album.title }}" loading="lazy" onclick="openLightbox(this.src, this)"></figure>
         {% endif %}
         {% if album.social_links %}
         <div class="album-social-links">
@@ -157,9 +157,9 @@ permalink: /business/
               </div>
               {% else %}
               {% if forloop.first %}
-              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src, this)">
               {% else %}
-              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src, this)">
               {% endif %}
               {% endif %}
               {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
@@ -254,17 +254,83 @@ permalink: /business/
     if(el) el.scrollIntoView();
   })();
 
-  /* ---------- 照片燈箱：點照片看大圖 ---------- */
-  function openLightbox(src){
+  /* ---------- 照片燈箱：點照片看大圖 ----------
+     2026-09-26：大圖從你點的那張縮圖位置放大出來，關閉時縮回原位；
+     可以往下拖曳關閉，拖不夠遠就彈回來；也可以按 Esc 關閉 */
+  var lbFrom = null, lbDrag = null;
+  var lbReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function lbFlipTransform(img, fromEl){
+    var a = fromEl.getBoundingClientRect(), b = img.getBoundingClientRect();
+    if(!a.width || !b.width) return null;
+    var s = Math.min(a.width / b.width, a.height / b.height);
+    return 'translate(' + ((a.left + a.width / 2) - (b.left + b.width / 2)) + 'px,' + ((a.top + a.height / 2) - (b.top + b.height / 2)) + 'px) scale(' + s + ')';
+  }
+  function openLightbox(src, fromEl){
     var overlay = document.getElementById('lightboxOverlay');
     var img = document.getElementById('lightboxImg');
+    lbFrom = fromEl || null;
+    img.style.transition = 'none'; img.style.transform = ''; overlay.style.background = '';
     img.src = src;
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if(lbReduce || !fromEl) return;
+    function run(){
+      var t = lbFlipTransform(img, fromEl);
+      if(!t) return;
+      img.style.transform = t;
+      img.getBoundingClientRect();
+      img.style.transition = 'transform 360ms cubic-bezier(.2,.8,.2,1)';
+      img.style.transform = '';
+    }
+    if(img.complete && img.naturalWidth) run(); else img.onload = function(){ img.onload = null; run(); };
   }
   function closeLightbox(){
     var overlay = document.getElementById('lightboxOverlay');
+    var img = document.getElementById('lightboxImg');
+    var r = lbFrom && lbFrom.getBoundingClientRect();
+    var visible = r && r.bottom > 0 && r.top < innerHeight && r.width > 0;
+    if(!lbReduce && visible){
+      var t = lbFlipTransform(img, lbFrom);
+      img.style.transition = 'transform 280ms cubic-bezier(.4,0,.2,1)';
+      if(t) img.style.transform = t;
+    }
     overlay.classList.remove('open');
+    overlay.style.background = '';
     document.body.style.overflow = '';
+    setTimeout(function(){ if(!overlay.classList.contains('open')){ img.style.transition = 'none'; img.style.transform = ''; } }, 300);
   }
+  (function(){
+    var overlay = document.getElementById('lightboxOverlay');
+    var img = document.getElementById('lightboxImg');
+    if(!overlay) return;
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && overlay.classList.contains('open')) closeLightbox(); });
+    overlay.addEventListener('pointerdown', function(e){
+      lbDrag = { y: e.clientY, dy: 0, t: e.timeStamp, lastY: e.clientY, lastT: e.timeStamp, v: 0, moved: false };
+      img.style.transition = 'none';
+    });
+    overlay.addEventListener('pointermove', function(e){
+      if(!lbDrag) return;
+      var dy = e.clientY - lbDrag.y;
+      if(!lbDrag.moved && Math.abs(dy) < 10) return;
+      lbDrag.moved = true;
+      var dt = e.timeStamp - lbDrag.lastT;
+      if(dt > 0) lbDrag.v = (e.clientY - lbDrag.lastY) / dt * 1000;
+      lbDrag.lastY = e.clientY; lbDrag.lastT = e.timeStamp; lbDrag.dy = dy;
+      var shown = dy > 0 ? dy : dy * 0.3;
+      img.style.transform = 'translateY(' + shown + 'px) scale(' + (1 - Math.min(Math.abs(dy) / innerHeight, 0.3) * 0.5) + ')';
+      overlay.style.background = 'rgba(0,0,0,' + (0.88 * (1 - Math.min(Math.abs(dy) / (innerHeight * 0.6), 0.8))) + ')';
+    });
+    function end(){
+      if(!lbDrag) return;
+      var d = lbDrag; lbDrag = null;
+      if(!d.moved) return; /* 單純點一下：交給 onclick 關閉 */
+      overlay.addEventListener('click', function stop(ev){ ev.stopPropagation(); overlay.removeEventListener('click', stop, true); }, true);
+      if(d.dy > 120 || d.v > 800){ closeLightbox(); return; }
+      img.style.transition = 'transform 300ms cubic-bezier(.2,.8,.2,1)';
+      img.style.transform = '';
+      overlay.style.background = '';
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+  })();
 </script>
