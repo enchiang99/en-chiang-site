@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.classList.add('js-fade');</script>
 <!-- Google tag (gtag.js) — 跟原網站同一組 GA 追蹤 ID，換後台不會中斷數據 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NLCEX26ZX"></script>
 <script>
@@ -175,10 +176,97 @@
         if(delay > 0 && slides.length > 1) timer = setInterval(next, delay);
       }
 
-      carousel._albumCarousel = { goTo: goTo, next: next, resetTimer: resetTimer };
+      carousel._albumCarousel = { goTo: goTo, next: next, resetTimer: resetTimer,
+        index: function(){ return index; },
+        stopAutoplay: function(){ delay = 0; if(timer){ clearInterval(timer); timer = null; } } };
       render();
       resetTimer();
+      if(slides.length > 1) enableDrag(carousel, track, slides, function(){ return index; }, goTo, function(){
+        /* 使用者自己動手滑過之後，就不再自動播放，避免跟手指搶 */
+        carousel._albumCarousel.stopAutoplay();
+      });
     }
+    /* ---------- 2026-09-27：拖曳／手指滑動 ----------
+       1. 照片跟著手指 1:1 移動（從抓住的位置開始算，不會跳）
+       2. 放開時看速度：輕輕一甩就換下一張，慢慢拖要超過一半才換
+       3. 第一張往右拉、最後一張往左拉會有阻力（橡皮筋），不會直接撞牆
+       4. 動畫從照片「目前的位置」接著走，中途可以再抓住 */
+    /* 翻頁用較快的減速率（0.99），滑鼠滾動那種 0.998 對單張翻頁太敏感 */
+    function project(v){ var d = 0.99; return (v / 1000) * d / (1 - d); }
+    function rubberband(x, dim){ var c = 0.55; return (x * dim * c) / (dim + c * Math.abs(x)); }
+    function enableDrag(carousel, track, slides, getIndex, goTo, onUserSwipe){
+      var startX = 0, startY = 0, dx = 0, width = 0, dragging = false, decided = false, pid = null, moved = false;
+      var hist = [];
+      function currentOffset(){
+        var m = getComputedStyle(track).transform;
+        if(!m || m === 'none') return 0;
+        return new DOMMatrixReadOnly(m).m41;
+      }
+      carousel.addEventListener('pointerdown', function(e){
+        if(e.button !== 0 || e.target.closest('.album-carousel-btn, .album-carousel-dot, iframe')) return;
+        width = carousel.clientWidth;
+        /* 從畫面上「現在」的位置接手，動畫跑到一半也能直接抓住 */
+        var live = currentOffset();
+        startX = e.clientX - (live + getIndex() * width);
+        startY = e.clientY; dx = live + getIndex() * width;
+        dragging = true; decided = false; moved = false; pid = e.pointerId;
+        hist = [{ x: e.clientX, t: e.timeStamp }];
+        carousel.classList.add('is-dragging');
+        track.style.transform = 'translateX(' + (-getIndex() * width + dx) + 'px)';
+      });
+      carousel.addEventListener('pointermove', function(e){
+        if(!dragging || e.pointerId !== pid) return;
+        var ddx = e.clientX - startX, ddy = e.clientY - startY;
+        if(!decided){
+          if(Math.abs(ddx) < 10 && Math.abs(ddy) < 10) return;
+          decided = true;
+          if(Math.abs(ddy) > Math.abs(ddx) && e.pointerType !== 'mouse'){ cancel(); return; }
+          try{ carousel.setPointerCapture(pid); }catch(err){}
+          onUserSwipe();
+        }
+        moved = true;
+        dx = ddx;
+        var i = getIndex(), last = slides.length - 1;
+        var shown = dx;
+        if(i === 0 && dx > 0) shown = rubberband(dx, width);
+        if(i === last && dx < 0) shown = -rubberband(-dx, width);
+        track.style.transform = 'translateX(' + (-i * width + shown) + 'px)';
+        hist.push({ x: e.clientX, t: e.timeStamp });
+        if(hist.length > 5) hist.shift();
+      });
+      function cancel(){
+        dragging = false; carousel.classList.remove('is-dragging');
+        track.style.transform = 'translateX(-' + (getIndex() * 100) + '%)';
+      }
+      function end(e){
+        if(!dragging || e.pointerId !== pid) return;
+        dragging = false;
+        carousel.classList.remove('is-dragging');
+        /* 只看放開前 100ms 內的移動來算速度；停住再放開就等於沒有甩 */
+        var recent = hist.filter(function(h){ return e.timeStamp - h.t <= 100; });
+        var a = recent[0], b = recent[recent.length - 1];
+        var v = (b && a && b.t > a.t) ? (b.x - a.x) / (b.t - a.t) * 1000 : 0; /* px/s */
+        var landing = dx + project(v);
+        var i = getIndex(), target = i;
+        if(landing < -width / 2) target = i + 1;
+        else if(landing > width / 2) target = i - 1;
+        target = Math.max(0, Math.min(slides.length - 1, target));
+        /* 甩得越快，收尾越短 */
+        var remain = Math.abs((target - i) * width - dx);
+        var dur = Math.max(180, Math.min(420, remain / Math.max(Math.abs(v), 1) * 1000 * 1.6));
+        track.style.transition = 'transform ' + dur + 'ms cubic-bezier(.2,.8,.2,1)';
+        goTo(target);
+        setTimeout(function(){ track.style.transition = ''; }, dur + 20);
+      }
+      carousel.addEventListener('dragstart', function(e){ e.preventDefault(); });
+      carousel.addEventListener('pointerup', end);
+      carousel.addEventListener('pointercancel', end);
+      /* 拖曳結束時不要誤觸點照片開燈箱 */
+      carousel.addEventListener('click', function(e){
+        if(moved){ e.stopPropagation(); e.preventDefault(); moved = false; }
+      }, true);
+    }
+
     document.querySelectorAll('.album-carousel').forEach(setup);
   })();
 
@@ -256,6 +344,223 @@
       chars.forEach(function(c, i){ c.style.animationDelay = (i * 22) + 'ms'; });
       curtain.classList.add('is-done');
       setTimeout(finishIntro, 900 + chars.length * 22);
+    });
+  })();
+
+  /* ---------- 2026-09-27：全螢幕看照片 ----------
+     點文章相簿／關於商業的任一張照片 → 全螢幕打開同一本相簿
+     · 左右滑（或鍵盤 ← →、桌機左右按鈕）換張，角落顯示「3 / 12」
+     · 往下拖曳關閉（拖不夠遠會彈回來）、點照片以外的黑色區域或按 Esc 也會關閉
+     · 打開時從你點的那張縮圖放大出來；關閉時縮回相簿裡「目前看到的那一張」 */
+  (function(){
+    var SEL = '.album-carousel-slide img, .album-photo img, .article-body img, .article-cover';
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var pv, stage, track, countEl, titleEl, capEl, prevBtn, nextBtn, closeBtn;
+    var items = [], idx = 0, carousel = null, opener = null, isOpen = false;
+
+    function srcOf(img){ return img.getAttribute('data-src') || img.currentSrc || img.getAttribute('src'); }
+    function build(){
+      pv = document.createElement('div');
+      pv.className = 'pv'; pv.setAttribute('role', 'dialog'); pv.setAttribute('aria-modal', 'true'); pv.setAttribute('aria-label', '照片檢視');
+      pv.innerHTML = '<div class="pv-bar"><span class="pv-count"></span><span class="pv-title"></span><button type="button" class="pv-close" aria-label="關閉">×</button></div>'
+        + '<div class="pv-stage"><div class="pv-track"></div><button type="button" class="pv-nav pv-prev" aria-label="上一張">‹</button><button type="button" class="pv-nav pv-next" aria-label="下一張">›</button></div>'
+        + '<div class="pv-caption"></div>';
+      document.body.appendChild(pv);
+      stage = pv.querySelector('.pv-stage'); track = pv.querySelector('.pv-track');
+      countEl = pv.querySelector('.pv-count'); titleEl = pv.querySelector('.pv-title'); capEl = pv.querySelector('.pv-caption');
+      prevBtn = pv.querySelector('.pv-prev'); nextBtn = pv.querySelector('.pv-next'); closeBtn = pv.querySelector('.pv-close');
+      prevBtn.addEventListener('click', function(){ step(-1); });
+      nextBtn.addEventListener('click', function(){ step(1); });
+      closeBtn.addEventListener('click', close);
+      bindGestures();
+    }
+    function collect(img){
+      var scope = img.closest('.album-carousel') || img.closest('.biz-album') || img.closest('.article-body');
+      var list = scope ? Array.prototype.slice.call(scope.querySelectorAll(SEL)) : [img];
+      carousel = img.closest('.album-carousel');
+      var slides = carousel ? Array.prototype.slice.call(carousel.querySelectorAll('.album-carousel-slide')) : [];
+      var albumEl = img.closest('.biz-album');
+      var t = albumEl && albumEl.querySelector('.album-title');
+      var h1 = document.querySelector('.article-inner h1, .business-inner h1');
+      titleEl.textContent = t ? t.textContent.trim() : (h1 ? h1.textContent.trim() : '');
+      return list.map(function(el){
+        var fig = el.closest('figure'), cap = fig && fig.querySelector('figcaption');
+        return { el: el, src: srcOf(el), alt: el.getAttribute('alt') || '', caption: cap ? cap.textContent.trim() : '',
+                 slide: carousel ? slides.indexOf(el.closest('.album-carousel-slide')) : -1 };
+      });
+    }
+    function slideEl(i, offset){
+      var d = document.createElement('div');
+      d.className = 'pv-slide'; d.style.transform = 'translateX(' + (offset * 100) + '%)';
+      var im = document.createElement('img');
+      im.src = items[i].src; im.alt = items[i].alt; im.draggable = false;
+      d.appendChild(im);
+      return d;
+    }
+    function render(){
+      track.style.transition = 'none'; track.style.transform = '';
+      track.innerHTML = '';
+      for(var k = -1; k <= 1; k++){
+        var i = idx + k;
+        if(i >= 0 && i < items.length){ var sl = slideEl(i, k); if(k === 0) sl.classList.add('is-current'); track.appendChild(sl); }
+      }
+      countEl.textContent = items.length > 1 ? (idx + 1) + ' / ' + items.length : '';
+      capEl.textContent = items[idx].caption;
+      prevBtn.hidden = idx === 0; nextBtn.hidden = idx === items.length - 1;
+      /* 預先載入再下一張 */
+      if(items[idx + 2]) { var pre = new Image(); pre.src = items[idx + 2].src; }
+    }
+    function currentImg(){ var c = track.querySelector('.is-current img'); return c; }
+    function flipFrom(el, img){
+      var a = el.getBoundingClientRect(), b = img.getBoundingClientRect();
+      if(!a.width || !b.width) return null;
+      var sc = Math.min(a.width / b.width, a.height / b.height);
+      return 'translate(' + ((a.left + a.width / 2) - (b.left + b.width / 2)) + 'px,' + ((a.top + a.height / 2) - (b.top + b.height / 2)) + 'px) scale(' + sc + ')';
+    }
+    function open(img){
+      if(!pv) build();
+      items = collect(img);
+      idx = Math.max(0, items.findIndex(function(it){ return it.el === img; }));
+      opener = img; isOpen = true;
+      if(carousel && carousel._albumCarousel) carousel._albumCarousel.stopAutoplay();
+      pv.style.background = '';
+      render();
+      pv.classList.add('open');
+      document.documentElement.style.overflow = 'hidden';
+      closeBtn.focus({ preventScroll: true });
+      if(reduce) return;
+      var im = currentImg();
+      function run(){
+        var t = flipFrom(img, im); if(!t) return;
+        im.style.transition = 'none'; im.style.transform = t;
+        im.getBoundingClientRect();
+        im.style.transition = 'transform 380ms cubic-bezier(.2,.8,.2,1)'; im.style.transform = '';
+      }
+      if(im.complete && im.naturalWidth) run(); else im.addEventListener('load', run, { once: true });
+    }
+    function close(){
+      if(!isOpen) return; isOpen = false;
+      var it = items[idx], target = it.el;
+      /* 讓頁面上的相簿停在剛剛看的那一張，關閉時照片縮回那個位置 */
+      if(carousel && carousel._albumCarousel && it.slide >= 0){
+        var tr = carousel.querySelector('.album-carousel-track');
+        tr.style.transition = 'none'; carousel._albumCarousel.goTo(it.slide); tr.getBoundingClientRect(); tr.style.transition = '';
+      }
+      var im = currentImg(), r = target.getBoundingClientRect();
+      var visible = r.width > 0 && r.bottom > 0 && r.top < window.innerHeight;
+      if(!reduce && im && visible){
+        var t = flipFrom(target, im);
+        im.style.transition = 'transform 300ms cubic-bezier(.4,0,.2,1)';
+        if(t) im.style.transform = t;
+      }
+      pv.classList.remove('open');
+      document.documentElement.style.overflow = '';
+      if(opener && opener.focus){ try{ target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }catch(e){} }
+    }
+    function step(dir){
+      var n = idx + dir;
+      if(n < 0 || n >= items.length) return;
+      var w = stage.clientWidth;
+      track.style.transition = 'transform 320ms cubic-bezier(.2,.8,.2,1)';
+      track.style.transform = 'translateX(' + (-dir * w) + 'px)';
+      setTimeout(function(){ idx = n; render(); }, 320);
+    }
+
+    function bindGestures(){
+      var project = function(v){ var d = 0.99; return (v / 1000) * d / (1 - d); };
+      var rubber = function(x, dim){ var c = 0.55; return (x * dim * c) / (dim + c * Math.abs(x)); };
+      var g = null;
+      stage.addEventListener('pointerdown', function(e){
+        if(e.target.closest('.pv-nav')) return;
+        g = { x: e.clientX, y: e.clientY, dx: 0, dy: 0, axis: null, hist: [{ x: e.clientX, y: e.clientY, t: e.timeStamp }], id: e.pointerId, onImg: !!e.target.closest('.pv-slide img') };
+        track.style.transition = 'none';
+      });
+      stage.addEventListener('pointermove', function(e){
+        if(!g || e.pointerId !== g.id) return;
+        var dx = e.clientX - g.x, dy = e.clientY - g.y;
+        if(!g.axis){
+          if(Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+          g.axis = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
+          try{ stage.setPointerCapture(g.id); }catch(err){}
+        }
+        g.dx = dx; g.dy = dy;
+        g.hist.push({ x: e.clientX, y: e.clientY, t: e.timeStamp }); if(g.hist.length > 6) g.hist.shift();
+        if(g.axis === 'x'){
+          var w = stage.clientWidth, shown = dx;
+          if((idx === 0 && dx > 0) || (idx === items.length - 1 && dx < 0)) shown = (dx > 0 ? 1 : -1) * rubber(Math.abs(dx), w);
+          track.style.transform = 'translateX(' + shown + 'px)';
+        } else {
+          var im = currentImg(); if(!im) return;
+          var sy = dy > 0 ? dy : dy * 0.3;
+          var sc = 1 - Math.min(Math.abs(dy) / window.innerHeight, 0.3) * 0.5;
+          im.style.transition = 'none';
+          im.style.transform = 'translate(' + (dx * 0.3) + 'px,' + sy + 'px) scale(' + sc + ')';
+          pv.style.background = 'rgba(14,13,11,' + (0.98 * (1 - Math.min(Math.abs(dy) / (window.innerHeight * 0.6), 0.85))) + ')';
+        }
+      });
+      function end(e){
+        if(!g || e.pointerId !== g.id) return;
+        var st = g; g = null;
+        if(!st.axis){
+          /* 單純點一下：點在照片外面就關閉 */
+          if(!st.onImg && e.type === 'pointerup') close();
+          return;
+        }
+        var recent = st.hist.filter(function(h){ return e.timeStamp - h.t <= 100; });
+        var a = recent[0], b = recent[recent.length - 1], dt = (b && a) ? b.t - a.t : 0;
+        var vx = dt > 0 ? (b.x - a.x) / dt * 1000 : 0, vy = dt > 0 ? (b.y - a.y) / dt * 1000 : 0;
+        if(st.axis === 'x'){
+          var w = stage.clientWidth, landing = st.dx + project(vx);
+          var dir = landing < -w / 2 ? 1 : (landing > w / 2 ? -1 : 0);
+          var n = idx + dir;
+          if(dir !== 0 && n >= 0 && n < items.length){
+            var remain = Math.abs(-dir * w - st.dx);
+            var dur = Math.max(160, Math.min(360, remain / Math.max(Math.abs(vx), 1) * 1000 * 1.6));
+            track.style.transition = 'transform ' + dur + 'ms cubic-bezier(.2,.8,.2,1)';
+            track.style.transform = 'translateX(' + (-dir * w) + 'px)';
+            setTimeout(function(){ idx = n; render(); }, dur);
+          } else {
+            track.style.transition = 'transform 300ms cubic-bezier(.2,.8,.2,1)';
+            track.style.transform = '';
+          }
+        } else {
+          var im = currentImg();
+          if(st.dy > 120 || vy > 800){ close(); return; }
+          if(im){ im.style.transition = 'transform 300ms cubic-bezier(.2,.8,.2,1)'; im.style.transform = ''; }
+          pv.style.background = '';
+        }
+      }
+      stage.addEventListener('pointerup', end);
+      stage.addEventListener('pointercancel', end);
+      pv.querySelector('.pv-bar').addEventListener('click', function(e){ if(e.target === e.currentTarget) close(); });
+      pv.querySelector('.pv-caption').addEventListener('click', close);
+    }
+
+    document.addEventListener('click', function(e){
+      var img = e.target.closest && e.target.closest(SEL);
+      if(!img || img.closest('a')) return;
+      e.preventDefault();
+      open(img);
+    });
+    document.addEventListener('keydown', function(e){
+      if(!isOpen) return;
+      if(e.key === 'Escape') close();
+      else if(e.key === 'ArrowRight') step(1);
+      else if(e.key === 'ArrowLeft') step(-1);
+    });
+  })();
+
+  /* ---------- 2026-09-27：照片先顯示底色，載好再淡入（載入失敗也會顯示，不會一直空白） ---------- */
+  (function(){
+    var sel = '.album-carousel-slide img, .album-photo img, .recent-shoots-item img, .article-body img, .article-cover';
+    function mark(img){ img.classList.add('is-loaded'); }
+    document.querySelectorAll(sel).forEach(function(img){
+      if(img.complete && img.getAttribute('src')) { mark(img); return; }
+      img.addEventListener('load', function(){ mark(img); });
+      img.addEventListener('error', function(){ mark(img); });
+    });
+    window.addEventListener('load', function(){
+      document.querySelectorAll(sel).forEach(function(img){ if(img.complete && img.getAttribute('src')) mark(img); });
     });
   })();
 </script>

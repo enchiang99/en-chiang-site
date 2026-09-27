@@ -47,9 +47,9 @@ permalink: /business/
               </div>
               {% else %}
               {% if forloop.first %}
-              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async">
               {% else %}
-              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async">
               {% endif %}
               {% endif %}
               {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
@@ -99,7 +99,7 @@ permalink: /business/
       <div class="biz-album biz-album--main-image" data-category="{{ album_key }}">
         <div class="album-title">{{ album.title }}</div>
         {% if main_photo %}
-        <figure class="album-photo album-photo--main"><img src="{% include resolve_image.html src=main_photo.src %}" alt="{{ album.title }}" loading="lazy" onclick="openLightbox(this.src)"></figure>
+        <figure class="album-photo album-photo--main"><img src="{% include resolve_image.html src=main_photo.src %}" alt="{{ album.title }}" loading="lazy"></figure>
         {% endif %}
         {% if album.social_links %}
         <div class="album-social-links">
@@ -157,9 +157,9 @@ permalink: /business/
               </div>
               {% else %}
               {% if forloop.first %}
-              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              <img src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async">
               {% else %}
-              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async" onclick="openLightbox(this.src)">
+              <img data-src="{% include resolve_image.html src=photo.src %}" alt="{{ photo.caption | default: album.title }}" loading="lazy" decoding="async">
               {% endif %}
               {% endif %}
               {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
@@ -217,10 +217,6 @@ permalink: /business/
   </div>
 </div>
 
-<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
-  <img id="lightboxImg" src="" alt="">
-</div>
-
 <script>
   /* ---------- 分類篩選：點分類標籤只顯示該分類的相簿／影片 ---------- */
   document.addEventListener('click', function(e){
@@ -254,17 +250,5 @@ permalink: /business/
     if(el) el.scrollIntoView();
   })();
 
-  /* ---------- 照片燈箱：點照片看大圖 ---------- */
-  function openLightbox(src){
-    var overlay = document.getElementById('lightboxOverlay');
-    var img = document.getElementById('lightboxImg');
-    img.src = src;
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox(){
-    var overlay = document.getElementById('lightboxOverlay');
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
+  /* 照片燈箱：2026-09-27 起改用全站共用的「全螢幕看照片」（在 _layouts/default.html） */
 </script>
