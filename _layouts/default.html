@@ -290,7 +290,7 @@
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(reduceMotion) return;
     if(typeof Lenis !== 'undefined'){
-      try{ new Lenis({ duration: 1.05, smoothWheel: true, autoRaf: true }); }catch(e){}
+      try{ window.__lenis = new Lenis({ duration: 1.05, smoothWheel: true, autoRaf: true }); }catch(e){}
     }
     if(typeof AOS !== 'undefined'){
       try{ AOS.init({ duration: 700, once: true, offset: 60, easing: 'ease-out-cubic' }); }catch(e){}
@@ -361,7 +361,7 @@
     function srcOf(img){ return img.getAttribute('data-src') || img.currentSrc || img.getAttribute('src'); }
     function build(){
       pv = document.createElement('div');
-      pv.className = 'pv'; pv.setAttribute('role', 'dialog'); pv.setAttribute('aria-modal', 'true'); pv.setAttribute('aria-label', '照片檢視');
+      pv.className = 'pv'; pv.setAttribute('data-lenis-prevent', ''); pv.setAttribute('role', 'dialog'); pv.setAttribute('aria-modal', 'true'); pv.setAttribute('aria-label', '照片檢視');
       pv.innerHTML = '<div class="pv-bar"><span class="pv-count"></span><span class="pv-title"></span><button type="button" class="pv-close" aria-label="關閉">×</button></div>'
         + '<div class="pv-stage"><div class="pv-track"></div><button type="button" class="pv-nav pv-prev" aria-label="上一張">‹</button><button type="button" class="pv-nav pv-next" aria-label="下一張">›</button></div>'
         + '<div class="pv-caption"></div>';
@@ -427,6 +427,8 @@
       render();
       pv.classList.add('open');
       document.documentElement.style.overflow = 'hidden';
+      /* 全螢幕時暫停平滑捲動，避免滾輪在背後偷偷捲動頁面 */
+      if(window.__lenis) window.__lenis.stop();
       closeBtn.focus({ preventScroll: true });
       if(reduce) return;
       var im = currentImg();
@@ -455,6 +457,7 @@
       }
       pv.classList.remove('open');
       document.documentElement.style.overflow = '';
+      if(window.__lenis) window.__lenis.start();
       if(opener && opener.focus){ try{ target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }catch(e){} }
     }
     function step(dir){
