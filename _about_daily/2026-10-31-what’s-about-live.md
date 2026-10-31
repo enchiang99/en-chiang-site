@@ -1,5 +1,5 @@
 ---
-title: What’s about live?
+title: 生命的減法
 date: 2026-10-31T18:22:00.000+08:00
 date_label: "2026.10"
 ---
