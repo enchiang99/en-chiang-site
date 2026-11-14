@@ -1,0 +1,53 @@
+# 日記本首頁的手寫字型（辰宇落雁體，OFL 授權）自動瘦身
+# 每次後台新增或修改文章、資料，就重新挑出「網站上真的用到的字」，
+# 只把這些字放進 assets/diary-hand.woff2，讓網頁不用下載整套 9.5MB 的字型。
+name: diary-font
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '_about_en/**'
+      - '_about_daily/**'
+      - '_about_love/**'
+      - '_data/**'
+      - 'index.html'
+      - '_layouts/diary.html'
+      - 'assets/diary.js'
+      - 'scripts/diary_font_*.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: diary-font
+  cancel-in-progress: true
+
+jobs:
+  subset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install fonttools
+        run: pip install fonttools brotli
+      - name: Download source font (pinned version)
+        run: curl -fsSL -o /tmp/source.ttf https://raw.githubusercontent.com/Chenyu-otf/chenyuluoyan_thin/6e36815b0bec9f4f948298698d00b27a5f0b65c1/ChenYuluoyan-2.0-Thin.ttf
+      - name: Build subset
+        run: |
+          python scripts/diary_font_chars.py /tmp/chars.txt
+          python scripts/diary_font_build.py /tmp/source.ttf /tmp/chars.txt assets/diary-hand.woff2
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- assets/diary-hand.woff2; then
+            echo "字型不用更新"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add assets/diary-hand.woff2
+            git commit -m "自動更新日記本手寫字型（新增文章用到的字）"
+            git push
+          fi
