@@ -1,12 +1,12 @@
 categories:
   - id: sub-1788772697857
     label: 孝子貓 | omg_workhard
+  - label: 日日敘 | hihijoyakiniku
+  - label: 炎香樓 |  yanxianglou
 albums:
   - title: 孝子貓 | omg_workard
     category: sub-1788772697857
     link: https://www.youtube.com/@omg_workhard/shorts
-    # 下面這幾個是「立即查看」旁邊的社群圖示，每個都可以自己開關／改連結：
-    # 只要 url 欄位是空的，前台就不會顯示那顆圖示按鈕。
     social_links:
       - platform: youtube
         url: https://www.youtube.com/@omg_workhard/shorts
@@ -25,3 +25,9 @@ albums:
         caption: null
       - src: /images/DSCF0110.jpg
         caption: null
+  - category: sub-1788772697857
+    link: https://hihijoyakiniku.com/
+    title: 日日敘 | hihijoyakiniku
+  - link: https://yanxianglou.com.tw/
+    title: 炎香樓 |  yanxianglou
+    category: sub-1788772697857
