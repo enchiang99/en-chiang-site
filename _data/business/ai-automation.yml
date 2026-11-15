@@ -28,6 +28,12 @@ albums:
   - category: sub-1788772697857
     link: https://hihijoyakiniku.com/
     title: 日日敘 | hihijoyakiniku
+    social_links:
+      - platform: instagram
+        url: https://www.instagram.com/hihijoyakiniku/
   - link: https://yanxianglou.com.tw/
     title: 炎香樓 |  yanxianglou
     category: sub-1788772697857
+    social_links:
+      - platform: instagram
+        url: https://www.instagram.com/yanxianglou/
