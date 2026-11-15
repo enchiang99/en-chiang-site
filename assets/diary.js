@@ -489,8 +489,32 @@
   var ctx = null, noiseBuf = null, amb = null, birdTimer = null;
   function audio() {
     if (!ctx) { var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; ctx = new AC(); }
-    if (ctx.state === 'suspended') ctx.resume();
+    if (ctx.state !== 'running') { try { ctx.resume(); } catch (e) {} }
     return ctx;
+  }
+  // iPhone：開著「靜音模式」時，網頁合成的聲音預設會被一起靜音。
+  // 1) 新版 Safari 支援 navigator.audioSession：改成「播放媒體」類型，跟 YouTube 一樣不受靜音鍵影響
+  // 2) 舊版 Safari：同時播一段無聲的 <audio>，把整個頁面的聲音切成「媒體播放」模式
+  var unlockEl = null;
+  function silentWavUrl() {
+    var rate = 8000, n = rate / 2, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
+    function str(o, t) { for (var i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); }
+    str(0, 'RIFF'); v.setUint32(4, 36 + n, true); str(8, 'WAVE'); str(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, rate, true); v.setUint32(28, rate, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true);
+    str(36, 'data'); v.setUint32(40, n, true);
+    for (var i = 0; i < n; i++) v.setUint8(44 + i, 128);
+    return URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+  }
+  function unlockMediaPlayback() {
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+    try {
+      if (!unlockEl) { unlockEl = new Audio(silentWavUrl()); unlockEl.loop = true; unlockEl.setAttribute('playsinline', ''); }
+      var pr = unlockEl.play(); if (pr && pr.catch) pr.catch(function () {});
+    } catch (e) {}
+  }
+  function releaseMediaPlayback() {
+    try { if (unlockEl) unlockEl.pause(); } catch (e) {}
   }
   function noise(c) {
     if (noiseBuf) return noiseBuf;
@@ -551,12 +575,12 @@
     setTimeout(function () { a.nodes.forEach(function (n) { try { n.stop(); } catch (e) {} }); }, 700);
   }
   musicBtn.addEventListener('click', function () {
-    audio();
     S.amb = !S.amb;
-    if (S.amb) startAmb(); else stopAmb();
+    if (S.amb) { unlockMediaPlayback(); audio(); startAmb(); }
+    else { stopAmb(); releaseMediaPlayback(); }
     musicBtn.classList.toggle('on', S.amb); musicBtn.setAttribute('aria-pressed', S.amb ? 'true' : 'false');
   });
-  document.addEventListener('visibilitychange', function () { if (document.hidden && S.amb) { S.amb = false; stopAmb(); musicBtn.classList.remove('on'); musicBtn.setAttribute('aria-pressed', 'false'); } });
+  document.addEventListener('visibilitychange', function () { if (document.hidden && S.amb) { S.amb = false; stopAmb(); releaseMediaPlayback(); musicBtn.classList.remove('on'); musicBtn.setAttribute('aria-pressed', 'false'); } });
 
   /* ---------- 啟動、轉向／縮放時重新排版 ---------- */
   function pickMode() { return window.innerWidth >= 900 && window.innerWidth > window.innerHeight ? 'spread' : 'single'; }
@@ -593,6 +617,16 @@
     setTimeout(function () { cover.classList.add('open'); root.classList.remove('closed'); }, 800);
     setTimeout(function () { cover.remove(); S.closed = false; var e2 = stage.querySelector('.ear'); if (e2) e2.classList.add('hint'); }, 1950);
   }
+  // 點擊回饋：在點的位置淡入一圈金色光點，再擴散淡出，讓人知道「有點到」
+  document.addEventListener('pointerdown', function (e) {
+    if (e.button && e.button !== 0) return;
+    var fx = document.createElement('span');
+    fx.className = 'tap-fx' + (reduceMotion ? ' still' : '');
+    fx.style.left = e.clientX + 'px'; fx.style.top = e.clientY + 'px';
+    document.body.appendChild(fx);
+    setTimeout(function () { fx.remove(); }, 700);
+  }, { passive: true, capture: true });
+
   var fontsReady = document.fonts && document.fonts.load ? document.fonts.load('20px "EN Hand"', '日記') : Promise.resolve();
   Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 2500); })]).then(start, start);
 })();

@@ -172,6 +172,15 @@ body.diary-body{overflow:hidden}
 .is-spread .viewer .slide{padding:16px 90px}
 .viewer .vc{height:54px;display:flex;align-items:center;justify-content:center;color:#cdb98f;font-size:16px}
 
+/* 點擊回饋 */
+.tap-fx{position:fixed;z-index:9999;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,214,120,.85) 0%,rgba(214,160,60,.55) 45%,rgba(214,160,60,0) 72%);
+  border:2px solid rgba(150,98,28,.75);box-shadow:0 0 14px rgba(230,170,60,.65);
+  animation:tapfx .65s ease-out forwards}
+@keyframes tapfx{0%{opacity:0;transform:scale(.35)}18%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.6)}}
+.tap-fx.still{animation:tapfade .5s ease-out forwards}
+@keyframes tapfade{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
+
 @media (prefers-reduced-motion:reduce){
   .cover.open,.ear.hint,.mark-dot,.mark-quill,.orb{animation:none}
   .is-spread .slot-l{transition:none}
