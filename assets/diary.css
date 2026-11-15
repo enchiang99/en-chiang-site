@@ -26,7 +26,9 @@ body.diary-body{overflow:hidden}
   display:none;
 }
 .diary-ready .diary{display:block}
-.diary.is-spread{--fs:20px;--lh:38px;--padT:76px;--padX:clamp(36px,4.4vw,70px);--padB:62px;--orb:clamp(110px,15vh,156px)}
+.diary.is-spread{--fs:clamp(24px,1.9vw,32px);--lh:calc(var(--fs) * 1.8);--padT:clamp(70px,9vh,96px);--padX:clamp(40px,4.6vw,80px);--padB:clamp(60px,7vh,80px);--orb:clamp(130px,19vh,200px)}
+.is-spread .dp{-webkit-text-stroke:.7px currentColor}
+.is-spread .pencil,.is-spread .dp-no,.is-spread .dp-toc{font-size:calc(var(--fs) - 4px)}
 @media (max-height:700px){.diary.is-single{--orb:100px;--lh:32px}}
 @media (pointer:fine){.diary,.diary *{cursor:url('diary-quill.svg') 2 30,auto}}
 
@@ -80,7 +82,7 @@ body.diary-body{overflow:hidden}
 
 /* 記憶金球 */
 .orbs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 10px;margin-top:10px}
-.is-spread .orbs{gap:26px 20px;margin-top:18px}
+.is-spread .orbs{gap:30px 24px;margin-top:20px}
 .orb-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;border:none;background:none;color:var(--ink);font:inherit}
 .orb{position:relative;display:block;width:var(--orb);height:var(--orb);border-radius:50%;overflow:hidden;background:radial-gradient(circle,#6b4a1c,#2b1d0b);
   box-shadow:0 0 0 2px rgba(222,178,86,.95),0 0 0 5px rgba(122,84,26,.35),0 0 22px 4px rgba(244,196,96,.75),0 0 46px 10px rgba(244,196,96,.32),0 8px 14px rgba(40,22,6,.45);

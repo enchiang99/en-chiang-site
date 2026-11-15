@@ -358,7 +358,6 @@
       return;
     }
     if (e.type === 'pointercancel') return;
-    ding();
     var hit = gg.target && gg.target.closest ? gg.target.closest('[data-go],[data-album],a') : null;
     if (hit) {
       if (hit.hasAttribute('data-go')) goPage(parseInt(hit.getAttribute('data-go'), 10));
@@ -482,13 +481,24 @@
   }
   function startAmb() {
     var c = audio(); if (!c) return; var t = c.currentTime;
-    var master = c.createGain(); master.gain.setValueAtTime(0.0001, t); master.gain.exponentialRampToValueAtTime(0.45, t + 2.5); master.connect(c.destination);
+    var master = c.createGain(); master.gain.setValueAtTime(0.0001, t); master.gain.exponentialRampToValueAtTime(1.0, t + 2); master.connect(c.destination);
     var leaves = c.createBufferSource(); leaves.buffer = noise(c); leaves.loop = true;
-    var lf = c.createBiquadFilter(); lf.type = 'lowpass'; lf.frequency.value = 650;
-    var lg = c.createGain(); lg.gain.value = 0.05;
-    var lfo = c.createOscillator(); lfo.frequency.value = 0.08; var lfoG = c.createGain(); lfoG.gain.value = 0.03;
+    var lf = c.createBiquadFilter(); lf.type = 'lowpass'; lf.frequency.value = 900;
+    var lg = c.createGain(); lg.gain.value = 0.16;
+    var lfo = c.createOscillator(); lfo.frequency.value = 0.08; var lfoG = c.createGain(); lfoG.gain.value = 0.08;
     lfo.connect(lfoG); lfoG.connect(lg.gain); leaves.connect(lf); lf.connect(lg); lg.connect(master); leaves.start(); lfo.start();
-    amb = { master: master, nodes: [leaves, lfo] };
+    // 溪水：中高頻的流水沙沙聲
+    var stream = c.createBufferSource(); stream.buffer = noise(c); stream.loop = true; stream.loopStart = 0.5;
+    var sf = c.createBiquadFilter(); sf.type = 'bandpass'; sf.frequency.value = 1400; sf.Q.value = 0.9;
+    var sg = c.createGain(); sg.gain.value = 0.07;
+    stream.connect(sf); sf.connect(sg); sg.connect(master); stream.start(t, 0.7);
+    // 蟲鳴：高頻、快速顫動
+    var bugs = c.createBufferSource(); bugs.buffer = noise(c); bugs.loop = true;
+    var bf = c.createBiquadFilter(); bf.type = 'bandpass'; bf.frequency.value = 4800; bf.Q.value = 14;
+    var bg = c.createGain(); bg.gain.value = 0;
+    var trem = c.createOscillator(); trem.type = 'square'; trem.frequency.value = 21; var tg = c.createGain(); tg.gain.value = 0.03;
+    trem.connect(tg); tg.connect(bg.gain); bugs.connect(bf); bf.connect(bg); bg.connect(master); bugs.start(t, 1.1); trem.start();
+    amb = { master: master, nodes: [leaves, lfo, stream, bugs, trem] };
     (function bird() {
       if (!amb) return;
       var now = c.currentTime, n = 2 + Math.floor(Math.random() * 3), base = 2300 + Math.random() * 1500;
@@ -496,10 +506,10 @@
       for (var k = 0; k < n; k++) {
         var st = now + k * 0.17, o = c.createOscillator(), gg2 = c.createGain();
         o.frequency.setValueAtTime(base, st); o.frequency.exponentialRampToValueAtTime(base * 1.4, st + 0.07); o.frequency.exponentialRampToValueAtTime(base * 0.92, st + 0.12);
-        gg2.gain.setValueAtTime(0.0001, st); gg2.gain.exponentialRampToValueAtTime(0.02, st + 0.02); gg2.gain.exponentialRampToValueAtTime(0.0001, st + 0.13);
+        gg2.gain.setValueAtTime(0.0001, st); gg2.gain.exponentialRampToValueAtTime(0.07, st + 0.02); gg2.gain.exponentialRampToValueAtTime(0.0001, st + 0.13);
         o.connect(gg2); gg2.connect(pan || master); o.start(st); o.stop(st + 0.15);
       }
-      birdTimer = setTimeout(bird, 1800 + Math.random() * 4500);
+      birdTimer = setTimeout(bird, 1200 + Math.random() * 3200);
     })();
   }
   function stopAmb() {
@@ -508,7 +518,7 @@
     setTimeout(function () { a.nodes.forEach(function (n) { try { n.stop(); } catch (e) {} }); }, 700);
   }
   musicBtn.addEventListener('click', function () {
-    ding();
+    audio();
     S.amb = !S.amb;
     if (S.amb) startAmb(); else stopAmb();
     musicBtn.classList.toggle('on', S.amb); musicBtn.setAttribute('aria-pressed', S.amb ? 'true' : 'false');
