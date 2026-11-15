@@ -617,9 +617,23 @@
     setTimeout(function () { cover.classList.add('open'); root.classList.remove('closed'); }, 800);
     setTimeout(function () { cover.remove(); S.closed = false; var e2 = stage.querySelector('.ear'); if (e2) e2.classList.add('hint'); }, 1950);
   }
-  // 點擊回饋：在點的位置淡入一圈金色光點，再擴散淡出，讓人知道「有點到」
+  // 點擊回饋：滑鼠點下去羽毛筆變金色，再分段褪回原色；手指點則在點的位置淡入淡出金色光點
+  var qTimers = [], root = document.documentElement;
+  function setQ(c) { root.classList.remove('q-on', 'q-mid', 'q-end'); if (c) root.classList.add(c); }
   document.addEventListener('pointerdown', function (e) {
     if (e.button && e.button !== 0) return;
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+      qTimers.forEach(clearTimeout);
+      setQ('q-end');
+      qTimers = [
+        setTimeout(function () { setQ('q-mid'); }, 40),
+        setTimeout(function () { setQ('q-on'); }, 90),
+        setTimeout(function () { setQ('q-mid'); }, 380),
+        setTimeout(function () { setQ('q-end'); }, 520),
+        setTimeout(function () { setQ(null); }, 660)
+      ];
+      return;
+    }
     var fx = document.createElement('span');
     fx.className = 'tap-fx' + (reduceMotion ? ' still' : '');
     fx.style.left = e.clientX + 'px'; fx.style.top = e.clientY + 'px';
