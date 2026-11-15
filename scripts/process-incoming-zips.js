@@ -15,6 +15,12 @@
  *
  * 用法：node scripts/process-incoming-zips.js
  * 由 .github/workflows/incoming-zips.yml 自動呼叫，不需要手動執行。
+ *
+ * 【2026-11-09 修正】只壓縮「這次新進來的照片」：
+ *    - 從 zip 解出來的照片
+ *    - 這次 push 新增到 images/ 的照片（workflow 會把清單寫進 NEW_IMAGES_FILE）
+ *    舊照片一律不碰。真的要把全部舊照片重新壓縮一次，
+ *    到 GitHub 的 Actions 分頁手動執行，並把「optimize_all」打勾（OPTIMIZE_ALL=true）。
  * （這個腳本需要先 npm install sharp，workflow 裡已經加了這個步驟）
  */
 
@@ -64,9 +70,10 @@ function uniqueDestName(filename) {
 }
 
 function extractZips() {
+  const extracted = [];
   if (!fs.existsSync(INCOMING_DIR)) {
     console.log("incoming-zips/ 資料夾不存在，跳過解壓縮這一步。");
-    return;
+    return extracted;
   }
   if (!fs.existsSync(IMAGES_DIR)) {
     fs.mkdirSync(IMAGES_DIR, { recursive: true });
@@ -76,9 +83,16 @@ function extractZips() {
     .readdirSync(INCOMING_DIR)
     .filter((f) => path.extname(f).toLowerCase() === ".zip");
 
+  const otherArchives = fs
+    .readdirSync(INCOMING_DIR)
+    .filter((f) => [".rar", ".7z"].includes(path.extname(f).toLowerCase()));
+  for (const f of otherArchives) {
+    console.warn(`⚠ ${f} 不是 .zip，沒辦法自動解壓縮，請重新壓成 .zip 再上傳。`);
+  }
+
   if (zipFiles.length === 0) {
     console.log("沒有找到新的 zip 檔，跳過解壓縮這一步。");
-    return;
+    return extracted;
   }
 
   let movedCount = 0;
@@ -107,6 +121,7 @@ function extractZips() {
       const destName = uniqueDestName(originalName);
       const destPath = path.join(IMAGES_DIR, destName);
       fs.copyFileSync(filePath, destPath);
+      extracted.push(destName);
       movedCount++;
       console.log(`  -> images/${destName}${destName !== originalName ? "（檔名重複，已加時間戳記）" : ""}`);
     }
@@ -117,10 +132,26 @@ function extractZips() {
   }
 
   console.log(`解壓縮完成，共搬移 ${movedCount} 張照片進 images/。`);
+  return extracted;
 }
 
-async function optimizeAllImages() {
-  if (!fs.existsSync(IMAGES_DIR)) return;
+// 這次 push 新增到 images/ 的檔案（由 workflow 用 git diff 算好，一行一個路徑）
+function newlyAddedImages() {
+  const listFile = process.env.NEW_IMAGES_FILE;
+  if (!listFile || !fs.existsSync(listFile)) return [];
+  return fs
+    .readFileSync(listFile, "utf8")
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith("images/") && l.split("/").length === 2)
+    .map((l) => l.slice("images/".length));
+}
+
+async function optimizeImages(names) {
+  if (!fs.existsSync(IMAGES_DIR) || names.length === 0) {
+    console.log("這次沒有新照片需要壓縮。");
+    return;
+  }
 
   let sharp;
   try {
@@ -130,17 +161,25 @@ async function optimizeAllImages() {
     return;
   }
 
-  const files = fs.readdirSync(IMAGES_DIR).filter((f) => !f.startsWith("."));
-  console.log(`開始檢查 images/ 資料夾裡的 ${files.length} 個檔案，該壓縮／轉檔的就處理...`);
-  for (const f of files) {
-    await optimizeImage(sharp, path.join(IMAGES_DIR, f));
+  console.log(`開始檢查 ${names.length} 張照片，該壓縮的就處理（檔名不會改）...`);
+  for (const f of names) {
+    const full = path.join(IMAGES_DIR, f);
+    if (!fs.existsSync(full)) continue;
+    await optimizeImage(sharp, full);
   }
-  console.log("圖片壓縮／轉檔檢查完成。");
+  console.log("圖片壓縮檢查完成。");
 }
 
 async function main() {
-  extractZips();
-  await optimizeAllImages();
+  const extracted = extractZips();
+  let targets;
+  if (process.env.OPTIMIZE_ALL === "true") {
+    targets = fs.readdirSync(IMAGES_DIR).filter((f) => !f.startsWith("."));
+    console.log("手動選了「全部重新壓縮」，這次會檢查 images/ 裡所有照片。");
+  } else {
+    targets = Array.from(new Set(extracted.concat(newlyAddedImages())));
+  }
+  await optimizeImages(targets);
 }
 
 main();

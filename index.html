@@ -1,68 +1,76 @@
 ---
-layout: default
+layout: diary
 title: null
 ---
+{% comment %}
+  2026-11：首頁改成「日記本」互動版。
+  所有文字、照片、影片都直接讀後台（Decap CMS）原本的欄位，後台不用改：
+  - 引言：site.yml 的 quote
+  - 三個分類：site.yml 的 about_daily.services ＋ 三個文章 collection（含相簿、影片）
+  - 關於商業：_data/business 裡的 brand-design／ai-automation／brand／video
+  - 聯絡：site.yml 的 footer（IG、Email）
+  舊版首頁完整保留在 GitHub 的 classic-2026-11 分支。
+{% endcomment %}
 {% assign s = site.data.site %}
+{% assign biz = site.data.business %}
+{% assign colls = "about_en,about_daily,about_love" | split: "," %}
+{% assign names = "關於 EN,關於日常,關於愛" | split: "," %}
+{% assign ens = "ABOUT EN,ABOUT LIFE,ABOUT LOVE" | split: "," %}
+{% assign hubs = "/portrait/,/band/,/pet/" | split: "," %}
 
-<section class="hero" id="hero">
-  <img id="img-hero" src="{% include resolve_image.html src=s.hero.image %}" alt="{{ s.hero.image_alt }}">
-  <div class="hero-lines"><div class="v v1"></div><div class="v v2"></div><div class="h"></div></div>
-  <div class="hero-text">
-    <div class="label">{{ s.hero.label }}</div>
-    <h1>{{ s.hero.title_line1 }}<div>{{ s.hero.title_line2 }}</div></h1>
-    <a href="{{ s.hero.cta_link | relative_url }}" class="btn light">{{ s.hero.cta_text }}</a>
-  </div>
-</section>
+<div class="diary-fallback" id="diary-fallback">
+  <h1>ABOUT EN</h1>
+  <p>{{ s.quote.text }}</p>
+  {% assign quote_lines = s.quote.desc | split: "
+" %}
+  {% for line in quote_lines %}{% assign t = line | strip %}{% if t != "" %}<p>{{ t }}</p>{% endif %}{% endfor %}
+  <nav aria-label="網站內容">
+    <ul>
+      {% for c in colls %}{% assign arts = site[c] | sort: "date" | reverse %}
+      <li><a href="{{ hubs[forloop.index0] | relative_url }}">{{ names[forloop.index0] }}</a>
+        <ul>{% for a in arts %}<li><a href="{{ a.url | relative_url }}">{{ a.title }}</a></li>{% endfor %}</ul>
+      </li>
+      {% endfor %}
+      <li><a href="{{ '/business/' | relative_url }}">關於商業</a></li>
+      <li><a href="{{ '/archive.html' | relative_url }}">所有文章</a></li>
+    </ul>
+  </nav>
+  <p><a href="{{ s.footer.ig_link }}" target="_blank" rel="noopener">Instagram {{ s.footer.ig_handle }}</a></p>
+  <p><a href="mailto:{{ s.footer.email }}">{{ s.footer.email }}</a></p>
+</div>
 
-<section class="quote-section" id="about-en">
-  <blockquote data-aos="fade-up">{{ s.quote.text }}</blockquote>
-  <div class="desc" data-aos="fade-up" data-aos-delay="120">
-    {% assign quote_lines = s.quote.desc | split: "\n" %}
-    {% for line in quote_lines %}{% assign trimmed_line = line | strip %}{% if trimmed_line != "" %}<div>{{ trimmed_line }}</div>{% endif %}{% endfor %}
-  </div>
-</section>
-
-<section id="about-daily">
-  <div class="section-head">
-    <div class="label">{{ s.about_daily.label }}</div>
-    <h2>{{ s.about_daily.heading }}</h2>
-  </div>
-
-  <div class="service-grid">
-    {% for item in s.about_daily.services %}
-    <div class="service" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 120 }}">
-      <div class="num">{{ item.num }}</div>
-      {% if item.category %}<div class="label">{{ item.category }}</div>{% endif %}
-      {% if item.link %}
-      <a href="{{ item.link | relative_url }}" class="service-title-link"><h3>{{ item.title }}</h3></a>
-      {% else %}
-      <h3>{{ item.title }}</h3>
-      {% endif %}
-      <div class="tagline">{{ item.tagline }}</div>
-      {% assign svc_lines = item.desc_text | split: "\n" %}
-      <div class="desc">{% for line in svc_lines %}{% assign trimmed_svc_line = line | strip %}{% if trimmed_svc_line != "" %}<div>{{ trimmed_svc_line }}</div>{% endif %}{% endfor %}</div>
-    </div>
+<script type="application/json" id="diary-data">
+{
+  "baseurl": {{ site.baseurl | jsonify }},
+  "quote": { "text": {{ s.quote.text | jsonify }}, "desc": {{ s.quote.desc | jsonify }} },
+  "contact": { "ig": {{ s.footer.ig_handle | jsonify }}, "ig_link": {{ s.footer.ig_link | jsonify }}, "email": {{ s.footer.email | jsonify }} },
+  "chapters": [
+    {% for c in colls %}{% assign i = forloop.index0 %}{% assign svc = s.about_daily.services[i] %}{% assign arts = site[c] | sort: "date" | reverse %}
+    {
+      "name": {{ names[i] | jsonify }}, "en": {{ ens[i] | jsonify }},
+      "tagline": {{ svc.tagline | jsonify }}, "desc": {{ svc.desc_text | jsonify }},
+      "articles": [
+        {% for a in arts %}{
+          "title": {{ a.title | jsonify }},
+          "date": {{ a.date_label | default: "" | append: "" | jsonify }},
+          "video_id": {{ a.video_id | jsonify }},
+          "body": {{ a.content | strip_html | jsonify | replace: "</", "<\/" }},
+          "albums": {{ a.albums | jsonify | replace: "</", "<\/" }}
+        }{% unless forloop.last %},{% endunless %}{% endfor %}
+      ]
+    },
     {% endfor %}
-  </div>
-</section>
-
-<section id="recent-shoots">
-  <div class="section-head">
-    <div class="label">{{ s.recent_shoots.label }}</div>
-    <h2>{{ s.recent_shoots.heading }}</h2>
-  </div>
-  <div class="recent-shoots-grid">
-    {% for item in s.recent_shoots.items %}
-    {% capture shoot_img %}<img src="{% include resolve_image.html src=item.image %}" alt="{{ item.caption }}" loading="lazy">{% endcapture %}
-    <figure class="recent-shoots-item" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 80 }}">
-      {% if item.link %}<a href="{{ item.link | relative_url }}">{{ shoot_img }}</a>{% else %}{{ shoot_img }}{% endif %}
-      <figcaption>{{ item.caption }}</figcaption>
-    </figure>
-    {% endfor %}
-  </div>
-  {% if s.recent_shoots.more_link %}
-  <div style="text-align:center; margin:32px 0 8px;">
-    <a href="{{ s.recent_shoots.more_link | relative_url }}" class="btn">{{ s.recent_shoots.more_text | default: "查看更多 →" }}</a>
-  </div>
-  {% endif %}
-</section>
+    {
+      "name": "關於商業", "en": "BUSINESS", "tagline": "",
+      "desc": {{ s.recent_shoots.items | map: "caption" | join: "
+" | jsonify }},
+      "articles": [
+        { "title": "創意平面 Creative Graphics", "albums": {{ biz["brand-design"].albums | jsonify | replace: "</", "<\/" }} },
+        { "title": "AI自動化｜AI Automation", "albums": {{ biz["ai-automation"].albums | jsonify | replace: "</", "<\/" }} },
+        { "title": "影像 Photography", "albums": {{ biz["brand"].albums | jsonify | replace: "</", "<\/" }} },
+        { "title": "影音 Video", "videos": {{ biz["video"].videos | jsonify | replace: "</", "<\/" }} }
+      ]
+    }
+  ]
+}
+</script>

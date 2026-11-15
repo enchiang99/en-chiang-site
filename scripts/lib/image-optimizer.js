@@ -13,13 +13,15 @@ const MAX_JPEG_BYTES = 400 * 1024; // 已經是 JPEG 但檔案還是超過這個
 const OPTIMIZABLE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png"]); // gif/webp 先跳過，不動它們
 
 /**
- * 壓縮／轉檔一張圖片：
- * - 沒有透明背景需求的 PNG（一般相片）→ 轉存成 JPEG
- * - 需要透明背景的 PNG → 保留 PNG，只在尺寸過大時縮小
- * - JPEG → 只有「尺寸太大」或「檔案太大」才重新壓縮，避免越壓越糊
+ * 壓縮一張圖片（2026-11-09 修正版）：
+ * - 【不再改檔名、不再刪檔】檔名永遠維持原樣，後台、文章裡指到這張圖的網址才不會壞掉。
+ *   （舊版會把沒有透明背景的 PNG 轉成 .jpg 並刪掉原本的 .png，
+ *     但文章和後台資料還是寫 .png，照片就會整個不見。）
+ * - PNG：只在尺寸超過 1600px 時縮小，存回同一個 .png 檔
+ * - JPEG：只有「尺寸太大」或「檔案太大」才重新壓縮，避免越壓越糊
  * - gif/webp 或讀取失敗 → 原封不動
  *
- * 回傳處理後最終的檔案路徑（PNG 轉 JPEG 的話副檔名會變成 .jpg，呼叫端要用這個回傳值）。
+ * 回傳處理後的檔案路徑（現在永遠等於原本的路徑）。
  */
 async function optimizeImage(sharp, fullPath) {
   const ext = path.extname(fullPath).toLowerCase();
@@ -35,22 +37,9 @@ async function optimizeImage(sharp, fullPath) {
 
   const longEdge = Math.max(meta.width || 0, meta.height || 0);
   const isPng = ext === ".png";
-  const hasAlpha = !!meta.hasAlpha;
 
   try {
-    if (isPng && !hasAlpha) {
-      const jpgPath = fullPath.replace(/\.png$/i, ".jpg");
-      let pipeline = sharp(fullPath);
-      if (longEdge > MAX_LONG_EDGE) {
-        pipeline = pipeline.resize({ width: MAX_LONG_EDGE, height: MAX_LONG_EDGE, fit: "inside", withoutEnlargement: true });
-      }
-      await pipeline.jpeg({ quality: JPEG_QUALITY, mozjpeg: true }).toFile(jpgPath);
-      fs.unlinkSync(fullPath);
-      console.log(`  轉檔＋壓縮：${path.basename(fullPath)} → ${path.basename(jpgPath)}`);
-      return jpgPath;
-    }
-
-    if (isPng && hasAlpha) {
+    if (isPng) {
       if (longEdge > MAX_LONG_EDGE) {
         const tmpPath = fullPath + ".tmp.png";
         await sharp(fullPath)
@@ -58,7 +47,7 @@ async function optimizeImage(sharp, fullPath) {
           .png({ compressionLevel: 9 })
           .toFile(tmpPath);
         fs.renameSync(tmpPath, fullPath);
-        console.log(`  縮小尺寸（保留透明背景）：${path.basename(fullPath)}`);
+        console.log(`  縮小尺寸（維持 PNG、檔名不變）：${path.basename(fullPath)}`);
       }
       return fullPath;
     }
