@@ -618,8 +618,8 @@
     setTimeout(function () { cover.remove(); S.closed = false; var e2 = stage.querySelector('.ear'); if (e2) e2.classList.add('hint'); }, 1950);
   }
   // 點擊回饋：滑鼠點下去羽毛筆變金色，再分段褪回原色；手指點則在點的位置淡入淡出金色光點
-  var qTimers = [], root = document.documentElement;
-  function setQ(c) { root.classList.remove('q-on', 'q-mid', 'q-end'); if (c) root.classList.add(c); }
+  var qTimers = [], qRoot = document.documentElement;
+  function setQ(c) { qRoot.classList.remove('q-on', 'q-mid', 'q-end'); if (c) qRoot.classList.add(c); }
   document.addEventListener('pointerdown', function (e) {
     if (e.button && e.button !== 0) return;
     if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
