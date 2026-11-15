@@ -41,7 +41,9 @@
     s.setAttribute('stroke-linecap', 'round'); s.setAttribute('stroke-linejoin', 'round'); s.setAttribute('aria-hidden', 'true');
     path.split('|').forEach(function (d) {
       var p;
-      if (d.indexOf('c:') === 0) { var a = d.slice(2).split(','); p = document.createElementNS(ns, 'circle'); p.setAttribute('cx', a[0]); p.setAttribute('cy', a[1]); p.setAttribute('r', a[2]); }
+      if (d.indexOf('r:') === 0) { var r = d.slice(2).split(','); p = document.createElementNS(ns, 'rect'); p.setAttribute('x', r[0]); p.setAttribute('y', r[1]); p.setAttribute('width', r[2]); p.setAttribute('height', r[3]); p.setAttribute('rx', r[4]); }
+      else if (d.indexOf('fc:') === 0) { var q = d.slice(3).split(','); p = document.createElementNS(ns, 'circle'); p.setAttribute('cx', q[0]); p.setAttribute('cy', q[1]); p.setAttribute('r', q[2]); p.setAttribute('fill', 'currentColor'); p.setAttribute('stroke', 'none'); }
+      else if (d.indexOf('c:') === 0) { var a = d.slice(2).split(','); p = document.createElementNS(ns, 'circle'); p.setAttribute('cx', a[0]); p.setAttribute('cy', a[1]); p.setAttribute('r', a[2]); }
       else if (d.indexOf('f:') === 0) { p = document.createElementNS(ns, 'path'); p.setAttribute('d', d.slice(2)); p.setAttribute('fill', 'currentColor'); p.setAttribute('stroke', 'none'); }
       else { p = document.createElementNS(ns, 'path'); p.setAttribute('d', d); }
       s.appendChild(p);
@@ -49,10 +51,34 @@
     return s;
   }
 
+  /* ---------- 頻道 icon（跟舊版商業頁同一組圖示） ---------- */
+  var ICONS = {
+    youtube: ['r:2.5,5.5,19,13,3.5', 'f:M10.3 9.4L15 12L10.3 14.6Z'],
+    instagram: ['r:3,3,18,18,5', 'c:12,12,4.2', 'fc:17.2,6.8,1.1'],
+    tiktok: ['M14 4v10.2a3.3 3.3 0 1 1-2.6-3.23', 'M14 4c.4 2.2 2 3.7 4 4'],
+    facebook: ['c:12,12,9.5', 'M14 8.5h-1.6c-.9 0-1.4.5-1.4 1.5v2h3l-.4 3h-2.6v6'],
+    threads: ['c:12,12,9.5', 'M9 8.5c3.5-1 6.2.2 6.2 3.6 0 2.6-1.7 4.1-4 4.1-1.6 0-2.6-.8-2.6-1.9 0-1.5 1.7-2 3.6-2 1.9 0 3.2.6 3.2 2.3']
+  };
+  var NAMES = { youtube: 'YouTube', instagram: 'Instagram', tiktok: 'TikTok', facebook: 'Facebook', threads: 'Threads' };
+  function socialLinks(list) {
+    return (list || []).filter(function (l) { return l && l.url && String(l.url).trim(); })
+      .map(function (l) { return { platform: String(l.platform || '').toLowerCase(), url: String(l.url).trim() }; });
+  }
+  function linkRow(links, cls) {
+    var row = el('div', cls);
+    links.forEach(function (l) {
+      var a = el('a'); a.href = l.url; a.target = '_blank'; a.rel = 'noopener';
+      a.setAttribute('aria-label', (NAMES[l.platform] || l.platform || '連結') + '（另開新視窗）');
+      a.appendChild(svg((ICONS[l.platform] || ['c:12,12,9.5']).join('|'), 18));
+      row.appendChild(a);
+    });
+    return row;
+  }
+
   /* ---------- 整理資料：相簿、影片都變成「記憶金球」 ---------- */
   var ALBUMS = {};
   var albumSeq = 0;
-  function makeAlbum(title, items) {
+  function makeAlbum(title, items, links) {
     items = items.filter(function (it) { return it && (it.src || it.yt); });
     if (!items.length) return null;
     var id = 'm' + (albumSeq++);
@@ -60,8 +86,9 @@
     var vids = items.length - imgs;
     var first = items[0];
     var count = imgs && vids ? imgs + ' 張・影片 ' + vids + ' 支' : imgs ? imgs + ' 張' : (vids > 1 ? '影片 ' + vids + ' 支' : '影片');
-    ALBUMS[id] = { title: title, items: items };
-    return { id: id, title: title, cover: first.src || ytThumb(first.yt), video: !first.src, count: count };
+    links = links || [];
+    ALBUMS[id] = { title: title, items: items, links: links };
+    return { id: id, title: title, cover: first.src || ytThumb(first.yt), video: !first.src, count: count, links: links };
   }
   function albumOrb(a) {
     var items = [];
@@ -71,7 +98,7 @@
       else if (p.src) items.push({ src: src(p.src) });
     });
     if (cleanId(a.video_id)) items.push({ yt: cleanId(a.video_id) });
-    return makeAlbum(a.title || '相簿', items);
+    return makeAlbum(a.title || '相簿', items, socialLinks(a.social_links));
   }
   var chapters = (RAW.chapters || []).map(function (ch) {
     return {
@@ -141,12 +168,14 @@
         inner.appendChild(el('h2', 'h2', pg.title));
       }
       pg.paras.forEach(function (l) { inner.appendChild(el('p', 'ln', l)); });
-      if (pg.cont) inner.appendChild(el('div', 'cont', '（下頁繼續）'));
+      // 「下頁繼續」放在頁面底部留白區，不佔內文空間，才不會被切掉
+      if (pg.cont) (inner.parentNode || inner).appendChild(el('div', 'cont', '（下頁繼續）'));
     } else if (pg.type === 'orbs') {
       inner.appendChild(el('div', 'pencil', pg.title));
       inner.appendChild(el('h2', 'h2', '記憶金球｜圖像紀錄'));
       var grid = el('div', 'orbs');
       pg.orbs.forEach(function (o) {
+        var item = el('div', 'orb-item');
         var b = el('button', 'orb-btn'); b.type = 'button';
         b.setAttribute('data-album', o.id); b.setAttribute('aria-label', '打開：' + o.title);
         var orb = el('span', 'orb');
@@ -158,7 +187,9 @@
         b.appendChild(orb);
         b.appendChild(el('span', 'orb-title', o.title));
         b.appendChild(el('span', 'orb-count', o.count));
-        grid.appendChild(b);
+        item.appendChild(b);
+        if (o.links && o.links.length) item.appendChild(linkRow(o.links, 'orb-links'));
+        grid.appendChild(item);
       });
       inner.appendChild(grid);
     } else if (pg.type === 'contact') {
@@ -187,7 +218,7 @@
     function overflows(inner) { return inner.scrollHeight > inner.clientHeight + 2; }
 
     // 一頁放幾顆金球：放兩顆量一列的高度
-    var orbProbe = probe({ type: 'orbs', i: 0, title: '量', orbs: [{ id: 'x', title: '量測', cover: '', count: '1 張' }, { id: 'y', title: '量測', cover: '', count: '1 張' }] });
+    var orbProbe = probe({ type: 'orbs', i: 0, title: '量', orbs: [{ id: 'x', title: '量測', cover: '', count: '1 張', links: [{ platform: 'youtube', url: '#' }] }, { id: 'y', title: '量測', cover: '', count: '1 張' }] });
     var grid = orbProbe.querySelector('.orbs');
     var rowH = grid.offsetHeight + 18;
     var rows = Math.max(1, Math.floor((orbProbe.clientHeight - grid.offsetTop + 18) / rowH));
@@ -395,9 +426,9 @@
   /* ---------- 相簿／影片檢視 ---------- */
   function buildViewer() {
     var node = el('div', 'viewer'); node.hidden = true; node.setAttribute('role', 'dialog'); node.setAttribute('aria-modal', 'true');
-    var head = el('div', 'vh'), title = el('h2', 'vt'), close = el('button', 'vx');
+    var head = el('div', 'vh'), title = el('h2', 'vt'), close = el('button', 'vx'), vlinks = el('div', 'vlinks');
     close.type = 'button'; close.setAttribute('aria-label', '關閉'); close.appendChild(svg('M5 5l14 14|M19 5L5 19', 20));
-    head.appendChild(title); head.appendChild(close);
+    head.appendChild(title); head.appendChild(vlinks); head.appendChild(close);
     var body = el('div', 'vbody'), track = el('div', 'track');
     var prev = el('button', 'vnav p'), next = el('button', 'vnav n');
     prev.type = next.type = 'button'; prev.setAttribute('aria-label', '上一張'); next.setAttribute('aria-label', '下一張');
@@ -425,6 +456,8 @@
       var a = ALBUMS[id]; if (!a) return;
       lastFocus = document.activeElement;
       title.textContent = a.title; node.setAttribute('aria-label', a.title);
+      vlinks.innerHTML = '';
+      if (a.links && a.links.length) { var row = linkRow(a.links, 'vlinks-row'); while (row.firstChild) vlinks.appendChild(row.firstChild); }
       track.innerHTML = ''; total = a.items.length;
       a.items.forEach(function (it, i) {
         var s = el('div', 'slide');

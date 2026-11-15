@@ -68,7 +68,7 @@ body.diary-body{overflow:hidden}
 .gap{height:var(--lh)}
 .date{text-align:right}
 .tag{color:var(--pencil);margin-bottom:calc(var(--lh) * .5)}
-.cont{text-align:right;color:var(--pencil);font-size:calc(var(--fs) - 4px);margin-top:6px}
+.cont{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;white-space:nowrap;margin:0;color:var(--pencil);font-size:calc(var(--fs) - 4px);line-height:1.2;-webkit-text-stroke:.3px currentColor}
 
 /* 引言頁 */
 .quote{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
@@ -83,6 +83,11 @@ body.diary-body{overflow:hidden}
 /* 記憶金球 */
 .orbs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 10px;margin-top:10px}
 .is-spread .orbs{gap:30px 24px;margin-top:20px}
+.orb-item{display:flex;flex-direction:column;align-items:center;min-width:0}
+.orb-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:4px}
+.orb-links a{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink);border:1px solid rgba(29,37,50,.4);background:rgba(255,248,230,.28);-webkit-text-stroke:0}
+.is-spread .orb-links a{width:44px;height:44px}
+.orb-links svg,.viewer .vlinks svg{-webkit-text-stroke:0}
 .orb-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;border:none;background:none;color:var(--ink);font:inherit}
 .orb{position:relative;display:block;width:var(--orb);height:var(--orb);border-radius:50%;overflow:hidden;background:radial-gradient(circle,#6b4a1c,#2b1d0b);
   box-shadow:0 0 0 2px rgba(222,178,86,.95),0 0 0 5px rgba(122,84,26,.35),0 0 22px 4px rgba(244,196,96,.75),0 0 46px 10px rgba(244,196,96,.32),0 8px 14px rgba(40,22,6,.45);
@@ -147,6 +152,8 @@ body.diary-body{overflow:hidden}
 .viewer[hidden]{display:none}
 .viewer .vh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 10px 8px 20px}
 .viewer .vt{font-size:20px;line-height:1.4;-webkit-text-stroke:.4px currentColor;margin:0;font-weight:400}
+.viewer .vlinks{display:flex;gap:8px;margin-left:auto}
+.viewer .vlinks a{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#efdfbf;border:1px solid rgba(239,223,191,.5)}
 .viewer .vx,.viewer .vnav{border:none;background:none;color:#efdfbf;display:flex;align-items:center;justify-content:center;padding:0}
 .viewer .vx{width:44px;height:44px;flex:0 0 auto}
 .viewer .vbody{flex:1;position:relative;display:flex;min-height:0}
