@@ -213,6 +213,21 @@ a.orb-btn{text-decoration:none}
 .sc-links{margin-top:0;justify-content:flex-start}
 .is-spread .sc-list{gap:20px}
 
+/* 右上角：音樂鍵縮小，下方手寫「回目錄」，兩者右緣對齊日期（月份） */
+.diary .music{top:8px;right:var(--alignR,12px);width:32px;height:32px}
+.diary .music::before{content:"";position:absolute;inset:-6px}
+.diary .music svg{width:16px;height:16px}
+.diary .music .slash{width:20px}
+.diary.is-spread .music{top:16px;right:var(--alignR,20px);width:40px;height:40px}
+.diary.is-spread .music svg{width:18px;height:18px}
+.toc-link{position:absolute;top:38px;right:var(--alignR,12px);z-index:40;height:26px;line-height:26px;padding:0;border:none;background:none;color:#8a5a1c;font:inherit;font-size:14px;white-space:nowrap;-webkit-text-stroke:.35px currentColor;text-align:right}
+.toc-link::before{content:"";position:absolute;inset:-9px -6px}
+.toc-link span{display:block;transition:opacity .35s ease}
+.toc-link .lab-zh{border-bottom:1px dotted currentColor;line-height:22px}
+.toc-link .lab-en{position:absolute;right:0;top:0;opacity:0;letter-spacing:.04em}
+@media (hover:hover){.toc-link:hover .lab-zh,.toc-link:focus-visible .lab-zh{opacity:0}.toc-link:hover .lab-en,.toc-link:focus-visible .lab-en{opacity:1}}
+.is-spread .toc-link{top:62px;font-size:16px}
+
 /* 點擊回饋：電腦版羽毛筆變金色再慢慢褪回；手機沒有游標，改在點的位置淡入淡出金色光點 */
 @media (pointer:fine){
   .q-on .diary,.q-on .diary *{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M2.5%2029.5%20L9%2020%22%20stroke%3D%22%236b4410%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M8%2021%20C11%2013%2C%2018%206%2C%2029.5%202.5%20C27%209%2C%2022%2016%2C%2012%2022%20Z%22%20fill%3D%22%23e9a92c%22%20stroke%3D%22%236b4410%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M9.5%2020.5%20C15%2014%2C%2021%208.5%2C%2028%203.8%22%20stroke%3D%22%236b4410%22%20stroke-width%3D%220.9%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M14%2016.5%20L17%2017.5%20M17.5%2012.8%20L20.6%2013.6%20M21%209.3%20L24%209.8%22%20stroke%3D%22%236b4410%22%20stroke-width%3D%220.7%22%20fill%3D%22none%22/%3E%3C/svg%3E") 2 30,auto}

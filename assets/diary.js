@@ -176,11 +176,6 @@
     page.appendChild(inner);
     fillPage(inner, pg);
     if (pg.type !== 'blank') page.appendChild(el('div', 'dp-no', String(pg.i + 1)));
-    if (pg.type !== 'toc' && pg.type !== 'blank') {
-      var t = el('button', 'dp-toc', '目錄');
-      t.type = 'button'; t.setAttribute('data-go', '1');
-      page.appendChild(t);
-    }
     return page;
   }
   function rowBtn(t, p, target) {
@@ -373,6 +368,16 @@
   root.appendChild(musicBtn);
   var viewer = buildViewer(); root.appendChild(viewer.node);
 
+  // 音樂鍵、回目錄的右緣，對齊頁面裡日期（月份）的右緣
+  function alignTopRight() {
+    requestAnimationFrame(function () {
+      var pgs = stage.querySelectorAll('.dp'); var last = pgs[pgs.length - 1]; if (!last) return;
+      var inner = last.querySelector('.dp-inner'); if (!inner) return;
+      var rr = root.getBoundingClientRect(), ir = inner.getBoundingClientRect();
+      var pr = parseFloat(getComputedStyle(inner).paddingRight) || 0;
+      root.style.setProperty('--alignR', Math.max(8, Math.round(rr.right - (ir.right - pr))) + 'px');
+    });
+  }
   function blank(i) { return { type: 'blank', i: i }; }
   function pg(i) { return S.pages[i] || blank(i); }
   function maxSp() { return Math.floor((S.pages.length - 1) / 2); }
@@ -388,6 +393,14 @@
       stage.appendChild(slot('slot-r', renderPage(pg(2 * S.sp + 1), 'right')));
       stage.appendChild(el('div', 'gutter'));
     }
+    // 右上角：音樂鍵下方的「回目錄」（滑鼠移上去淡出換成 Back to Top）；在目錄頁時不顯示
+    var onToc = S.mode === 'single' ? S.idx === 1 : S.sp === 0;
+    if (!onToc) {
+      var back = el('button', 'toc-link'); back.type = 'button'; back.setAttribute('data-go', '1'); back.setAttribute('aria-label', '回目錄');
+      back.appendChild(el('span', 'lab-zh', '回目錄')); back.appendChild(el('span', 'lab-en', 'Back to Top'));
+      stage.appendChild(back);
+    }
+    alignTopRight();
     var ear = el('div', 'ear'); stage.appendChild(ear);
     return ear;
   }
