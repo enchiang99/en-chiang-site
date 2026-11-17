@@ -57,9 +57,10 @@
     instagram: ['r:3,3,18,18,5', 'c:12,12,4.2', 'fc:17.2,6.8,1.1'],
     tiktok: ['M14 4v10.2a3.3 3.3 0 1 1-2.6-3.23', 'M14 4c.4 2.2 2 3.7 4 4'],
     facebook: ['c:12,12,9.5', 'M14 8.5h-1.6c-.9 0-1.4.5-1.4 1.5v2h3l-.4 3h-2.6v6'],
-    threads: ['c:12,12,9.5', 'M9 8.5c3.5-1 6.2.2 6.2 3.6 0 2.6-1.7 4.1-4 4.1-1.6 0-2.6-.8-2.6-1.9 0-1.5 1.7-2 3.6-2 1.9 0 3.2.6 3.2 2.3']
+    threads: ['c:12,12,9.5', 'M9 8.5c3.5-1 6.2.2 6.2 3.6 0 2.6-1.7 4.1-4 4.1-1.6 0-2.6-.8-2.6-1.9 0-1.5 1.7-2 3.6-2 1.9 0 3.2.6 3.2 2.3'],
+    web: ['c:12,12,9.5', 'M2.5 12h19', 'M12 2.5c3.2 3 3.2 16 0 19', 'M12 2.5c-3.2 3-3.2 16 0 19']
   };
-  var NAMES = { youtube: 'YouTube', instagram: 'Instagram', tiktok: 'TikTok', facebook: 'Facebook', threads: 'Threads' };
+  var NAMES = { youtube: 'YouTube', instagram: 'Instagram', tiktok: 'TikTok', facebook: 'Facebook', threads: 'Threads', web: '網站' };
   function socialLinks(list) {
     return (list || []).filter(function (l) { return l && l.url && String(l.url).trim(); })
       .map(function (l) { return { platform: String(l.platform || '').toLowerCase(), url: String(l.url).trim() }; });
@@ -98,7 +99,47 @@
       else if (p.src) items.push({ src: src(p.src) });
     });
     if (cleanId(a.video_id)) items.push({ yt: cleanId(a.video_id) });
-    return makeAlbum(a.title || '相簿', items, socialLinks(a.social_links));
+    var links = socialLinks(a.social_links);
+    // 「立即查看」主要連結：跟社群連結不重複時，排在第一顆，用地球圖示
+    var site = a.link && String(a.link).trim();
+    if (site && !links.some(function (l) { return l.url === site; })) links.unshift({ platform: 'web', url: site });
+    var o = makeAlbum(a.title || '相簿', items, links);
+    // 沒有照片、但有網址（例如官網作品）：金球直接連到網站，不開相簿
+    if (!o && (site || links.length)) o = { id: '', title: a.title || '網站', cover: '', site: site || links[0].url, count: '網站作品', links: links };
+    return o;
+  }
+  // 子分類：album.category 可能是代碼（sub-123…）或直接打的顯示名稱，兩種都對得上
+  function catLabel(cats, key) {
+    key = String(key || '').trim(); if (!key) return '';
+    for (var i = 0; i < (cats || []).length; i++) {
+      var c = cats[i] || {};
+      if (c.id === key || String(c.label || '').trim() === key) return String(c.label || '').trim();
+    }
+    return key;
+  }
+  // 依子分類排在一起（保留各分類第一次出現的順序），排版時同一類放一起、加小標
+  function groupByCat(orbs) {
+    var order = [], map = {};
+    orbs.forEach(function (o) { var k = o.cat || ''; if (!map[k]) { map[k] = []; order.push(k); } map[k].push(o); });
+    var out = []; order.forEach(function (k) { out = out.concat(map[k]); }); return out;
+  }
+  // 品牌數位建置：網站作品卡（像一個小瀏覽器視窗）
+  var SOCIAL_HOST = /(youtube\.com|youtu\.be|instagram\.com|tiktok\.com|facebook\.com|threads\.net|threads\.com)/i;
+  function siteCard(a) {
+    var title = String(a.title || '').trim();
+    var parts = title.split(/[|｜]/);
+    var name = parts[0].trim() || title;
+    var handle = parts.slice(1).join(' ').trim();
+    var link = String(a.link || '').trim();
+    var links = socialLinks(a.social_links);
+    var url = link && !SOCIAL_HOST.test(link) ? link : '';
+    var host = url ? url.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '') : (handle ? '@' + handle.replace(/^@/, '') : '');
+    var items = [];
+    (a.photos || []).forEach(function (p) { var v = cleanId(p.video_id); if (v) items.push({ yt: v }); else if (p.src) items.push({ src: src(p.src) }); });
+    if (cleanId(a.video_id)) items.push({ yt: cleanId(a.video_id) });
+    var album = makeAlbum(name, items, links);
+    if (!url && !album && !links.length) return null;
+    return { name: name, host: host, url: url, album: album, services: String(a.services || '').trim(), links: links };
   }
   var chapters = (RAW.chapters || []).map(function (ch) {
     return {
@@ -106,15 +147,18 @@
       articles: (ch.articles || []).map(function (a) {
         var orbs = [];
         if (cleanId(a.video_id)) orbs.push(makeAlbum(a.title, [{ yt: cleanId(a.video_id) }]));
-        (a.albums || []).forEach(function (al) { var o = albumOrb(al); if (o) orbs.push(o); });
+        (a.albums || []).forEach(function (al) { var o = albumOrb(al); if (o) { o.cat = catLabel(a.cats, al.category); orbs.push(o); } });
         (a.videos || []).forEach(function (v) {
           var id = cleanId(v.youtube_id); if (!id) return;
           var parts = String(v.caption || '影片').split('·');
           var o = makeAlbum(parts[0].trim(), [{ yt: id }]);
-          if (o && parts[1]) o.count = '影片・' + parts[1].trim();
+          if (!o) return;
+          o.cat = catLabel(a.cats, v.category) || (parts[1] ? parts[1].trim() : '');
+          o.count = o.cat ? '影片' : (parts[1] ? '影片・' + parts[1].trim() : '影片');
           orbs.push(o);
         });
-        return { title: a.title, date: a.date || '', body: nonEmpty(lines(a.body)), orbs: orbs.filter(Boolean) };
+        var sites = (a.sites || []).map(siteCard).filter(Boolean);
+        return { title: a.title, date: a.date || '', body: nonEmpty(lines(a.body)), intro: lines(a.intro), orbs: groupByCat(orbs.filter(Boolean)), sites: sites };
       })
     };
   });
@@ -172,26 +216,80 @@
       if (pg.cont) (inner.parentNode || inner).appendChild(el('div', 'cont', '（下頁繼續）'));
     } else if (pg.type === 'orbs') {
       inner.appendChild(el('div', 'pencil', pg.title));
-      inner.appendChild(el('h2', 'h2', '記憶金球｜圖像紀錄'));
+      if (!pg.cont) inner.appendChild(el('h2', 'h2', '記憶金球｜圖像紀錄'));
       var grid = el('div', 'orbs');
+      var cols = S.mode === 'single' ? 3 : 2;
+      // 同一分類包成一組：作品少的分類只佔它需要的欄數，幾個小分類可以並排在同一列
+      var groups = [];
       pg.orbs.forEach(function (o) {
-        var item = el('div', 'orb-item');
-        var b = el('button', 'orb-btn'); b.type = 'button';
-        b.setAttribute('data-album', o.id); b.setAttribute('aria-label', '打開：' + o.title);
-        var orb = el('span', 'orb');
-        var img = el('img'); img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
-        img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
-        img.src = o.cover;
-        orb.appendChild(img);
-        if (o.video) { var pl = el('span', 'play'); var c = el('span'); c.appendChild(svg('f:M9 7l9 5-9 5z', 22)); c.style.color = '#f2d79b'; pl.appendChild(c); orb.appendChild(pl); }
-        b.appendChild(orb);
-        b.appendChild(el('span', 'orb-title', o.title));
-        b.appendChild(el('span', 'orb-count', o.count));
-        item.appendChild(b);
-        if (o.links && o.links.length) item.appendChild(linkRow(o.links, 'orb-links'));
-        grid.appendChild(item);
+        var g = groups[groups.length - 1];
+        if (!g || g.cat !== (o.cat || '')) { g = { cat: o.cat || '', list: [] }; groups.push(g); }
+        g.list.push(o);
+      });
+      var single = groups.length === 1 && !groups[0].cat;
+      groups.forEach(function (g) {
+        var span = single ? cols : Math.min(g.list.length, cols);
+        var box = el('div', 'orb-group');
+        box.style.gridColumn = 'span ' + span;
+        if (g.cat) box.appendChild(el('div', 'orb-cat', g.cat));
+        var sub = el('div', 'orb-sub'); sub.style.gridTemplateColumns = 'repeat(' + span + ',minmax(0,1fr))';
+        g.list.forEach(function (o) {
+          var item = el('div', 'orb-item');
+          var b;
+          if (o.site) { b = el('a', 'orb-btn'); b.href = o.site; b.target = '_blank'; b.rel = 'noopener'; b.setAttribute('aria-label', '前往網站：' + o.title + '（另開新視窗）'); }
+          else { b = el('button', 'orb-btn'); b.type = 'button'; b.setAttribute('data-album', o.id); b.setAttribute('aria-label', '打開：' + o.title); }
+          var orb = el('span', 'orb');
+          if (o.site) { var gl = el('span', 'orb-web'); gl.appendChild(svg(ICONS.web.join('|'), 44)); orb.appendChild(gl); }
+          else {
+            var img = el('img'); img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+            img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
+            img.src = o.cover;
+            orb.appendChild(img);
+          }
+          if (o.video) { var pl = el('span', 'play'); var c = el('span'); c.appendChild(svg('f:M9 7l9 5-9 5z', 22)); c.style.color = '#f2d79b'; pl.appendChild(c); orb.appendChild(pl); }
+          b.appendChild(orb);
+          b.appendChild(el('span', 'orb-title', o.title));
+          b.appendChild(el('span', 'orb-count', o.count));
+          item.appendChild(b);
+          if (o.links && o.links.length) item.appendChild(linkRow(o.links, 'orb-links'));
+          sub.appendChild(item);
+        });
+        box.appendChild(sub); grid.appendChild(box);
       });
       inner.appendChild(grid);
+    } else if (pg.type === 'cards') {
+      inner.appendChild(el('div', 'pencil', pg.title));
+      if (pg.intro && pg.intro.length) {
+        var intro = el('div', 'sc-intro');
+        var firstLine = true;
+        pg.intro.forEach(function (l) {
+          if (!l) { intro.appendChild(el('div', 'sc-gap')); return; }
+          intro.appendChild(el(firstLine ? 'h2' : 'p', firstLine ? 'h2 sc-lead' : 'ln', l)); firstLine = false;
+        });
+        inner.appendChild(intro);
+      }
+      var list = el('div', 'sc-list');
+      pg.cards.forEach(function (c) {
+        var card = el('div', 'sc' + (c.album ? ' has-shot' : ''));
+        var bar = el('div', 'sc-bar'); bar.appendChild(el('span', 'sc-dots')); bar.appendChild(el('span', 'sc-host', c.host)); card.appendChild(bar);
+        var row = el('div', 'sc-row');
+        if (c.album) {
+          var shot = el('button', 'sc-shot'); shot.type = 'button'; shot.setAttribute('data-album', c.album.id); shot.setAttribute('aria-label', '看作品：' + c.name);
+          var im = el('img'); im.alt = ''; im.loading = 'lazy'; im.decoding = 'async'; im.src = c.album.cover;
+          im.addEventListener('error', function () { im.style.visibility = 'hidden'; });
+          shot.appendChild(im); row.appendChild(shot);
+        }
+        var body = el('div', 'sc-body');
+        body.appendChild(el('div', 'sc-name', c.name));
+        if (c.services) body.appendChild(el('div', 'sc-tags', c.services));
+        var act = el('div', 'sc-act');
+        if (c.url) { var go = el('a', 'sc-go', '前往網站 →'); go.href = c.url; go.target = '_blank'; go.rel = 'noopener'; act.appendChild(go); }
+        else if (c.album) { var see = el('button', 'sc-go', '看作品 →'); see.type = 'button'; see.setAttribute('data-album', c.album.id); act.appendChild(see); }
+        if (c.links.length) act.appendChild(linkRow(c.links, 'orb-links sc-links'));
+        body.appendChild(act); row.appendChild(body); card.appendChild(row);
+        list.appendChild(card);
+      });
+      inner.appendChild(list);
     } else if (pg.type === 'contact') {
       var box = el('div', 'contact');
       var ig = el('a'); ig.href = CONTACT.ig_link || '#'; ig.target = '_blank'; ig.rel = 'noopener';
@@ -217,12 +315,16 @@
     function probe(pg) { slot.innerHTML = ''; var page = renderPage(pg, 'right'); slot.appendChild(page); return page.querySelector('.dp-inner'); }
     function overflows(inner) { return inner.scrollHeight > inner.clientHeight + 2; }
 
-    // 一頁放幾顆金球：放兩顆量一列的高度
-    var orbProbe = probe({ type: 'orbs', i: 0, title: '量', orbs: [{ id: 'x', title: '量測', cover: '', count: '1 張', links: [{ platform: 'youtube', url: '#' }] }, { id: 'y', title: '量測', cover: '', count: '1 張' }] });
-    var grid = orbProbe.querySelector('.orbs');
-    var rowH = grid.offsetHeight + 18;
-    var rows = Math.max(1, Math.floor((orbProbe.clientHeight - grid.offsetTop + 18) / rowH));
-    var orbsPer = rows * 2;
+    // 金球、網站卡：一個一個放進去量，放不下才換頁（同一分類接著排，不會一類一頁）
+    function pack(make, list, key) {
+      var out = [], cur = make(true);
+      list.forEach(function (x) {
+        cur[key].push(x);
+        if (overflows(probe(cur)) && cur[key].length > 1) { cur[key].pop(); out.push(cur); cur = make(false); cur[key].push(x); }
+      });
+      if (cur[key].length || out.length === 0) out.push(cur);
+      return out;
+    }
 
     push({ type: 'quote' });
     var toc = push({ type: 'toc', items: [] });
@@ -246,9 +348,13 @@
           });
           var k2 = push(cur); if (first === null) first = k2;
         }
-        for (var s = 0; s < a.orbs.length; s += orbsPer) {
-          var k3 = push({ type: 'orbs', title: a.title, orbs: a.orbs.slice(s, s + orbsPer) });
-          if (first === null) first = k3;
+        if (a.sites.length || (a.intro && nonEmpty(a.intro).length)) {
+          pack(function (isFirst) { return { type: 'cards', title: a.title, intro: isFirst ? a.intro : [], cards: [] }; }, a.sites, 'cards')
+            .forEach(function (p) { var k4 = push(p); if (first === null) first = k4; });
+        }
+        if (a.orbs.length) {
+          pack(function (isFirst) { return { type: 'orbs', title: a.title, cont: !isFirst, orbs: [] }; }, a.orbs, 'orbs')
+            .forEach(function (p) { var k3 = push(p); if (first === null) first = k3; });
         }
         if (first !== null) pages[ci].items.push({ t: a.title, target: first });
       });

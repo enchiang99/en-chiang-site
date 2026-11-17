@@ -84,7 +84,9 @@ permalink: /business/
 
   {% comment %} ---------- AI自動化 AI Automation：一張主圖 + 社群連結圖示（IG／YT／TikTok／FB／Threads，各自可設定連結） ---------- {% endcomment %}
   <div class="biz-section" id="biz-ai-automation">
-    <h2>AI自動化｜AI Automation</h2>
+    <h2>品牌數位建置｜Digital Build</h2>
+    <style>.biz-intro{max-width:640px;margin:0 auto 18px;line-height:1.9;text-align:center}.album-services{font-size:.9em;opacity:.75;margin:4px 0}.album-site-link{display:inline-block;margin:6px 0;padding:4px 14px;border:1px solid currentColor;border-radius:16px;text-decoration:none;color:inherit}</style>
+    {% if ai.intro %}<div class="biz-intro">{{ ai.intro | escape | newline_to_br }}</div>{% endif %}
     <div class="video-subtags" data-filter-group="ai-automation">
       <span class="video-subtag active" data-filter-key="all">全部</span>
       {% for cat in ai.categories %}
@@ -98,6 +100,8 @@ permalink: /business/
       {% assign main_photo = album.photos | first %}
       <div class="biz-album biz-album--main-image" data-category="{{ album_key }}">
         <div class="album-title">{{ album.title }}</div>
+        {% if album.services %}<div class="album-services">{{ album.services }}</div>{% endif %}
+        {% if album.link %}<a class="album-site-link" href="{{ album.link }}" target="_blank" rel="noopener">前往網站 →</a>{% endif %}
         {% if main_photo %}
         <figure class="album-photo album-photo--main"><img src="{% include resolve_image.html src=main_photo.src %}" alt="{{ album.title }}" loading="lazy"></figure>
         {% endif %}

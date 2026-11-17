@@ -200,9 +200,13 @@ collections:
                 hint: "網址 v= 後面那串英數字，例如 EhFTsiG-W5g。留空的話這相簿維持純照片，不受影響。注意：如果是從手機分享按鈕複製的連結，後面會多一截 ?si=...，請只保留前面那 11 碼的影片 ID，不要整串貼上，不然影片會播不出來。"
 
       - name: "ai-automation"
-        label: "② AI自動化｜AI Automation"
+        label: "② 品牌數位建置｜Digital Build"
         file: "_data/business/ai-automation.yml"
         fields:
+          - label: "文字敘述（顯示在作品卡上方，第一行是標題，空一行再寫內文）"
+            name: "intro"
+            widget: text
+            required: false
           - label: "子分類標籤"
             name: "categories"
             widget: list
@@ -219,7 +223,8 @@ collections:
             fields:
               - { label: "相簿標題", name: "title", widget: string }
               - { label: "屬於哪個子分類（直接填上面打的「顯示名稱」文字即可，一字不差）", name: "category", widget: string, required: false }
-              - { label: "立即查看（主要連結，選填）", name: "link", widget: string, required: false }
+              - { label: "網站網址（官網作品填這裡，卡片會出現「前往網站」）", name: "link", widget: string, required: false }
+              - { label: "執行項目（例如：官網製作・UI/UX 優化・社群串接）", name: "services", widget: string, required: false }
               - label: "社群圖示（IG／YT／TikTok／FB／Threads，各自可設定連結）"
                 name: "social_links"
                 widget: list

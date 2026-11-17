@@ -172,6 +172,47 @@ body.diary-body{overflow:hidden}
 .is-spread .viewer .slide{padding:16px 90px}
 .viewer .vc{height:54px;display:flex;align-items:center;justify-content:center;color:#cdb98f;font-size:16px}
 
+.orb-web{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#5a3a14;background:radial-gradient(circle at 35% 30%,#fbe7b0,#d9a84e 60%,#a8761f)}
+.orb-web svg{width:42%;height:42%}
+a.orb-btn{text-decoration:none}
+
+/* 金球分類小標；手機改一行 3 顆，作品少時不會一頁空一大片 */
+.orbs{grid-auto-flow:row dense}
+.orb-group{min-width:0}
+.orb-sub{display:grid;gap:14px 6px}
+.is-spread .orb-sub{gap:28px 24px}
+.orb-cat{display:flex;align-items:center;gap:8px;margin:0 0 8px;line-height:1.3;color:var(--pencil);font-size:calc(var(--fs) - 3px);-webkit-text-stroke:.3px currentColor}
+.orb-cat::after{content:"";flex:1;border-top:1px dashed rgba(90,70,50,.45)}
+.diary.is-single{--orb:88px}
+.is-single .orbs{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 6px}
+.is-single .orb-title{font-size:calc(var(--fs) - 4px);margin-top:6px;max-width:100%;word-break:break-word}
+.is-single .orb-count{font-size:calc(var(--fs) - 6px)}
+.is-single .orb-links{gap:4px}
+.is-single .orb-links a{width:32px;height:32px}
+.is-single .orb-links svg{width:15px;height:15px}
+
+/* 品牌數位建置：網站作品卡 */
+.sc-intro{margin-bottom:14px}
+.sc-intro .sc-lead{font-size:var(--fs);line-height:1.5;margin:2px 0 6px;color:var(--pencil)}
+.sc-gap{height:calc(var(--lh) * .3)}
+.sc-list{display:flex;flex-direction:column;gap:12px}
+.sc{border:1.5px solid rgba(29,37,50,.55);border-radius:10px;background:rgba(255,250,236,.38);box-shadow:2px 3px 0 rgba(60,40,20,.18);overflow:hidden;transform:rotate(-.4deg)}
+.sc:nth-child(even){transform:rotate(.5deg)}
+.sc-bar{display:flex;align-items:center;gap:8px;padding:5px 10px;border-bottom:1px solid rgba(29,37,50,.35);background:rgba(201,154,69,.18);font-size:calc(var(--fs) - 6px);color:var(--pencil);-webkit-text-stroke:0;font-family:ui-monospace,Menlo,monospace;min-width:0}
+.sc-dots{flex:none;width:34px;height:8px;background:radial-gradient(circle at 4px 4px,#c46a4a 3.2px,transparent 3.6px),radial-gradient(circle at 17px 4px,#d9a84e 3.2px,transparent 3.6px),radial-gradient(circle at 30px 4px,#7d9a5c 3.2px,transparent 3.6px)}
+.sc-host{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-row{display:flex;gap:10px;padding:8px 10px;align-items:center}
+.sc-shot{flex:none;width:calc(var(--orb) * .8);height:calc(var(--orb) * .8);padding:0;border:1px solid rgba(29,37,50,.35);border-radius:6px;overflow:hidden;background:#6b4a1c}
+.sc-shot img{width:100%;height:100%;object-fit:cover;display:block}
+.sc-body{min-width:0;flex:1}
+.sc-name{font-size:calc(var(--fs) + 2px);line-height:1.3;-webkit-text-stroke:.5px currentColor}
+.sc-tags{color:var(--pencil);font-size:calc(var(--fs) - 4px);line-height:1.4;margin-top:2px}
+.sc-act{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px}
+.sc-go{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border-radius:16px;border:1.5px solid var(--ink);background:none;color:var(--ink);font:inherit;font-size:calc(var(--fs) - 3px);text-decoration:none;-webkit-text-stroke:.3px currentColor}
+.sc-go:hover{background:#c99a45;color:#24190d}
+.sc-links{margin-top:0;justify-content:flex-start}
+.is-spread .sc-list{gap:20px}
+
 /* 點擊回饋：電腦版羽毛筆變金色再慢慢褪回；手機沒有游標，改在點的位置淡入淡出金色光點 */
 @media (pointer:fine){
   .q-on .diary,.q-on .diary *{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M2.5%2029.5%20L9%2020%22%20stroke%3D%22%236b4410%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M8%2021%20C11%2013%2C%2018%206%2C%2029.5%202.5%20C27%209%2C%2022%2016%2C%2012%2022%20Z%22%20fill%3D%22%23e9a92c%22%20stroke%3D%22%236b4410%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M9.5%2020.5%20C15%2014%2C%2021%208.5%2C%2028%203.8%22%20stroke%3D%22%236b4410%22%20stroke-width%3D%220.9%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M14%2016.5%20L17%2017.5%20M17.5%2012.8%20L20.6%2013.6%20M21%209.3%20L24%209.8%22%20stroke%3D%22%236b4410%22%20stroke-width%3D%220.7%22%20fill%3D%22none%22/%3E%3C/svg%3E") 2 30,auto}
@@ -190,3 +231,4 @@ body.diary-body{overflow:hidden}
   .cover.open,.ear.hint,.mark-dot,.mark-quill,.orb{animation:none}
   .is-spread .slot-l{transition:none}
 }
+@media (max-height:700px){.diary.is-single{--orb:78px}}

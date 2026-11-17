@@ -1,11 +1,17 @@
+intro: |-
+  官網製作｜UI/UX ｜社群自動生成串接
+
+  從進站，讓品牌擁有自己風格的身分證。
+  透過「客製的溫度」，整理成看得見、找得到、會自己運轉的樣子。
 categories:
   - id: sub-1788772697857
     label: 孝子貓 | omg_workhard
   - label: 日日敘 | hihijoyakiniku
-  - label: 炎香樓 |  yanxianglou
+  - label: 炎香樓 | yanxianglou
 albums:
-  - title: 孝子貓 | omg_workard
+  - title: 孝子貓 | omg_workhard
     category: sub-1788772697857
+    services: 社群自動生成串接
     link: https://www.youtube.com/@omg_workhard/shorts
     social_links:
       - platform: youtube
@@ -25,15 +31,17 @@ albums:
         caption: null
       - src: /images/DSCF0110.jpg
         caption: null
-  - category: sub-1788772697857
+  - title: 日日敘 | hihijoyakiniku
+    category: 日日敘 | hihijoyakiniku
+    services: 官網製作
     link: https://hihijoyakiniku.com/
-    title: 日日敘 | hihijoyakiniku
     social_links:
       - platform: instagram
         url: https://www.instagram.com/hihijoyakiniku/
-  - link: https://yanxianglou.com.tw/
-    title: 炎香樓 |  yanxianglou
-    category: sub-1788772697857
+  - title: 炎香樓 | yanxianglou
+    category: 炎香樓 | yanxianglou
+    services: 官網製作
+    link: https://yanxianglou.com.tw/
     social_links:
       - platform: instagram
         url: https://www.instagram.com/yanxianglou/

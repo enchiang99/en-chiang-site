@@ -65,10 +65,10 @@ title: null
       "desc": {{ s.recent_shoots.items | map: "caption" | join: "
 " | jsonify }},
       "articles": [
-        { "title": "創意平面 Creative Graphics", "albums": {{ biz["brand-design"].albums | jsonify | replace: "</", "<\/" }} },
-        { "title": "AI自動化｜AI Automation", "albums": {{ biz["ai-automation"].albums | jsonify | replace: "</", "<\/" }} },
-        { "title": "影像 Photography", "albums": {{ biz["brand"].albums | jsonify | replace: "</", "<\/" }} },
-        { "title": "影音 Video", "videos": {{ biz["video"].videos | jsonify | replace: "</", "<\/" }} }
+        { "title": "創意平面 Creative Graphics", "cats": {{ biz["brand-design"].categories | jsonify }}, "albums": {{ biz["brand-design"].albums | jsonify | replace: "</", "<\/" }} },
+        { "title": "品牌數位建置｜Digital Build", "intro": {{ biz["ai-automation"].intro | jsonify | replace: "</", "<\/" }}, "sites": {{ biz["ai-automation"].albums | jsonify | replace: "</", "<\/" }} },
+        { "title": "影像 Photography", "cats": {{ biz["brand"].categories | jsonify }}, "albums": {{ biz["brand"].albums | jsonify | replace: "</", "<\/" }} },
+        { "title": "影音 Video", "cats": {{ biz["video"].categories | jsonify }}, "videos": {{ biz["video"].videos | jsonify | replace: "</", "<\/" }} }
       ]
     }
   ]
