@@ -92,6 +92,7 @@
     return { id: id, title: title, cover: first.src || ytThumb(first.yt), video: !first.src, count: count, links: links };
   }
   function albumOrb(a) {
+    if (a.hidden === true || a.hidden === 'true') return null; // 後台勾「隱藏這本相簿」
     var items = [];
     (a.photos || []).forEach(function (p) {
       var v = cleanId(p.video_id);
