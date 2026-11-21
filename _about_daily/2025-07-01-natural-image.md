@@ -5,6 +5,7 @@ date_label: 2025.07
 albums:
   - title: 儲存遺失 / 保留美好
     link: null
+    hidden: true
     photos:
       - src: /images/v1_1789310752932_R0005653.JPG
         caption: null
