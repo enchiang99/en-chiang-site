@@ -132,6 +132,7 @@ collections:
         fields:
           - { label: "相簿標題", name: "title", widget: string, required: false }
           - { label: "外部連結（選填）", name: "link", widget: string, required: false }
+          - { label: "隱藏這本相簿（打勾後網站上不顯示，照片資料保留）", name: "hidden", widget: boolean, default: false, required: false }
           - label: "照片"
             name: "photos"
             widget: list
