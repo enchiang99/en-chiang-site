@@ -17,7 +17,8 @@
       </div>
       <div class="menu-album-list">
         {% for post in site.about_en %}
-        {% for album in post.albums %}
+        {% assign shown_albums = post.albums | where_exp: "a", "a.hidden != true" %}
+        {% for album in shown_albums %}
         <a href="{{ post.url | relative_url }}" class="menu-album-item">📸 {{ album.title }}</a>
         {% endfor %}
         {% endfor %}
@@ -40,7 +41,8 @@
       </div>
       <div class="menu-album-list">
         {% for post in daily_posts %}
-        {% for album in post.albums %}
+        {% assign shown_albums = post.albums | where_exp: "a", "a.hidden != true" %}
+        {% for album in shown_albums %}
         <a href="{{ post.url | relative_url }}" class="menu-album-item">📸 {{ album.title }}</a>
         {% endfor %}
         {% endfor %}
@@ -62,7 +64,8 @@
       </div>
       <div class="menu-album-list">
         {% for post in site.about_love %}
-        {% for album in post.albums %}
+        {% assign shown_albums = post.albums | where_exp: "a", "a.hidden != true" %}
+        {% for album in shown_albums %}
         <a href="{{ post.url | relative_url }}" class="menu-album-item">📸 {{ album.title }}</a>
         {% endfor %}
         {% endfor %}
