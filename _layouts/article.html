@@ -25,10 +25,11 @@ layout: default
   </div>
   {% endif %}
 
-  {% if page.albums %}
+  {% assign shown_albums = page.albums | where_exp: "a", "a.hidden != true" %}
+  {% if shown_albums.size > 0 %}
   <div class="article-albums-breakout">
   <div class="article-albums">
-    {% for album in page.albums %}
+    {% for album in shown_albums %}
     <div class="biz-album">
       {% if album.title %}<div class="album-title">{{ album.title }}</div>{% endif %}
       {% if album.link %}<a class="album-link" href="{{ album.link }}" target="_blank" rel="noopener">立即查看 →</a>{% endif %}
