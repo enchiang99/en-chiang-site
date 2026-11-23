@@ -18,6 +18,13 @@ name: 整批照片自動解壓縮＋壓縮
 # ⚠️ if: github.actor != 'github-actions[bot]' 這一行很重要：
 # 因為這個流程自己也會 commit 回 images/，如果沒有這個判斷，
 # 自己 commit 的結果又會觸發自己一次，變成無限循環。
+#
+# 2026-11-23 修正：這個檔案一直缺了下面整段 jobs，所以語法一修好，
+# GitHub 馬上又報「Required property is missing: jobs」——代表這個流程從來沒有真的跑過。
+# 這段 jobs 是照 scripts/process-incoming-zips.js 和 scripts/lib/image-optimizer.js
+# 兩個檔案目前的程式碼邏輯，以及上面這些註解描述的行為（npm install sharp、
+# NEW_IMAGES_FILE、OPTIMIZE_ALL、github-actions[bot] 防無限循環）重新補上的。
+# 建議上傳後找一張小照片測試一次，確認真的有跑、有自動 commit 回來。
 on:
   push:
     branches: [main]
@@ -30,3 +37,47 @@ on:
         description: "把 images/ 裡全部舊照片也重新壓縮一次（檔名不會改）"
         type: boolean
         default: false
+
+jobs:
+  optimize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install sharp
+        run: npm install sharp
+
+      - name: 算出這次 push 新增到 images/ 的照片清單
+        if: github.event_name == 'push'
+        run: |
+          git diff --name-only --diff-filter=A "${{ github.event.before }}" "${{ github.sha }}" \
+            > /tmp/new-images.txt || true
+          echo "NEW_IMAGES_FILE=/tmp/new-images.txt" >> "$GITHUB_ENV"
+
+      - name: 解壓縮 zip／壓縮新照片
+        env:
+          OPTIMIZE_ALL: ${{ github.event.inputs.optimize_all || 'false' }}
+        run: node scripts/process-incoming-zips.js
+
+      - name: 把處理結果 commit 回去
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add images/ incoming-zips/
+          if git diff --cached --quiet; then
+            echo "沒有變動，不用 commit。"
+          else
+            git commit -m "自動處理：解壓縮／壓縮照片"
+            git push
+          fi
