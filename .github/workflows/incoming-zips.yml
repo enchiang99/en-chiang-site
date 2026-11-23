@@ -28,4 +28,5 @@ on:
     inputs:
       optimize_all:
         description: "把 images/ 裡全部舊照片也重新壓縮一次（檔名不會改）"
-      %
+        type: boolean
+        default: false
