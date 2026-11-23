@@ -20,6 +20,7 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .label{ font-size:11.5px; letter-spacing:0.22em; color:var(--ink-soft); text-transform:uppercase; }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
   /* ---------- TOP-RIGHT MINI MENU ---------- */
   .menu-btn{
@@ -315,6 +316,9 @@
   .album-carousel-track{ display:flex; width:100%; transition:transform .5s ease; }
   .album-carousel-slide{ flex:0 0 100%; min-width:0; margin:0; }
   .album-carousel-slide img{ width:100%; aspect-ratio:4/5; object-fit:cover; display:block; }
+.album-video-embed{ position:relative; width:100%; aspect-ratio:16/9; background:#000; }
+.album-video-embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+.album-video-embed--photo{ aspect-ratio:4/5; }
   .album-carousel-slide figcaption{ font-size:11.5px; color:var(--ink-soft); margin-top:6px; }
   .album-carousel-btn{
     position:absolute; top:40%; transform:translateY(-50%); background:rgba(255,255,255,0.75); border:none;
@@ -355,6 +359,23 @@
   .video-card-meta{ font-family:'Noto Serif TC',serif; font-size:14px; color:var(--ink); margin-top:10px; line-height:1.6; }
   .article-video-wrap{ margin-top:44px; max-width:480px; }
 
+  /* ---------- 分類文章列表（portrait.html／band.html／pet.html／archive.html 共用，
+     2026-09-14：延續 V1 的「分類總覽頁」概念，內容從 about_en／about_daily／about_love
+     這幾個collection自動抓，之後你在後台新增文章，這幾頁會自動出現，不用另外維護） ---------- */
+  .article-list{ max-width:640px; margin:40px auto 0; }
+  .article-list-item{ padding:22px 0; border-top:1px solid var(--line); }
+  .article-list-item:last-of-type{ border-bottom:1px solid var(--line); }
+  .article-list-item h3{ font-size:19px; margin:0 0 6px; font-weight:500; }
+  .article-list-item a{ transition:opacity .25s ease; }
+  .article-list-item a:hover{ opacity:0.6; }
+  .article-list-date{ font-size:12px; color:var(--ink-soft); }
+  .archive-empty{ font-size:13px; color:var(--ink-soft); margin-top:24px; }
+  .archive-group{ max-width:640px; margin:0 auto 56px; }
+  .archive-group h2{ font-size:20px; margin-bottom:4px; }
+  .archive-group-sub{ font-size:12.5px; color:var(--ink-soft); margin-bottom:18px; display:flex; gap:14px; flex-wrap:wrap; }
+  .archive-category-nav{ max-width:640px; margin:48px auto 0; display:flex; gap:18px; flex-wrap:wrap; font-size:13px; }
+  .archive-category-nav a{ border-bottom:1px solid var(--line); padding-bottom:2px; }
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:900px){
     .service-grid{ grid-template-columns:1fr; }
@@ -363,3 +384,84 @@
   }
   @media (max-width:480px){ .float-links{ right:16px; bottom:18px; } }
   @media (prefers-reduced-motion:reduce){ *{ transition-duration:.001ms !important; } }
+
+/* =====================================================================
+   2026-09-27：看照片的體驗
+   ① 全螢幕看照片（文章相簿、關於商業都適用）
+   ② 換頁淡入淡出（瀏覽器原生 View Transitions，不支援的瀏覽器照常換頁）
+   ③ 照片載入前先顯示底色，載好再淡入
+   ===================================================================== */
+
+/* ---------- ① 全螢幕看照片 ---------- */
+.album-carousel-slide img, .album-photo img, .article-body img, .article-cover{ cursor:zoom-in; }
+.album-carousel{ touch-action:pan-y; }
+.album-carousel.is-dragging .album-carousel-track{ transition:none; }
+.album-carousel.is-dragging{ cursor:grabbing; user-select:none; -webkit-user-select:none; }
+.album-carousel img{ -webkit-user-drag:none; }
+
+.pv{
+  position:fixed; inset:0; z-index:700; background:rgba(14,13,11,0.98);
+  display:flex; flex-direction:column; color:#e9e5dd;
+  opacity:0; pointer-events:none; transition:opacity .22s ease-out;
+  touch-action:none; -webkit-user-select:none; user-select:none;
+}
+.pv.open{ opacity:1; pointer-events:auto; }
+.pv-bar{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:calc(14px + env(safe-area-inset-top, 0px)) 18px 10px; font-size:13px; letter-spacing:0.08em;
+  font-family:'Noto Sans TC', sans-serif; position:relative; z-index:2;
+}
+.pv-title{ font-family:'Noto Serif TC', serif; letter-spacing:0.04em; opacity:0.85; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pv-count{ font-variant-numeric:tabular-nums; opacity:0.7; white-space:nowrap; }
+.pv-close{
+  background:none; border:none; color:inherit; width:40px; height:40px; margin:-8px -8px -8px 0;
+  font-size:26px; line-height:1; cursor:pointer; flex:0 0 auto;
+}
+.pv-stage{ position:relative; flex:1; overflow:hidden; }
+.pv-track{ position:absolute; inset:0; will-change:transform; }
+.pv-slide{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  padding:8px clamp(8px, 5vw, 72px) 24px;
+}
+.pv-slide img{
+  max-width:100%; max-height:100%; object-fit:contain; display:block;
+  box-shadow:0 10px 40px rgba(0,0,0,0.35); cursor:auto;
+}
+.pv-caption{
+  text-align:center; font-size:13px; opacity:0.75; min-height:1.6em;
+  padding:0 20px calc(18px + env(safe-area-inset-bottom, 0px)); font-family:'Noto Sans TC', sans-serif;
+}
+.pv-nav{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+  width:48px; height:48px; border-radius:50%; border:none; cursor:pointer;
+  background:rgba(233,229,221,0.12); color:#e9e5dd; font-size:26px; line-height:1;
+  display:flex; align-items:center; justify-content:center; transition:background .2s ease, transform .1s ease-out;
+}
+.pv-prev{ left:16px; } .pv-next{ right:16px; }
+.pv-nav:active{ transform:translateY(-50%) scale(0.92); }
+.pv-nav[hidden]{ display:none; }
+@media (hover:hover){ .pv-nav:hover{ background:rgba(233,229,221,0.22); } }
+@media (hover:none){ .pv-nav{ display:none; } }
+
+/* ---------- ② 換頁淡入淡出 ---------- */
+@view-transition{ navigation:auto; }
+.menu-btn{ view-transition-name:menu-btn; }
+.float-links{ view-transition-name:float-links; }
+::view-transition-old(root){ animation:pageOut .2s ease-in both; }
+::view-transition-new(root){ animation:pageIn .36s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes pageOut{ to{ opacity:0; } }
+@keyframes pageIn{ from{ opacity:0; transform:translateY(10px); } }
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-old(root), ::view-transition-new(root){ animation:none; }
+}
+
+/* ---------- ③ 照片先顯示底色，載好再淡入 ---------- */
+.album-carousel-slide, .album-photo, .recent-shoots-item a, .article-cover-wrap{ background:var(--paper-deep); }
+.js-fade .album-carousel-slide img, .js-fade .album-photo img,
+.js-fade .recent-shoots-item img, .js-fade .article-body img, .js-fade .article-cover{
+  opacity:0; transition:opacity .45s ease-out;
+}
+.js-fade img.is-loaded{ opacity:1 !important; }
+@media (prefers-reduced-motion: reduce){ .js-fade img{ transition:none !important; } }
+.recent-shoots-item a{ display:block; }
+.pv-close:focus:not(:focus-visible){ outline:none; }
